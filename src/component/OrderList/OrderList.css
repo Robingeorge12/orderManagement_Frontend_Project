@@ -1,0 +1,213 @@
+
+.orderlist-cont{
+
+    /* border: 1px solid blue; */
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+    /* justify-content: center; */
+}
+
+.orderlist-top{
+    width: 90%;
+    /* border: 1px solid brown; */
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    /* background-color: aqua; */
+    /* justify-content: space-between; */
+    /* margin: auto; */
+
+}
+.orderlist-top-all{
+    /* border: 1px solid red; */
+    /* background-color: bisque; */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 5px;
+
+}
+.orderlist-top-display{
+
+    display: none;
+    width:  70%;
+}
+.orderlist-top-filter{
+    border: 1px solid violet;
+    width: 100px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+}
+.orderlist-top-sort{
+    border: 1px solid black;
+    width: 100px;
+    height: 50px;
+}
+.orderlist-top-pagination{
+    border: 1px solid green;
+    width: 200px;
+    height: 50px;
+}
+
+
+.orderlist-body{
+    width: 93%;
+    /* border: 1px solid yellowgreen; */
+    height: auto;
+    /* background-color: blueviolet; */
+}
+
+.orderlist-img{
+    /* border: 1px solid darkblue; */
+    height: 120px;
+    width: 150px;
+    object-fit: cover;
+    border-radius: 10px;
+
+}
+
+
+
+.orderlist-title1{
+    /* border :1px solid rgb(192, 255, 253); */
+    width: 150px ;
+    text-align: left;
+    padding: 0px 8px;
+}
+.orderlist-title{
+    /* border :1px solid yellow; */
+    width:150px ;
+    text-align: left;
+    color: green;
+    padding: 0px 4px;
+}
+
+
+.orderitem-div{
+
+    /* border: 1px solid red; */
+    display: flex;
+    flex-direction: column;
+    padding: 10px 0px ;
+    height: auto;
+}
+.orderitem-p1{
+    /* border: 1px solid blue; */
+    width: 100%;
+    display: flex;
+
+}
+
+.order-class{
+
+    background-color: antiquewhite;
+    font-weight: 500;
+}
+.delivered-class{
+background-color: rgb(46, 220, 46);
+color: aliceblue;
+font-weight: 500;
+}
+.return-class{
+
+    background-color: rgb(201, 201, 8);
+    color: aqua;
+    font-weight: 500;
+}
+.cancel-class{
+
+    background-color: red;
+    color: aliceblue;
+    font-weight: 500;
+}
+
+@media all and (min-width: 1440px) and (max-width: 1640px) {
+}
+
+@media all and (min-width: 992px) and (max-width: 1440px) {
+}
+
+@media all and (min-width: 768px) and (max-width: 992px) {
+
+    .orderlist-body{
+        width: 93%;
+        /* border: 1px solid yellowgreen; */
+        height: auto;
+        background-color: blueviolet;
+    }
+
+    .orderitem-div{
+
+        /* border: 1px solid red; */
+        display: flex;
+        flex-direction: column;
+        padding: 10px 0px ;
+        height: auto;
+    }
+
+
+
+}
+
+@media all and (min-width: 525px) and (max-width: 768px) {
+
+
+    .orderlist-top-all{
+        /* border: 1px solid red; */
+        background-color: bisque;
+        display: none;
+      
+    
+    }
+    .orderlist-top-display{
+    
+        /* border: 1px solid green; */
+        display: flex;
+        height: 100%;
+        background-color: brown;
+
+        width:  70%;
+    }
+
+
+    .orderitem-div{
+
+        /* border: 1px solid red; */
+        display: flex;
+        flex-direction: column;
+        padding: 10px 0px ;
+        height: auto;
+    }
+
+}
+@media all and (min-width: 320px) and (max-width: 525px) {
+  
+    .orderlist-top-all{
+        /* border: 1px solid red; */
+        background-color: bisque;
+        display: none;
+      
+    
+    }
+    .orderlist-top-display{
+    
+        display: flex;
+        /* background-color: brown; */
+        width:  60%;
+        height: 100%;
+    }
+
+    .orderitem-div{
+
+        /* border: 1px solid red; */
+        display: flex;
+        flex-direction: column;
+        padding: 10px 0px ;
+        height: auto;
+    }
+}

@@ -1,70 +1,215 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+  <div className="p-3 m-0 border-0 bd-example m-0 border-0 orderlist-body">
+        <div className="row">
+          <div className="col-sm-12 col-md-6 col-lg-4 mb-3">
+            <div className="card d-flex justify-content-center">
+              <div className="d-flex align-items-center justify-content-center orderlist-body-img">
+                <img
+                  src={""}
+                  className="card-img-top rounded orderlist-img"
+                  alt=""
+                />
+              </div>
 
-In the project directory, you can run:
+    
+              <div className="orderitem-div">
+                <div className="orderitem-p1">
+                  <span className="orderlist-title1">PRODUCT NAME</span>:
+                  <span className="orderlist-title">Order Id</span>
+                </div>
+                <hr />
+                <div className="orderitem-p1">
+                  <span className="orderlist-title1">ORDER MODE</span>:
+                  <span className="orderlist-title">
+                    <select name="" id="">
+                      <option value="Ordinary">Ordinary</option>
+                      <option value="FastTrack">FastTrack</option>
+                      <option value="Express">Express</option>
+                    </select>
+                  </span>
+                </div>
+                <hr />
 
-### `npm start`
+                <div className="orderitem-p1">
+                  <span className="orderlist-title1">ORDER STATUS</span>:
+                  <span className="orderlist-title">
+                    <select name="" id="">
+                      <option value="Ordered">Ordered</option>
+                      <option value="Delivered">Delivered</option>
+                      <option value="Return">Return</option>
+                      <option value="Cancelled">Cancelled</option>
+                    </select>
+                  </span>
+                </div>
+                <hr />
+                <div className="orderitem-p1">
+                  <span className="orderlist-title1">PAYMENT MODE</span>:
+                  <span className="orderlist-title">{"COD"}</span>
+                </div>
+                <hr />
+                <div className="orderitem-p1">
+                  <span className="orderlist-title1">MOBILE</span>:
+                  <span className="orderlist-title">Order Id</span>
+                </div>
+                <hr />
+                <div className="orderitem-p1">
+                  <span className="orderlist-title1">STATE</span>:
+                  <span className="orderlist-title">Order Id</span>
+                </div>
+                <hr />
+                <div className="orderitem-p1">
+                  <span className="orderlist-title1">DISTRICT</span>:
+                  <span className="orderlist-title">Order Id</span>
+                </div>
+                <hr />
+              </div>
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+              {/* <ul className="list-group list-group-flush">
+                <li className="list-group-item" style={{textAlign:"left"}}> <span className="orderlist-title" >Buyer Name</span> <span style={{color:"darkgreen",padding:"0px 5px"}}>:</span> An item</li>
+               <li className="list-group-item" style={{textAlign:"left"}}> <span className="orderlist-title">Email</span> <span style={{color:"darkgreen",padding:"0px 5px"}}>:</span> An item</li>
+                <li className="list-group-item" style={{textAlign:"left"}}> <span className="orderlist-title">Buyer Name</span> <span style={{color:"darkgreen",padding:"0px 5px"}}>:</span> An item</li>
+               <li className="list-group-item" style={{textAlign:"left"}}> <span className="orderlist-title">Buyer Name</span> <span style={{color:"darkgreen",padding:"0px 5px"}}>:</span> An item</li>
+                <li className="list-group-item" style={{textAlign:"left"}}> <span className="orderlist-title">Buyer Name</span> <span style={{color:"darkgreen",padding:"0px 5px"}}>:</span> An item</li>
+               <li className="list-group-item" style={{textAlign:"left"}}> <span className="orderlist-title">Buyer Name</span> <span style={{color:"darkgreen",padding:"0px 5px"}}>:</span> An item</li>
+                <li className="list-group-item" style={{textAlign:"left"}}> <span className="orderlist-title">Buyer Name</span> <span style={{color:"darkgreen",padding:"0px 5px"}}>:</span> An item</li>
+               <li className="list-group-item" style={{textAlign:"left"}}> <span className="orderlist-title">Buyer Name</span> <span style={{color:"darkgreen",padding:"0px 5px"}}>:</span> An item</li>
+                <li className="list-group-item" style={{textAlign:"left"}}> <span className="orderlist-title">Buyer Name</span> <span style={{color:"darkgreen",padding:"0px 5px"}}>:</span> An item</li>
+               <li className="list-group-item" style={{textAlign:"left"}}> <span className="orderlist-title">Buyer Name</span> <span style={{color:"darkgreen",padding:"0px 5px"}}>:</span> An item</li>
+                <li className="list-group-item" style={{textAlign:"left"}}> <span className="orderlist-title">Buyer Name</span> <span style={{color:"darkgreen",padding:"0px 5px"}}>:</span> An item</li>
+              </ul> */}
+              <div className="card-body">
+                <a href="#" className="card-link">
+                  Card link
+                </a>
+                <a href="#" className="card-link">
+                  Another link
+                </a>
+              </div>
+            </div>
+          </div>
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+          {/* <div className="col-sm-12 col-md-6 col-lg-4 mb-3">
+            <div className="card">
+              <svg
+                className="bd-placeholder-img card-img-top"
+                width="100%"
+                height="180"
+                xmlns="http://www.w3.org/2000/svg"
+                role="img"
+                aria-label="Placeholder: Image cap"
+                preserveAspectRatio="xMidYMid slice"
+                focusable="false"
+              >
+                <title>Placeholder</title>
+                <rect width="100%" height="100%" fill="#868e96"></rect>
+                <text x="50%" y="50%" fill="#dee2e6" dy=".3em">
+                  Image cap
+                </text>
+              </svg>
+              <div className="card-body">
+                <h5 className="card-title">Card title</h5>
+                <p className="card-text">
+                  Some quick example text to build on the card title and make up
+                  the bulk of the card's content.
+                </p>
+              </div>
+              <ul className="list-group list-group-flush">
+                <li className="list-group-item">An item</li>
+               <li className="list-group-item" style={{textAlign:"left"}}> <span style={{textAlign:"left", color:"reen"}}>Buyer Name</span> <span style={{color:"darkgreen",padding:"0px 5px"}}>:</span> An item</li>
+                <li className="list-group-item">A third item</li>
+              </ul>
+              <div className="card-body">
+                <a href="#" className="card-link">
+                  Card link
+                </a>
+                <a href="#" className="card-link">
+                  Another link
+                </a>
+              </div>
+            </div>
+          </div> */}
 
-### `npm test`
+          {/* <div className="col-sm-12 col-md-6 col-lg-4 mb-3">
+            <div className="card">
+              <svg
+                className="bd-placeholder-img card-img-top"
+                width="100%"
+                height="180"
+                xmlns="http://www.w3.org/2000/svg"
+                role="img"
+                aria-label="Placeholder: Image cap"
+                preserveAspectRatio="xMidYMid slice"
+                focusable="false"
+              >
+                <title>Placeholder</title>
+                <rect width="100%" height="100%" fill="#868e96"></rect>
+                <text x="50%" y="50%" fill="#dee2e6" dy=".3em">
+                  Image cap
+                </text>
+              </svg>
+              <div className="card-body">
+                <h5 className="card-title">Card title</h5>
+                <p className="card-text">
+                  Some quick example text to build on the card title and make up
+                  the bulk of the card's content.
+                </p>
+              </div>
+              <ul className="list-group list-group-flush">
+                <li className="list-group-item">An item</li>
+                <li className="list-group-item">A second item</li>
+                <li className="list-group-item">A third item</li>
+              </ul>
+              <div className="card-body">
+                <a href="#" className="card-link">
+                  Card link
+                </a>
+                <a href="#" className="card-link">
+                  Another link
+                </a>
+              </div>
+            </div>
+          </div> */}
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+          {/* <div className="col-sm-12 col-md-6 col-lg-4 mb-3">
+            <div className="card">
+              <svg
+                className="bd-placeholder-img card-img-top"
+                width="100%"
+                height="180"
+                xmlns="http://www.w3.org/2000/svg"
+                role="img"
+                aria-label="Placeholder: Image cap"
+                preserveAspectRatio="xMidYMid slice"
+                focusable="false"
+              >
+                <title>Placeholder</title>
+                <rect width="100%" height="100%" fill="#868e96"></rect>
+                <text x="50%" y="50%" fill="#dee2e6" dy=".3em">
+                  Image cap
+                </text>
+              </svg>
+              <div className="card-body">
+                <h5 className="card-title">Card title</h5>
+                <p className="card-text">
+                  Some quick example text to build on the card title and make up
+                  the bulk of the card's content.
+                </p>
+              </div>
+              <ul className="list-group list-group-flush">
+                <li className="list-group-item">An item</li>
+                <li className="list-group-item">A second item</li>
+                <li className="list-group-item">A third item</li>
+              </ul>
+              <div className="card-body">
+                <a href="#" className="card-link">
+                  Card link
+                </a>
+                <a href="#" className="card-link">
+                  Another link
+                </a>
+              </div>
+            </div>
+          </div> */}
+        </div>
+      </div>
