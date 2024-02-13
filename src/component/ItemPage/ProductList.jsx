@@ -1,4 +1,4 @@
-import React from "react";  
+import React, { useState } from "react";  
 import "./ProductList.css";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -9,7 +9,7 @@ import { del_single_Item, get_user_item_data } from "../../Redux/action";
 
 function ProductList({ product, failedReq, isError, isLoading, isAddProduct }) {
 
-
+const [bool,setBool] = useState(false)
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const {users} = useSelector((state) => {
@@ -35,11 +35,42 @@ const role = user.role;
 
 const handleDelete = (id)=>{
     // console.log(id);
+    if(role==="buyer"){
+      setBool(!bool)
+      // return alert("Only Admin can delete product")
+    }
  if(role==="seller" || role==="admin"){
 
     dispatch(del_single_Item(id))
  }
 }
+
+const refreshToast = ()=>{
+  setBool(false)
+  // window.location.reload()
+}
+
+
+if(bool){
+
+  return <div className='toast-item'>
+  
+  <div className="toast fade show toast-item-div" role="alert" aria-live="assertive" aria-atomic="true">
+        <div className="toast-body">
+           {"Only Admin can delete product"}
+          <div className="mt-2 pt-2 border-top">
+           
+            <button type="button" className="btn btn-secondary btn-sm" onClick={refreshToast} data-bs-dismiss="toast">Close</button>
+          </div>
+        </div>
+      </div>
+     
+  
+      </div>
+
+}
+
+
 
   return (
     <div className="d-flex flex-column mt-2 pro-cont">

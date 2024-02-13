@@ -3,6 +3,119 @@ import axios from "axios";
 
 
 
+ 
+// fiter
+
+
+export const Only_User_orderFilter = createAsyncThunk("order/Only_User_orderFilter",async(payload,options)=>{
+
+  try{
+console.log(payload)
+const token = JSON.parse(localStorage.getItem("token"));
+        
+let auth = {
+  headers: { Authorization: token },
+};
+    let res = await axios.post(`http://localhost:7800/order/filter_user`,{payload:payload},auth)
+
+    console.log(res.data.message)
+    return res.data.message
+
+  }catch(er){
+    const {rejectedWithValue} = options
+
+    console.log(er)
+    return rejectedWithValue({message:er})
+
+  }
+
+})
+
+
+
+export const filter_Order = createAsyncThunk("order/filter_Order",async(payload,options)=>{
+ 
+ 
+  try{
+console.log({payload})
+
+const token = JSON.parse(localStorage.getItem("token"));
+        
+let auth = {
+  headers: { Authorization: token },
+};
+
+let res = await axios.post(`http://localhost:7800/order/filter`,{payload},auth,{headers:{"Content-Type":"application/json"}})
+
+console.log(res.data.message)
+return res.data.message
+
+  }catch(er){
+
+    const {rejectedWithValue} = options
+
+    console.log(er)
+    return rejectedWithValue({message:er})
+
+  }
+
+
+})
+
+
+// fil.........................................................................................................
+
+
+
+
+
+
+export const UserOnly_order = createAsyncThunk("order/UserOnly_order",async(payload,options)=>{
+
+  try{
+    // console.log("res.data")
+    const token = JSON.parse(localStorage.getItem("token"));
+        
+    let auth = {
+      headers: { Authorization: token },
+    };    
+
+    // console.log(token)
+let res = await axios.get(`http://localhost:7800/order/user_order_data`,auth)
+// console.log(res.data)
+  return res.data.message
+  }catch(er){
+
+
+    const { rejectedWithValue } = options;
+    // console.log(er);
+    return rejectedWithValue({ message: er });
+
+  }
+
+})
+
+
+export const get_home = createAsyncThunk("order/get_home",async(payload,options)=>{
+
+  try{
+ 
+
+    // console.log(token)
+let res = await axios.get(`http://localhost:7800/order/home`)
+// console.log(res.data)
+  return res.data.message
+  }catch(er){
+
+
+    const { rejectedWithValue } = options;
+    // console.log(er);
+    return rejectedWithValue({ message: er });
+
+  }
+
+})
+
 
 
 export const cancelOrder_Byuser = createAsyncThunk(
@@ -65,6 +178,9 @@ export const get_ALL_orders = createAsyncThunk(
   "order/get_ALL_orders",
   async (payload, options) => {
     try {
+      console.log(payload)
+      let {page,sortVal,sortOrder} = payload
+      console.log(page,sortVal,sortOrder)
       const token = JSON.parse(localStorage.getItem("token"));
       let auth = {
         headers: {
@@ -72,8 +188,8 @@ export const get_ALL_orders = createAsyncThunk(
         },
       };
 
-      const res = await axios.get(`http://localhost:7800/order`, auth);
-      // console.log(res.data.message)
+      const res = await axios.get(`http://localhost:7800/order?sortOrder=${sortOrder}&sortVal=${sortVal}&page=${payload}`, auth,{headers:{"Content-Type":"application/json"}});
+      console.log(res.data.message)
       return res.data.message;
     } catch (er) {
       const { rejectWithValue } = options;
@@ -82,3 +198,35 @@ export const get_ALL_orders = createAsyncThunk(
     }
   }
 );
+
+export const delete_Orders = createAsyncThunk("order/delete_Orders",async(payload,options)=>{
+
+  try{
+let id = payload
+    // console.log(id)
+let token = JSON.parse(localStorage.getItem("token"))
+let auth = {
+  headers:{
+    Authorization:token,
+  }
+}
+let role = JSON.parse(localStorage.getItem("user")).role
+let x = {...auth,role}
+// console.log(x)
+
+let res = await axios.delete(`http://localhost:7800/order/remove/${id}`,{...auth,role},{headers:{"Content-Type":"application/json"}})
+
+console.log(res.data.message)
+return res.data.message
+
+
+  }catch(er){
+const {rejectWithValue} = options
+console.log(er.response.data.message)
+return rejectWithValue({message:er.response.data.message})
+
+
+  }
+
+
+})

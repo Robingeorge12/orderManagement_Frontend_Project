@@ -26,15 +26,16 @@
     justify-content: space-between;
 } */
 .sp1{
-width: 45px !important;
+width: 42px !important;
 /* border: 1px solid cyan; */
 }
 .sp2{
-    width: 119px !important;
+    width: 120px !important;
     /* border: 1px solid cyan; */
     display: flex;
     align-items: center;
     justify-content: flex-start;
+    font-size: 15px;
 }
 
 @media all and (min-width:1440px) and (max-width:1640px){

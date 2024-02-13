@@ -1,10 +1,60 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./Home.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 import { useNavigate } from "react-router-dom";
+import ChartPage from "../Chart/ChartPage";
+import { useDispatch, useSelector } from "react-redux";
+import { get_ALL_orders, get_home } from "../../Redux/orderAction";
+import { Chart as ChartJS } from "chart.js/auto";
+import { Line, Bar, Pie, Doughnut, PolarArea, Radar } from "react-chartjs-2";
 
 function Home() {
 const navigate = useNavigate()
+const dispatch = useDispatch()
+const {homeData} = useSelector((state)=>state.order)
+
+useEffect(()=>{
+  dispatch(get_home())
+},[])
+console.log(homeData)
+
+let cancelOrder = homeData.reduce((acc, el) => {
+  if (el.order_status === "Cancelled") {
+   
+    return acc + 1;
+  } else {
+    return acc;
+  }
+}, 0);
+
+
+let delOrder = homeData.reduce((acc, el) => {
+  if (el.order_status === "Delivered") {
+
+    return acc + 1;
+  } else {
+    return acc;
+  }
+}, 0);
+
+let orderNew = homeData.reduce((acc, el) => {
+  if (el.order_status === "Ordered") {
+
+    return acc + 1;
+  } else {
+    return acc;
+  }
+},0)
+
+
+let orderRet = homeData.reduce((acc, el) => {
+  if (el.order_status === "Return") {
+
+    return acc + 1;
+  } else {
+    return acc;
+  }
+},0)
 
 const handleItemPage = ()=>{
   navigate("/items")
@@ -48,7 +98,7 @@ const handleItemPage = ()=>{
                 <h5 style={{ color: "#0a50b6", fontWeight: "bold" }}>
                   TOTAL ORDER
                 </h5>
-                <h5 style={{ color: "#0a50b6", fontWeight: "bold" }}>{22}</h5>
+                <h5 style={{ color: "#0a50b6", fontWeight: "bold" }}>{homeData.length}</h5>
               </div>
               <div className="middle-icon">
                 <div className="middle-img">
@@ -77,7 +127,7 @@ const handleItemPage = ()=>{
                 <h5 style={{ color: "#0a50b6", fontWeight: "bold" }}>
                   TOTAL DELIVERED
                 </h5>
-                <h5 style={{ color: "#0a50b6", fontWeight: "bold" }}>{12}</h5>
+                <h5 style={{ color: "#0a50b6", fontWeight: "bold" }}>{delOrder}</h5>
               </div>
               <div className="middle-icon">
                 <div className="middle-img">
@@ -106,7 +156,7 @@ const handleItemPage = ()=>{
                 <h5 style={{ color: "#0a50b6", fontWeight: "bold" }}>
                   NEW ORDERS
                 </h5>
-                <h5 style={{ color: "#0a50b6", fontWeight: "bold" }}>{4}</h5>
+                <h5 style={{ color: "#0a50b6", fontWeight: "bold" }}>{orderNew}</h5>
               </div>
               <div className="middle-icon">
                 <div className="middle-img">
@@ -160,7 +210,7 @@ const handleItemPage = ()=>{
                 <h5 style={{ color: "#0a50b6", fontWeight: "bold" }}>
                  RETURN
                 </h5>
-                <h5 style={{ color: "#0a50b6", fontWeight: "bold" }}>{1}</h5>
+                <h5 style={{ color: "#0a50b6", fontWeight: "bold" }}>{orderRet}</h5>
               </div>
               <div className="middle-icon">
                 <div className="middle-img">
@@ -182,7 +232,7 @@ const handleItemPage = ()=>{
                 <h5 style={{ color: "#0a50b6", fontWeight: "bold" }}>
                  CANCEL
                 </h5>
-                <h5 style={{ color: "#0a50b6", fontWeight: "bold" }}>{6}</h5>
+                <h5 style={{ color: "#0a50b6", fontWeight: "bold" }}>{cancelOrder}</h5>
               </div>
               <div className="middle-icon">
                 <div className="middle-img">
@@ -197,7 +247,12 @@ const handleItemPage = ()=>{
           </div>
         </div>
       </div>
-      <div className="bottom-bar"></div>
+      <div className="bottom-bar">
+
+
+      <ChartPage data = {homeData}/>
+
+      </div>
     </div>
   );
 }

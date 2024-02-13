@@ -1,40 +1,50 @@
-import React, { useState } from 'react'
-import { Navigate, Route, Routes } from 'react-router-dom'
-import Signup from '../component/Signup/Signup'
-import Login from '../component/Login/Login'
-import PrivateRoute from '../PrivateRoute/PrivateRoute'
-import Dashboard from '../component/Dashboard/Dashboard'
-import Item from '../component/ItemPage/Item'
+import React, { useState } from "react";
+import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
+import Signup from "../component/Signup/Signup";
+import Login from "../component/Login/Login";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
+import Dashboard from "../component/Dashboard/Dashboard";
+import Item from "../component/ItemPage/Item";
 
-import Order from '../component/Order/Order' 
+import Order from "../component/Order/Order";
 
-import OrderListHome from '../component/OrderList/OrderListHome'
-
+import OrderListHome from "../component/OrderList/OrderListHome";
+import UserPageHome from "../component/UserPage/UserPageHome";
 
 function AllRoute() {
-
-  const [tokenVal, setTokenVal] = useState(JSON.parse(localStorage.getItem("token")))
-
+  const navigate = useNavigate();
+  const [tokenVal, setTokenVal] = useState(JSON.parse(localStorage.getItem("token")) || null);
+// / JSON.parse(localStorage.getItem("token")) 
+// console.log(tokenVal)
   return (
-    <div>
-        <Routes>
-<Route path="/signup" element={<Signup />} />
-<Route path="/login" element={<Login tokenVal={tokenVal} setTokenVal={setTokenVal} />} />
 
-<Route path="/list_orders" element={<OrderListHome />} />
-<>
+    <Routes>
+      <Route path="/signup" element={<Signup />} />
+      <Route
+        path="/login"
+        element={<Login tokenVal={tokenVal} setTokenVal={setTokenVal} />}
+      />
+        <Route path="/" element={<Dashboard />} />
 
-<Route path="/" element={ tokenVal ?  <Dashboard />
-    : <Navigate to="/login" />} />
-<Route path="/items" element={<Item />} />
+     
+      <Route element={<PrivateRoute tokenVal={tokenVal} setTokenVal={setTokenVal} />}>
+      <Route path="/list_orders" element={<OrderListHome />} />
+      <Route path="/user-order" element={<UserPageHome />} />
+      <Route path="/items" element={<Item />} />
+      <Route path="/order" element={<Order />} />
+      </Route>
 
-
-
-</>
-<Route path="/order" element={<Order />} />
-        </Routes>
-    </div>
-  )
+      {/* <>
+{tokenVal ? 
+          <Route path="/" element={<Dashboard />} />
+         : 
+          <Navigate to="/login" />
+        }
+    </> */}
+    
+    </Routes>
+    
+  );
 }
 
-export default AllRoute
+export default AllRoute;

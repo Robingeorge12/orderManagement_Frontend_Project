@@ -21,7 +21,7 @@ function OrderItem() {
     productId:pro?._id, product_price:pro?.product_price,
      order_id:"" , order_mode:"Ordinary", order_status:"Ordered", order_paymentMode:"COD",order_date:"", expected_delivery:""
   })
-console.log(pro.product_price)
+// console.log(pro.product_price)
 
 const handleCal = (qty)=>{
  console.log(qty)

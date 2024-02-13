@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import "./Login.css"
 import { useFormik } from 'formik'; 
 import { Link, Navigate, useNavigate } from 'react-router-dom';
@@ -18,14 +18,13 @@ const { users, isLoading, isError,failHints,loginSucc,token } = useSelector((sta
 // create one small toast that will show login successfully
 let validToken = JSON.parse(localStorage.getItem("token"))
 // console.log(validToken)
+// console.log(users)
 
-if(users){
-  setTokenVal(token)
-}
+const [loginSuccess, setLoginSuccess] = useState(false); 
+ setTokenVal(validToken)
 
-// if(validToken){
-//   <Navigate to="/" /> 
-// }
+// console.log(tokenVal)
+
 
 
     const formik = useFormik({
@@ -41,6 +40,7 @@ if(users){
              console.log(value)
             await dispatch(login(value))
              formik.resetForm();
+             setLoginSuccess(true);
         }
     })
 
@@ -65,7 +65,12 @@ if(users){
   
       </div>
   }
-  
+  if (loginSuccess) {
+    return <Navigate to="/" />;
+  }
+  // if(users){
+  //   navigate("/")
+  // }
 
   return (
 <div className='container-sm d-flex justify-content-center align-items-center login-cont'>

@@ -23,16 +23,16 @@ function Sidebar() {
 <Link to="/list_orders" className="card-title text-decoration-none link-div">
 <span style={{ color: "cyan"}} className='px-2 sp1'><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" className="bi bi-box-fill" viewBox="0 0 16 16">
   <path fillRule="evenodd" d="M15.528 2.973a.75.75 0 0 1 .472.696v8.662a.75.75 0 0 1-.472.696l-7.25 2.9a.75.75 0 0 1-.557 0l-7.25-2.9A.75.75 0 0 1 0 12.331V3.669a.75.75 0 0 1 .471-.696L7.443.184l.004-.001.274-.11a.75.75 0 0 1 .558 0l.274.11.004.001zm-1.374.527L8 5.962 1.846 3.5 1 3.839v.4l6.5 2.6v7.922l.5.2.5-.2V6.84l6.5-2.6v-.4l-.846-.339Z"/>
-</svg></span><span style={{ color: "cyan"}} className='px-2 sp2'>ORDERED</span>
+</svg></span><span style={{ color: "cyan"}} className='px-2 sp2'>LIST ORDERS</span>
   </Link>
 
 
 
 
-<Link to="/order-table" className="card-title text-decoration-none link-div">
+<Link to="/user-order" className="card-title text-decoration-none link-div">
 <span style={{ color: "cyan"}} className='px-2 sp1'><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" className="bi bi-person-lines-fill" viewBox="0 0 16 16">
   <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m-5 6s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zM11 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5m.5 2.5a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1zm2 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1zm0 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1z"/>
-</svg></span><span style={{ color: "cyan"}} className='px-2 sp2'>LIST ORDERS</span>
+</svg></span><span style={{ color: "cyan"}} className='px-2 sp2'>USER ORDERS</span>
   </Link>
 
 

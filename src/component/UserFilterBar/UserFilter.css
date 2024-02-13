@@ -1,0 +1,7 @@
+.userfilter-cont{
+    /* border: 1px solid red; */
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+
+}

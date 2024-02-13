@@ -102,7 +102,7 @@ let auth = {
 console.log({...auth,role})
   let res = await axios.get(`http://localhost:7800/item`, {...auth,role})
 
-  // console.log(res)
+  // console.log(res.data.message)
    return res.data.message
  
 

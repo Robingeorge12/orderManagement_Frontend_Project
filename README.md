@@ -213,3 +213,18 @@
           </div> */}
         </div>
       </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+      User
+but in my front end i am passing values inside an array ,but i that array order_staus , order_mode and order_paymentMode are mixed buz user check each checkbox according to his wish so that how backend understand the array values is for which key from the above code and also use may send order_mode and order_status value will be 2 each and payment mode may be only one value , so all of these thing how it figure out
