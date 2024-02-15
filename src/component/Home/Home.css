@@ -60,13 +60,13 @@
     color: #0a50b6;
     font-weight: 700;
 } 
-.lod{
+.lodHome{
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
-    top: 45%;
-    left:50%;
+    top: 0px;
+    left:0px;
   }
 
 @media all and (min-width:1440px) and (max-width:1640px){

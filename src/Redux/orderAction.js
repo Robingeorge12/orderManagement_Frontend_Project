@@ -81,7 +81,7 @@ export const UserOnly_order = createAsyncThunk("order/UserOnly_order",async(payl
     };    
 
     // console.log(token)
-let res = await axios.get(`http://localhost:7800/order/user_order_data`,auth)
+let res = await axios.get(`http://localhost:7800/order/user_order_data`,auth,{headers:{"Content-Type":"application/json"}})
 // console.log(res.data)
   return res.data.message
   }catch(er){
@@ -135,7 +135,7 @@ export const cancelOrder_Byuser = createAsyncThunk(
           payload,auth
         );
         console.log(res.data.message);
-        return res.data;
+        return res.data; 
       } catch (er) {
         const { rejectWithValue } = options;
         console.log(er);

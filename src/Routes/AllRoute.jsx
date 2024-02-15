@@ -11,6 +11,8 @@ import Order from "../component/Order/Order";
 import OrderListHome from "../component/OrderList/OrderListHome";
 import UserPageHome from "../component/UserPage/UserPageHome";
 import Production from "../component/ProductionList/Production";
+import SellPage from "../component/SellPage/SellPage";
+import SellList from "../component/SellPage/SellList";
 
 function AllRoute() {
   const navigate = useNavigate();
@@ -34,8 +36,10 @@ function AllRoute() {
       <Route path="/items" element={<Item />} />
       <Route path="/order" element={<Order />} />
       <Route path="/production" element={<Production />} />
+      <Route path="/sell" element={<SellPage />} />
+      {/* <Route path="/sold" element={<SellList />} /> */}
       </Route>
-
+  
       {/* <>
 {tokenVal ? 
           <Route path="/" element={<Dashboard />} />

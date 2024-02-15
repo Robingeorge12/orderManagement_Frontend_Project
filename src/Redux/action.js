@@ -36,6 +36,8 @@ return rejectWithValue({message:er})
 
 
 
+
+
 export const get_user_item_data = createAsyncThunk("item/get_user_item_data",async(payload,options)=>{
 
   try{
@@ -61,6 +63,37 @@ return rejectWithValue({message:er})
   }
 
 })
+ 
+
+
+
+export const UpdateQuantity = createAsyncThunk("item/UpdateQuantity", async(payload,options)=>{
+
+  try{
+
+    console.log(payload)
+    const token = JSON.parse(localStorage.getItem("token"))
+    let auth = {
+      headers:{
+        Authorization:token,
+      }
+    } 
+
+        const res = await axios.patch(`http://localhost:7800/item/updateQty/${payload.id}`,{payload},auth)
+        console.log(res.data.message)
+    
+        return res.data.message
+    
+
+  }catch(er){
+
+const {rejectWithValue} = options
+console.log(er)
+return rejectWithValue({message:er})
+  }
+
+
+})
 
 
 export const del_single_Item = createAsyncThunk("item/del_single_Item",async(payload,options)=>{
@@ -84,6 +117,37 @@ console.log(er.data)
 return rejectWithValue({message:er})
 
   }
+
+})
+
+
+export const post_New_Item = createAsyncThunk("item/post_New_Item",async(payload,options)=>{
+
+
+  try{
+    const token = JSON.parse(localStorage.getItem("token"))
+  const user =  JSON.parse(localStorage.getItem("user"))
+  const role = user.role;
+  let auth = {
+    headers:{
+      Authorization: token, 
+    }
+  }
+  console.log(payload)
+  console.log({...auth,role})
+    let res = await axios.post(`http://localhost:7800/item/add_item`,payload,{...auth,role})
+  
+    // console.log(res.data.message)
+     return res.data.message
+   
+  
+  }catch(er){
+  
+    const {rejectWithValue} = options
+  
+    return rejectWithValue({message:er.data.message})
+  }
+
 
 })
 

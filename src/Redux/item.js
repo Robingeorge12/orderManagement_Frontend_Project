@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { del_single_Item, get_All_Item, get_user_item_data } from "./action";
+import { UpdateQuantity, del_single_Item, get_All_Item, get_user_item_data, post_New_Item } from "./action";
 
 const initialState = {
     product: [],
@@ -84,7 +84,53 @@ export const itemSlice = createSlice({
       console.log(action.error)
 
     } )
+ 
 
+
+    builder.addCase(UpdateQuantity.pending,(state,action)=>{
+
+      state.isLoading = true;
+      state.isError = false;
+      // console.log(action.payload)
+
+    } ).addCase(UpdateQuantity.fulfilled,(state,action)=>{
+
+      state.isLoading = false;
+      state.isError = false;
+      console.log(action.payload)
+    
+
+    } ).addCase(UpdateQuantity.rejected,(state,action)=>{
+
+      state.isLoading = false;
+      state.isError = true;
+      console.log(action.error)
+
+    } )
+
+
+    
+    
+    builder.addCase(post_New_Item.pending,(state,action)=>{
+
+      state.isLoading = true;
+      state.isError = false;
+      // console.log(action.payload)
+
+    } ).addCase(post_New_Item.fulfilled,(state,action)=>{
+
+      state.isLoading = false;
+      state.isError = false;
+      console.log(action.payload)
+    
+
+    } ).addCase(post_New_Item.rejected,(state,action)=>{
+
+      state.isLoading = false;
+      state.isError = true;
+      console.log(action.error)
+
+    } )
 
 
   }

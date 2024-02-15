@@ -53,7 +53,6 @@ if(isLoading){
     )
   }
   
-
   console.log(product)
   return (
     <div className='productionlist-cont'>

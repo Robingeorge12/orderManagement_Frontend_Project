@@ -70,7 +70,7 @@ const handleItemPage = ()=>{
 if(isLoading){
 
   return(
-    <div class="spinner-border  text-success lod" style={{width: "5rem", height: "5rem"}} role="status">
+    <div class="spinner-border  text-success lodHome" style={{width: "5rem", height: "5rem"}} role="status">
     <span class="visually-hidden">Loading...</span>
   </div>
   )
