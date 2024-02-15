@@ -10,6 +10,7 @@ import Order from "../component/Order/Order";
 
 import OrderListHome from "../component/OrderList/OrderListHome";
 import UserPageHome from "../component/UserPage/UserPageHome";
+import Production from "../component/ProductionList/Production";
 
 function AllRoute() {
   const navigate = useNavigate();
@@ -32,6 +33,7 @@ function AllRoute() {
       <Route path="/user-order" element={<UserPageHome />} />
       <Route path="/items" element={<Item />} />
       <Route path="/order" element={<Order />} />
+      <Route path="/production" element={<Production />} />
       </Route>
 
       {/* <>

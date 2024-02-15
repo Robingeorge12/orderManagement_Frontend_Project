@@ -23,4 +23,12 @@
 }
 .toast-item-div{
     /* border: 1px solid red; */
-}
+} 
+.lod{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    top: 45%;
+    left:50%;
+  }

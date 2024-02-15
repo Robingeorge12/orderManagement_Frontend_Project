@@ -3,7 +3,7 @@ import { Chart as ChartJS } from "chart.js/auto";
 import { Line, Bar, Pie, Doughnut, PolarArea, Radar, Bubble, Scatter } from "react-chartjs-2";
 function ChartPage({data}) {
 
-console.log(data)
+// console.log(data)
 
 const orderStatusAmounts = data.reduce((acc, order) => {
     if (!acc[order.order_status]) {

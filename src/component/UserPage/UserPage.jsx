@@ -30,6 +30,8 @@ function UserPage() {
     return state.order;
   });
 
+  let userName =JSON.parse(localStorage.getItem("user")).name
+
   useEffect(() => {
     dispatch(get_ALL_orders());
   }, []);
@@ -104,9 +106,9 @@ const handleCheck = (e)=>{
 
   const {value, checked} = e.target
 if(checked){
-
+ 
   ar.push(value)
-
+ 
 }else{
 
   let ind = ar.indexOf(value)
@@ -154,10 +156,18 @@ dispatch(Only_User_orderFilter(ar))
     );
   }
 
+  if(isLoading){
+
+    return(
+      <div className="spinner-border  text-success lod" style={{width: "5rem", height: "5rem"}} role="status">
+      <span className="visually-hidden">Loading...</span>
+    </div>
+    )
+  }
   return (
     <div className="userpage-cont">
       <div className="userpage-top">
-        <h4 style={{ textAlign: "left" }}>USER ORDER</h4>
+        <h4 style={{ textAlign: "left", color:"darkmagenta" }}>USER ORDER <span style={{padding:"0px 5px", fontSize:"15px", color:"magenta"}}>{userName}</span></h4>
         <div className="userpage-top-all">
           <div className="userpage-top-filter">
             <div className="dropdown ">

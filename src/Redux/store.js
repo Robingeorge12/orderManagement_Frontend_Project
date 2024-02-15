@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit'
 import  itemSlice  from './item.js'
 import  authSlice  from './auth.js'
 import  orderSlice  from './order.js'
+import productionSlice from "./production.js"
 
 
 export const store = configureStore({
@@ -11,7 +12,8 @@ export const store = configureStore({
      
         item: itemSlice,
         user:authSlice,
-        order:orderSlice
+        order:orderSlice,
+        production:productionSlice
        
     },
 })

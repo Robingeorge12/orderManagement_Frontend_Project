@@ -70,7 +70,14 @@ if(bool){
 
 }
 
+if(isLoading){
 
+  return(
+    <div className="spinner-border  text-success lod" style={{width: "5rem", height: "5rem"}} role="status">
+    <span className="visually-hidden">Loading...</span>
+  </div>
+  )
+}
 
   return (
     <div className="d-flex flex-column mt-2 pro-cont">

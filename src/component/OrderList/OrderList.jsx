@@ -6,7 +6,7 @@ import {
   delete_Orders,
   // cancelOrder_Byuser,
   editOrder,
-  filter_Order,
+  filter_Order, 
   get_ALL_orders,
 } from "../../Redux/orderAction";
 import axios from "axios";
@@ -238,6 +238,23 @@ dispatch(get_ALL_orders(payload))
         </div>
       </div>
     );
+  }
+
+  if(isLoading){
+
+    return(
+      <div className="ext-success lod" style={{width: "5rem", height: "5rem"}} role="status">
+      <span className="">Loading...</span>
+    </div>
+    )
+  }
+
+  if(isError){
+
+    return(
+      <h4 style={{color:"red.400"}}>  Error ...</h4>
+    
+    )
   }
 
   // order_sta =3 input

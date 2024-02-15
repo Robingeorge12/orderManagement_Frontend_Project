@@ -7,16 +7,22 @@ import { useDispatch, useSelector } from "react-redux";
 import { get_ALL_orders, get_home } from "../../Redux/orderAction";
 import { Chart as ChartJS } from "chart.js/auto";
 import { Line, Bar, Pie, Doughnut, PolarArea, Radar } from "react-chartjs-2";
+import { get_production } from "../../Redux/productionAction";
 
 function Home() {
 const navigate = useNavigate()
 const dispatch = useDispatch()
-const {homeData} = useSelector((state)=>state.order)
+const {homeData,isLoading} = useSelector((state)=>state.order)
+const {product} = useSelector((state)=>state.production)
 
 useEffect(()=>{
   dispatch(get_home())
 },[])
-console.log(homeData)
+useEffect(()=>{
+  dispatch(get_production())
+},[])
+// console.log(homeData)
+// 
 
 let cancelOrder = homeData.reduce((acc, el) => {
   if (el.order_status === "Cancelled") {
@@ -56,8 +62,18 @@ let orderRet = homeData.reduce((acc, el) => {
   }
 },0)
 
+let userData = JSON.parse(localStorage.getItem("user"));
 const handleItemPage = ()=>{
   navigate("/items")
+}
+
+if(isLoading){
+
+  return(
+    <div class="spinner-border  text-success lod" style={{width: "5rem", height: "5rem"}} role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+  )
 }
 
   return (
@@ -66,8 +82,8 @@ const handleItemPage = ()=>{
      justify-content-center home-cont"
     >
       <div className="top-bar">
-        <div className="mx-4"> SOME CONTENT</div>
-        <div>LOGIN NAME</div>
+        <div className="mx-4" style={{fontWeight:"bold",fontSize:"20px", color:"chocolate", fontStyle:"italic"}}> {userData.role}</div>
+        <div style={{fontWeight:"bold",fontSize:"20px", color:"darkblue"}}>{userData.name}</div>
         <button onClick={handleItemPage}
           style={{ color: "cyan", backgroundColor: "rgb(35 15 125)" }}
           className="btn p-2 mx-4"
@@ -187,7 +203,7 @@ const handleItemPage = ()=>{
                 <h5 style={{ color: "#0a50b6", fontWeight: "bold" }}>
                 PRODUCTION
                 </h5>
-                <h5 style={{ color: "#0a50b6", fontWeight: "bold" }}>{2}</h5>
+                <h5 style={{ color: "#0a50b6", fontWeight: "bold" }}>{product.length}</h5>
               </div>
               <div className="middle-icon">
                 <div className="middle-img">

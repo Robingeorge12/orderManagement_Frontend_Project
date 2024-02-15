@@ -22,10 +22,10 @@ let auth = {
     return res.data.message
 
   }catch(er){
-    const {rejectedWithValue} = options
+    const {rejectWithValue} = options
 
     console.log(er)
-    return rejectedWithValue({message:er})
+    return rejectWithValue({message:er})
 
   }
 
@@ -52,10 +52,10 @@ return res.data.message
 
   }catch(er){
 
-    const {rejectedWithValue} = options
+    const {rejectWithValue} = options
 
     console.log(er)
-    return rejectedWithValue({message:er})
+    return rejectWithValue({message:er})
 
   }
 
@@ -87,9 +87,9 @@ let res = await axios.get(`http://localhost:7800/order/user_order_data`,auth)
   }catch(er){
 
 
-    const { rejectedWithValue } = options;
-    // console.log(er);
-    return rejectedWithValue({ message: er });
+    const { rejectWithValue } = options;
+    // console.log(er); 
+    return rejectWithValue({ message: er });
 
   }
 
@@ -108,9 +108,9 @@ let res = await axios.get(`http://localhost:7800/order/home`)
   }catch(er){
 
 
-    const { rejectedWithValue } = options;
+    const { rejectWithValue } = options;
     // console.log(er);
-    return rejectedWithValue({ message: er });
+    return rejectWithValue({ message: er });
 
   }
 
@@ -137,9 +137,9 @@ export const cancelOrder_Byuser = createAsyncThunk(
         console.log(res.data.message);
         return res.data;
       } catch (er) {
-        const { rejectedWithValue } = options;
+        const { rejectWithValue } = options;
         console.log(er);
-        return rejectedWithValue({ message: er });
+        return rejectWithValue({ message: er });
       }
     }
   );
@@ -167,9 +167,9 @@ export const editOrder = createAsyncThunk(
       console.log(res.data.message);
       return res.data;
     } catch (er) {
-      const { rejectedWithValue } = options;
+      const { rejectWithValue } = options;
       console.log(er);
-      return rejectedWithValue({ message: er });
+      return rejectWithValue({ message: er });
     }
   }
 );

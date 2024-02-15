@@ -1,14 +1,19 @@
 import React, { useEffect, useState } from "react";
 import "./OrderItem.css";
-import { useLocation } from "react-router-dom"; 
+import { useLocation, useNavigate } from "react-router-dom"; 
 import { useDispatch, useSelector } from "react-redux";
 import { get_user_item_data, post_Order } from "../../Redux/action";
+import ProductionPage from "../ProductionPage/ProductionPage";
 
 function OrderItem() {
   const location = useLocation();
   const dispatch = useDispatch();
   const [amount,setAmount] = useState(null)
-  const { order_buyer, order_product } = useSelector((state) => {
+  const [data,setData] = useState([])
+  const navigate = useNavigate()
+
+
+  const { order_buyer, order_product,isLoading,isError } = useSelector((state) => {
     return state.item;
   });
   const [buy,setBuy] = useState(order_buyer[0] || {})
@@ -23,7 +28,7 @@ function OrderItem() {
   })
 // console.log(pro.product_price)
 
-const handleCal = (qty)=>{
+const handleCal = (qty,product,buyer)=>{
  console.log(qty)
  console.log(qty);
  if (pro.product_quantity >= +qty) {
@@ -34,6 +39,22 @@ const handleCal = (qty)=>{
      order_quantity: qty,
      order_amount: sum 
    });
+   if(pro.product_quantity == +qty){
+    setData({
+      buyer_id:buyer?._id, buyer_name:buyer?.name, product_id:pro?._id, 
+      production_quantity:null , production_price:pro?.product_price, production_item:pro?.product_name,
+      production_amount:null
+    })
+   }else{
+    setData({
+      buyer_id:null, buyer_name:null, product_id:null, 
+      production_quantity:null , production_price:null, production_item:null,
+      production_amount:null
+    })
+   }
+
+
+
  } else {
    setAmount(''); 
    setOrder({
@@ -41,21 +62,47 @@ const handleCal = (qty)=>{
      order_quantity: qty,
      order_amount: '' 
    });
+
+//smt
+
+
+setData({
+  buyer_id:buyer?._id, buyer_name:buyer?.name, product_id:pro?._id, 
+  production_quantity:null , production_price:pro?.product_price, production_item:pro?.product_name,
+  production_amount:null
+})
+
  }
 
 }
+
+console.log(data)
 
 const handleOrder = (val)=>{
 
   console.log(val)
 dispatch(post_Order(val))
 
+navigate("/user-order")
+
 }
 
+// const handleProductionReq = ()=>{
+//   console.log("hello")
+// }
+if(isLoading){
 
+  return(
+    <div className="spinner-border  text-success lod" style={{width: "5rem", height: "5rem"}} role="status">
+    <span className="visually-hidden">Loading...</span>
+  </div>
+  )
+}
 
   return (
     <div className="container orderItem">
+      
+     
       <div className="orderItem-buyer">
         <h4 style={{ color: "green" }}>ORDER</h4>
         <div className="card d-flex flex-row align-items-center justify-content-evenly orderItem-card">
@@ -64,10 +111,18 @@ dispatch(post_Order(val))
               EMAIL:<span style={{ padding: "0px 5px" }}></span>
               {buy?.email}
             </p>
-            <p>
+            <p> 
               NAME:<span style={{ padding: "0px 5px" }}></span>
               {buy?.name}
             </p>
+
+            <p  style={{color:"rgb(32 218 129)",fontWeight:"700" }}> 
+              MAX-QTY:<span style={{ padding: "0px 5px",color:"maroon" }}></span>
+              {pro?.product_quantity}
+            </p>
+
+            <div className="item-production">{data.buyer_name && <ProductionPage data={data} setData={setData} />}</div>
+
           </div>
           <div className="card-body d-flex flex-column align-items-end t2">
             <p>
@@ -86,7 +141,7 @@ dispatch(post_Order(val))
         </div>
 
         <div className="table-responsive mt-3 orderItem-product">
-          <table class="table table-info table-striped table-hover">
+          <table className="table table-info table-striped table-hover">
             <thead>
               <tr>
                 <th>#</th>
@@ -106,8 +161,9 @@ dispatch(post_Order(val))
                   <td>{pro.product_price}</td>
                   <td >
                     <input 
-                     onChange={(e)=>handleCal(e.target.value)}
+                     onChange={(e)=>handleCal(e.target.value,pro,buy)}
                       placeholder="Enter quantity required"
+                      style={{borderRadius:"4px"}}
                     />
                   </td>
                   <td>{amount}</td>
@@ -133,10 +189,10 @@ dispatch(post_Order(val))
 
 
 
-<div className="d-flex flex-row px-2 pt-3">
+<div className="d-flex flex-row ustify-content-between align-items-center px-2 pt-3 item-sel">
   <label className="formLabel">STATE</label>
   <span span style={{ padding: "0px 5px" }}></span>
-  <select onChange={(e)=>setOrder({...order,buyer_state:e.target.value})} style={{ width: "30%" }} name="" id="">
+  <select onChange={(e)=>setOrder({...order,buyer_state:e.target.value})} className="orderItem-sel"  name="" id="">
     <option value="">Select State</option>
     <option value="Kerala">Kerala</option>
     <option value="Mumbai">Mumbai</option>
@@ -146,30 +202,30 @@ dispatch(post_Order(val))
 </div>
 
 
-<div className="d-flex flex-row px-2 pt-3">
+<div className="d-flex flex-row justify-content-between align-items-center px-2 pt-3">
   <label className="formLabel">DISTRICT</label>
-  <span span style={{ padding: "0px 5px" }}></span>
+  <span style={{ padding: "0px 5px" }}></span>
   <input onChange={(e)=>setOrder({...order,buyer_dist:e.target.value})} className="ip1" type="text" />
 </div>
 
-<div className="d-flex flex-row px-2 pt-3">
+<div className="d-flex flex-row  gap-sm-3 px-2 pt-3">
   <label className="formLabel">PIN CODE</label>
-  <span span style={{ padding: "0px 5px" }}></span>
+  <span style={{ padding: "0px 5px" }}></span>
   <input onChange={(e)=>setOrder({...order,buyer_pin:e.target.value})} className="ip1" type="text" />
 </div>
 
 
 <div className="d-flex flex-row px-2 pt-3">
   <label className="formLabel">MOBILE NO</label>
-  <span span style={{ padding: "0px 5px" }}></span>
+  <span style={{ padding: "0px 5px" }}></span>
   <input onChange={(e)=>setOrder({...order,buyer_mob:e.target.value})} className="ip1" type="number" />
 </div>
 
 
-<div className="d-flex flex-row px-2 pt-3">
+<div className="d-flex flex-row px-2 pt-3 item-sel">
   <label className="formLabel">DELIVERY MODE</label>
-  <span span style={{ padding: "0px 5px" }}></span>
-  <select onChange={(e)=>setOrder({...order,order_mode:e.target.value})} style={{ width: "30%" }} name="" id="">
+  <span style={{ padding: "0px 5px" }}></span>
+  <select onChange={(e)=>setOrder({...order,order_mode:e.target.value})} className="orderItem-sel" name="" id="">
     {/* <option value="">Select delivery mode</option> */}
     <option value="Ordinary">Ordinary</option>
     <option value="FastTrack">FastTrack</option>
@@ -180,21 +236,21 @@ dispatch(post_Order(val))
 
 
 
-<div className="d-flex flex-row px-2 pt-3">
+<div className="d-flex flex-row px-2 pt-3 item-sel">
   <label className="formLabel">ORDER STATUS</label>
-  <span span style={{ padding: "0px 5px" }}></span>
+  <span style={{ padding: "0px 5px" }}></span>
 
-  <select onChange={(e)=>setOrder({...order,order_status:e.target.value})} style={{ width: "30%" }} name="" id="">
-    <option value="Ordered">Ordered</option>
-    <option value="Delivered">Delivered</option>
+  <select onChange={(e)=>setOrder({...order,order_status:e.target.value})} className="orderItem-sel" name="" id="">
+    <option value="Ordered">Ordered</option> 
+    {/* <option value="Delivered">Delivered</option>
     <option value="Return">Return</option>
-    <option value="Cancelled">Cancelled</option>
+    <option value="Cancelled">Cancelled</option>  */}
   </select>
 </div>
 
 <div className="d-flex flex-row px-2 pt-3">
   <label className="formLabel">ADDRESS</label>
-  <span span style={{ padding: "0px 5px" }}></span>
+  <span style={{ padding: "0px 5px" }}></span>
   <textarea onChange={(e)=>setOrder({...order,buyer_address:e.target.value})} className="ip1" type="text" />
 </div>
 
@@ -212,10 +268,10 @@ dispatch(post_Order(val))
 
 <h5 style={{ padding: "0px 5px",textAlign:"left", color:"darkblue",marginTop:"10px" }}>TOTAL AMOUNT<span span style={{ padding: "0px 5px" }}></span>:{amount}</h5>
 
-<div className="d-flex flex-row px-2 gap-2">
+<div className="d-flex flex-row px-2 gap-2 item-sel">
   <label className="formLabel-2">PAYMENT MODE</label>
-  <span span style={{ padding: "0px 5px" }}></span>
-  <select onChange={(e)=>setOrder({...order,order_paymentMode:e.target.value})} style={{ width: "30%", marginBottom:"20px" }} name="" id="">
+  <span style={{ padding: "0px 5px" }}></span>
+  <select onChange={(e)=>setOrder({...order,order_paymentMode:e.target.value})} className="orderItem-sel" name="" id="">
     
     <option value="COD">COD</option>
     <option value="Bank">Bank</option>
