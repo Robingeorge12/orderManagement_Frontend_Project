@@ -73,13 +73,13 @@
     .dash_sidebar{
 
         width: 100%;
-        background-color: red;
+        /* background-color: red; */
       
     
     }
     .dash_home{
         width: 100%;
-        background-color: aqua;
+        /* background-color: aqua; */
         height: auto !important;
     }
 }
@@ -95,7 +95,7 @@
     .dash_sidebar{
 
         width: 100%;
-        background-color: red;
+        /* background-color: red; */
     
     }
     .dash_home{

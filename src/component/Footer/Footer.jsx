@@ -10,49 +10,69 @@ import { MdOutlineConnectedTv } from 'react-icons/md';
 
 function Footer() {
   return (
-    <div className='footer-container'>
-
-      <div>
+    <div className="footer-container">
+      <div className="footer-box-container">
         <h3>Contact Us!</h3>
-        <div className='footer-box'>
-          <TbBrandTelegram />
-          <p>512 Warren Ave Portland, Maine 04103</p>
+        <div className="footer-box">
+          <TbBrandTelegram
+            style={{ marginTop: "-10px", color: "#0425ed", fontSize: "22px" }}
+          />
+          <p className="fp1">512 Warren Ave Portland, Maine 04103</p>
         </div>
-        <div className='footer-box'>
-          <BsTelephone />
-          <p>207-797-5700</p>
+        <div className="footer-box">
+          <BsTelephone
+            style={{ marginTop: "-10px", color: "#0425ed", fontSize: "22px" }}
+          />
+          <p className="fp1">207-797-5700</p>
         </div>
-        <div className='footer-box'>
-          <AiOutlineMail />
-          <p>info@fitnessfactorymaine.com</p>
+        <div className="footer-box">
+          <AiOutlineMail
+            style={{ marginTop: "-10px", color: "#0425ed", fontSize: "22px" }}
+          />
+          <p className="fp1">info@sugofactory.com</p>
         </div>
       </div>
-      <div>
+
+      <div className="footer-box-container2">
         <h3>Connect with us!</h3>
-        <div className='footer-box'>
-          <RiFacebookCircleLine />
-          <p>Facebook</p>
+        <div className="footer-box">
+          <RiFacebookCircleLine
+            style={{ marginTop: "-10px", color: "#0425ed", fontSize: "22px" }}
+          />
+          <p className="fp1">Facebook</p>
         </div>
 
-        <div className='footer-box'>
-          <FaWhatsapp />
-          <p>WhatsApp</p>
+        <div className="footer-box">
+          <FaWhatsapp
+            style={{ marginTop: "-10px", color: "#0425ed", fontSize: "22px" }}
+          />
+          <p className="fp1">WhatsApp</p>
         </div>
 
-        <div className='footer-box'>
-          <AiOutlineInstagram />
-          <p>LinkedIn</p>
+        <div className="footer-box">
+          <AiOutlineInstagram
+            style={{ marginTop: "-10px", color: "#0425ed", fontSize: "22px" }}
+          />
+          <p className="fp1">LinkedIn</p>
         </div>
       </div>
-      <div>
+
+      <div className="footer-box-container3">
         <h3>Others</h3>
-        <div className='footer-box'>
-          <MdOutlineConnectedTv />
-          <p>Online</p>
+        <div className="footer-box">
+          <MdOutlineConnectedTv
+            style={{
+              marginTop: "-10px",
+              color: "#0425ed"
+              ,fontSize:"22px",
+              fontWeight: "bold",
+            }}
+          />
+          <p className="fp1">Online</p>
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 export default Footer

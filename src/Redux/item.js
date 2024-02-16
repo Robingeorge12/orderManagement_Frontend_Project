@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { UpdateQuantity, del_single_Item, get_All_Item, get_user_item_data, post_New_Item } from "./action";
+import { UpdateQuantity, UpdateQuantity_ByAdmin_Cancel, del_single_Item, get_All_Item, get_user_item_data, post_New_Item } from "./action";
 
 const initialState = {
     product: [],
@@ -114,7 +114,7 @@ export const itemSlice = createSlice({
     builder.addCase(post_New_Item.pending,(state,action)=>{
 
       state.isLoading = true;
-      state.isError = false;
+      state.isError = false; 
       // console.log(action.payload)
 
     } ).addCase(post_New_Item.fulfilled,(state,action)=>{
@@ -129,6 +129,30 @@ export const itemSlice = createSlice({
       state.isLoading = false;
       state.isError = true;
       console.log(action.error)
+
+    } )
+
+
+    builder.addCase(UpdateQuantity_ByAdmin_Cancel.pending,(state,action)=>{
+
+      state.isLoading = true;
+      state.isError = false; 
+      // console.log(action.payload)
+
+    } ).addCase(UpdateQuantity_ByAdmin_Cancel.fulfilled,(state,action)=>{
+
+      state.isLoading = false;
+      state.isError = false;
+      console.log(action.payload)
+      state.isAddProduct = action.payload
+    
+
+    } ).addCase(UpdateQuantity_ByAdmin_Cancel.rejected,(state,action)=>{
+
+      state.isLoading = false;
+      state.isError = true;
+      console.log(action.error)
+      state.failedReq = action.payload 
 
     } )
 

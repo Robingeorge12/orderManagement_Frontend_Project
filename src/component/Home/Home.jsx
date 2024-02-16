@@ -10,71 +10,69 @@ import { Line, Bar, Pie, Doughnut, PolarArea, Radar } from "react-chartjs-2";
 import { get_production } from "../../Redux/productionAction";
 
 function Home() {
-const navigate = useNavigate()
-const dispatch = useDispatch()
-const {homeData,isLoading} = useSelector((state)=>state.order)
-const {product} = useSelector((state)=>state.production)
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { homeData, isLoading } = useSelector((state) => state.order);
+  const { product } = useSelector((state) => state.production);
 
-useEffect(()=>{
-  dispatch(get_home())
-},[])
-useEffect(()=>{
-  dispatch(get_production())
-},[])
-// console.log(homeData)
-// 
+  useEffect(() => {
+    dispatch(get_home());
+  }, []);
+  useEffect(() => {
+    dispatch(get_production());
+  }, []);
+  // console.log(homeData)
+  //
 
-let cancelOrder = homeData.reduce((acc, el) => {
-  if (el.order_status === "Cancelled") {
-   
-    return acc + 1;
-  } else {
-    return acc;
+  let cancelOrder = homeData.reduce((acc, el) => {
+    if (el.order_status === "Cancelled") {
+      return acc + 1;
+    } else {
+      return acc;
+    }
+  }, 0);
+
+  let delOrder = homeData.reduce((acc, el) => {
+    if (el.order_status === "Delivered") {
+      return acc + 1;
+    } else {
+      return acc;
+    }
+  }, 0);
+
+  let orderNew = homeData.reduce((acc, el) => {
+    if (el.order_status === "Ordered") {
+      return acc + 1;
+    } else {
+      return acc;
+    }
+  }, 0);
+
+  let orderRet = homeData.reduce((acc, el) => {
+    if (el.order_status === "Return") {
+      return acc + 1;
+    } else {
+      return acc;
+    }
+  }, 0);
+
+  let userData = JSON.parse(localStorage.getItem("user"));
+  console.log(userData);
+  const handleItemPage = () => {
+    navigate("/items");
+  };
+
+  if (isLoading) {
+    return (
+      <div
+        class="spinner-border  text-success lodHome"
+        style={{ width: "5rem", height: "5rem" }}
+        role="status"
+      >
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    );
   }
-}, 0);
-
-
-let delOrder = homeData.reduce((acc, el) => {
-  if (el.order_status === "Delivered") {
-
-    return acc + 1;
-  } else {
-    return acc;
-  }
-}, 0);
-
-let orderNew = homeData.reduce((acc, el) => {
-  if (el.order_status === "Ordered") {
-
-    return acc + 1;
-  } else {
-    return acc;
-  }
-},0)
-
-
-let orderRet = homeData.reduce((acc, el) => {
-  if (el.order_status === "Return") {
-
-    return acc + 1;
-  } else {
-    return acc;
-  }
-},0)
-
-let userData = JSON.parse(localStorage.getItem("user"));
-const handleItemPage = ()=>{
-  navigate("/items")
-}
-
-if(isLoading){
-
-  return(
-    <div class="spinner-border  text-success lodHome" style={{width: "5rem", height: "5rem"}} role="status">
-    <span class="visually-hidden">Loading...</span>
-  </div>
-  )
-}
 
   return (
     <div
@@ -82,9 +80,36 @@ if(isLoading){
      justify-content-center home-cont"
     >
       <div className="top-bar">
-        <div className="mx-4" style={{fontWeight:"bold",fontSize:"20px", color:"chocolate", fontStyle:"italic"}}> {userData.role}</div>
-        <div style={{fontWeight:"bold",fontSize:"20px", color:"darkblue"}}>{userData.name}</div>
-        <button onClick={handleItemPage}
+        {userData ? (
+          <>
+            <div
+              className="mx-4"
+              style={{
+                fontWeight: "bold",
+                fontSize: "20px",
+
+                color: "chocolate",
+                fontStyle: "italic",
+              }}
+            >
+              {" "}
+              {userData.role}
+            </div>
+
+            <div
+              style={{
+                fontWeight: "bold",
+                fontSize: "20px",
+                color: "darkblue",
+              }}
+            >
+              {userData.name}
+            </div>
+          </>
+        ) : null}
+
+        <button
+          onClick={handleItemPage}
           style={{ color: "cyan", backgroundColor: "rgb(35 15 125)" }}
           className="btn p-2 mx-4"
         >
@@ -114,11 +139,13 @@ if(isLoading){
                 <h5 style={{ color: "#0a50b6", fontWeight: "bold" }}>
                   TOTAL ORDER
                 </h5>
-                <h5 style={{ color: "#0a50b6", fontWeight: "bold" }}>{homeData.length}</h5>
+                <h5 style={{ color: "#0a50b6", fontWeight: "bold" }}>
+                  {homeData.length}
+                </h5>
               </div>
               <div className="middle-icon">
                 <div className="middle-img">
-                  <span style={{ color: "#387de1"}} className="">
+                  <span style={{ color: "#387de1" }} className="">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="40"
@@ -143,7 +170,9 @@ if(isLoading){
                 <h5 style={{ color: "#0a50b6", fontWeight: "bold" }}>
                   TOTAL DELIVERED
                 </h5>
-                <h5 style={{ color: "#0a50b6", fontWeight: "bold" }}>{delOrder}</h5>
+                <h5 style={{ color: "#0a50b6", fontWeight: "bold" }}>
+                  {delOrder}
+                </h5>
               </div>
               <div className="middle-icon">
                 <div className="middle-img">
@@ -172,7 +201,9 @@ if(isLoading){
                 <h5 style={{ color: "#0a50b6", fontWeight: "bold" }}>
                   NEW ORDERS
                 </h5>
-                <h5 style={{ color: "#0a50b6", fontWeight: "bold" }}>{orderNew}</h5>
+                <h5 style={{ color: "#0a50b6", fontWeight: "bold" }}>
+                  {orderNew}
+                </h5>
               </div>
               <div className="middle-icon">
                 <div className="middle-img">
@@ -201,17 +232,26 @@ if(isLoading){
             <div className="card-body border border-primary d-flex justify-content-center align-items-center">
               <div className="middle-content">
                 <h5 style={{ color: "#0a50b6", fontWeight: "bold" }}>
-                PRODUCTION
+                  PRODUCTION
                 </h5>
-                <h5 style={{ color: "#0a50b6", fontWeight: "bold" }}>{product.length}</h5>
+                <h5 style={{ color: "#0a50b6", fontWeight: "bold" }}>
+                  {product.length}
+                </h5>
               </div>
               <div className="middle-icon">
                 <div className="middle-img">
                   <span style={{ color: "rgb(251 246 29 / 83%)" }} className="">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" className="bi bi-clipboard2-data-fill" viewBox="0 0 16 16">
-  <path d="M10 .5a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5.5.5 0 0 1-.5.5.5.5 0 0 0-.5.5V2a.5.5 0 0 0 .5.5h5A.5.5 0 0 0 11 2v-.5a.5.5 0 0 0-.5-.5.5.5 0 0 1-.5-.5"/>
-  <path d="M4.085 1H3.5A1.5 1.5 0 0 0 2 2.5v12A1.5 1.5 0 0 0 3.5 16h9a1.5 1.5 0 0 0 1.5-1.5v-12A1.5 1.5 0 0 0 12.5 1h-.585q.084.236.085.5V2a1.5 1.5 0 0 1-1.5 1.5h-5A1.5 1.5 0 0 1 4 2v-.5q.001-.264.085-.5M10 7a1 1 0 1 1 2 0v5a1 1 0 1 1-2 0zm-6 4a1 1 0 1 1 2 0v1a1 1 0 1 1-2 0zm4-3a1 1 0 0 1 1 1v3a1 1 0 1 1-2 0V9a1 1 0 0 1 1-1"/>
-</svg>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="40"
+                      height="40"
+                      fill="currentColor"
+                      className="bi bi-clipboard2-data-fill"
+                      viewBox="0 0 16 16"
+                    >
+                      <path d="M10 .5a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5.5.5 0 0 1-.5.5.5.5 0 0 0-.5.5V2a.5.5 0 0 0 .5.5h5A.5.5 0 0 0 11 2v-.5a.5.5 0 0 0-.5-.5.5.5 0 0 1-.5-.5" />
+                      <path d="M4.085 1H3.5A1.5 1.5 0 0 0 2 2.5v12A1.5 1.5 0 0 0 3.5 16h9a1.5 1.5 0 0 0 1.5-1.5v-12A1.5 1.5 0 0 0 12.5 1h-.585q.084.236.085.5V2a1.5 1.5 0 0 1-1.5 1.5h-5A1.5 1.5 0 0 1 4 2v-.5q.001-.264.085-.5M10 7a1 1 0 1 1 2 0v5a1 1 0 1 1-2 0zm-6 4a1 1 0 1 1 2 0v1a1 1 0 1 1-2 0zm4-3a1 1 0 0 1 1 1v3a1 1 0 1 1-2 0V9a1 1 0 0 1 1-1" />
+                    </svg>
                   </span>
                 </div>
               </div>
@@ -223,17 +263,24 @@ if(isLoading){
           <div className="card border-start border-4 border-primary border-top-0 border-bottom-0 border-end-4">
             <div className="card-body border border-primary d-flex justify-content-center align-items-center">
               <div className="middle-content">
+                <h5 style={{ color: "#0a50b6", fontWeight: "bold" }}>RETURN</h5>
                 <h5 style={{ color: "#0a50b6", fontWeight: "bold" }}>
-                 RETURN
+                  {orderRet}
                 </h5>
-                <h5 style={{ color: "#0a50b6", fontWeight: "bold" }}>{orderRet}</h5>
               </div>
               <div className="middle-icon">
                 <div className="middle-img">
                   <span style={{ color: "#de4fde" }} className="">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" className="bi bi-arrow-left-square-fill" viewBox="0 0 16 16">
-  <path d="M16 14a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2zm-4.5-6.5H5.707l2.147-2.146a.5.5 0 1 0-.708-.708l-3 3a.5.5 0 0 0 0 .708l3 3a.5.5 0 0 0 .708-.708L5.707 8.5H11.5a.5.5 0 0 0 0-1"/>
-</svg>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="40"
+                      height="40"
+                      fill="currentColor"
+                      className="bi bi-arrow-left-square-fill"
+                      viewBox="0 0 16 16"
+                    >
+                      <path d="M16 14a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2zm-4.5-6.5H5.707l2.147-2.146a.5.5 0 1 0-.708-.708l-3 3a.5.5 0 0 0 0 .708l3 3a.5.5 0 0 0 .708-.708L5.707 8.5H11.5a.5.5 0 0 0 0-1" />
+                    </svg>
                   </span>
                 </div>
               </div>
@@ -245,17 +292,24 @@ if(isLoading){
           <div className="card border-start border-4 border-primary border-top-0 border-bottom-0 border-end-4">
             <div className="card-body border border-primary d-flex justify-content-center align-items-center">
               <div className="middle-content">
+                <h5 style={{ color: "#0a50b6", fontWeight: "bold" }}>CANCEL</h5>
                 <h5 style={{ color: "#0a50b6", fontWeight: "bold" }}>
-                 CANCEL
+                  {cancelOrder}
                 </h5>
-                <h5 style={{ color: "#0a50b6", fontWeight: "bold" }}>{cancelOrder}</h5>
               </div>
               <div className="middle-icon">
                 <div className="middle-img">
                   <span style={{ color: "#dc3545" }} className="">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" className="bi bi-x-octagon-fill" viewBox="0 0 16 16">
-  <path d="M11.46.146A.5.5 0 0 0 11.107 0H4.893a.5.5 0 0 0-.353.146L.146 4.54A.5.5 0 0 0 0 4.893v6.214a.5.5 0 0 0 .146.353l4.394 4.394a.5.5 0 0 0 .353.146h6.214a.5.5 0 0 0 .353-.146l4.394-4.394a.5.5 0 0 0 .146-.353V4.893a.5.5 0 0 0-.146-.353zm-6.106 4.5L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 1 1 .708-.708"/>
-</svg>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="40"
+                      height="40"
+                      fill="currentColor"
+                      className="bi bi-x-octagon-fill"
+                      viewBox="0 0 16 16"
+                    >
+                      <path d="M11.46.146A.5.5 0 0 0 11.107 0H4.893a.5.5 0 0 0-.353.146L.146 4.54A.5.5 0 0 0 0 4.893v6.214a.5.5 0 0 0 .146.353l4.394 4.394a.5.5 0 0 0 .353.146h6.214a.5.5 0 0 0 .353-.146l4.394-4.394a.5.5 0 0 0 .146-.353V4.893a.5.5 0 0 0-.146-.353zm-6.106 4.5L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 1 1 .708-.708" />
+                    </svg>
                   </span>
                 </div>
               </div>
@@ -264,10 +318,7 @@ if(isLoading){
         </div>
       </div>
       <div className="bottom-bar">
-
-
-      <ChartPage data = {homeData}/>
-
+        <ChartPage data={homeData} />
       </div>
     </div>
   );

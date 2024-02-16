@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {  get_user_item_data,post_Order } from "./action";
-import { Only_User_orderFilter, UserOnly_order, delete_Orders, editOrder, filter_Order, get_ALL_orders, get_home } from "./orderAction";
+import { Only_User_orderFilter, UserOnly_order, cancelOrder_Byuser, delete_Orders, editOrder, filter_Order, get_ALL_orders, get_home } from "./orderAction";
 
 const initialState = {
     orders: [],
@@ -96,6 +96,7 @@ builder.addCase(editOrder.pending,(state,action)=>{
   state.isError = false;
   console.log(action.payload)
   state.isOrderStatus = "Order Status Has Been Changed"
+  window.location.reload()
   
 }).addCase(editOrder.rejected,(state,action)=>{
   state.isLoading = false;
@@ -167,6 +168,30 @@ builder.addCase(Only_User_orderFilter.pending,(state,action)=>{
   state.isLoading = false;
   state.isError = true;
     // state.failedReq = {...state.failedReq,...action.payload.message.message}
+})
+
+
+
+builder.addCase(cancelOrder_Byuser.pending,(state,action)=>{
+
+  state.isLoading = true;
+  state.isError = false;
+
+}).addCase(cancelOrder_Byuser.fulfilled,(state,action)=>{
+
+  state.isLoading = false;
+  state.isError = false;
+  console.log(action.payload)
+  state.failedReq = action.payload
+  window.location.reload()
+  // state.singleUser = action.payload;
+
+  
+}).addCase(cancelOrder_Byuser.rejected,(state,{payload})=>{
+  state.isLoading = false;
+  state.isError = true;
+console.log(payload)
+    state.failedReq = payload
 })
 
 

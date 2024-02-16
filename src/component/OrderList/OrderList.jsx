@@ -6,12 +6,13 @@ import {
   delete_Orders,
   // cancelOrder_Byuser,
   editOrder,
-  filter_Order, 
+  filter_Order,
   get_ALL_orders,
 } from "../../Redux/orderAction";
 import axios from "axios";
 import SideBar1 from "../SideMenu1/SideBar1";
 import SideSort from "../SideMenu1/SideSort";
+import { UpdateQuantity_ByAdmin_Cancel } from "../../Redux/action";
 
 function OrderList() {
   const navigate = useNavigate();
@@ -34,6 +35,7 @@ function OrderList() {
     dispatch(get_ALL_orders(page));
   }, [page]);
 
+  //lazy loading 
   const handlePrevPage = () => {
     if (page > 1) {
       setPage(page - 1);
@@ -75,7 +77,7 @@ function OrderList() {
     // console.log(order_status)
     // console.log(el)
     if (role === "buyer") {
-      setBool(!bool);
+      return setBool(!bool);
     }
 
     let _id = el._id;
@@ -84,8 +86,29 @@ function OrderList() {
       order_status: order_status,
     };
 
+    if (
+      el.order_status === "Cancelled" ||
+      el.order_status === "Return" ||
+      el.order_status === "Delivered"
+    ) {
+      //  return dispatch(editOrder(payload));
+      return "";
+    } else {
+      let payload2 = {
+        id: el.productId,
+        quantity: el.order_quantity,
+        order_status: order_status,
+        order_id: el.order_id,
+      };
+
+      dispatch(UpdateQuantity_ByAdmin_Cancel(payload2));
+    }
+
     dispatch(editOrder(payload));
+    //
   };
+
+  //UpdateQuantity_ByAdmin_Cancel
   console.log(orders);
   // const handleOrderCancel = (status, el) => {
   //   console.log(status);
@@ -142,17 +165,24 @@ function OrderList() {
     // let sortOrder = el === 'asc' ? 'desc' : 'asc'
 
     let payload = {
-      sortOrder:sortOrder,
-      sortVal:sortVal ,
-      page:page,
+      sortOrder: sortOrder,
+      sortVal: sortVal,
+      page: page,
     };
     // console.log(e, el);
     console.log(payload.page);
-dispatch(get_ALL_orders(payload))
-
+    dispatch(get_ALL_orders(payload));
   };
 
   const [arr1, setArr1] = useState([]);
+  const [newD, setNewD] = useState({
+    "order_status": [],
+    "order_mode": [],
+    "order_paymentMode": [],
+    "date-from": "",
+    "date-till": "",
+   
+  })
 
   const handleCheck = async (e) => {
     e.stopPropagation();
@@ -168,7 +198,7 @@ dispatch(get_ALL_orders(payload))
     }
 
     console.log(arr1);
-    dispatch(filter_Order(arr1));
+    // dispatch(filter_Order(arr1));
   };
 
   const handleDel = (id, el) => {
@@ -207,7 +237,7 @@ dispatch(get_ALL_orders(payload))
       </div>
     );
   }
- 
+
   const refreshToast2 = () => {
     setBool2(!false);
     window.location.reload();
@@ -240,21 +270,20 @@ dispatch(get_ALL_orders(payload))
     );
   }
 
-  if(isLoading){
-
-    return(
-      <div className="ext-success lod" style={{width: "5rem", height: "5rem"}} role="status">
-      <span className="">Loading...</span>
-    </div>
-    )
+  if (isLoading) {
+    return (
+      <div
+        className="ext-success lod"
+        style={{ width: "5rem", height: "5rem" }}
+        role="status"
+      >
+        <span className="">Loading...</span>
+      </div>
+    );
   }
 
-  if(isError){
-
-    return(
-      <h4 style={{color:"red.400"}}>  Error ...</h4>
-    
-    )
+  if (isError) {
+    return <h4 style={{ color: "red.400" }}> Error ...</h4>;
   }
 
   // order_sta =3 input
@@ -289,6 +318,7 @@ dispatch(get_ALL_orders(payload))
                 FILTER
               </a>
               <div className="dropdown-menu drope-menu">
+                <p className="filt-one"> ORDER</p>
                 <div className="d-flex dropdown-item gap-1 m-0 px-2">
                   <div className="form-check">
                     <input
@@ -365,6 +395,8 @@ dispatch(get_ALL_orders(payload))
                   </div>
                 </div>
 
+                <p className="filt-one"> TRANSPORT</p>
+
                 <div className="d-flex dropdown-item gap-1 m-0 px-2">
                   <div className="form-check">
                     <input
@@ -404,6 +436,7 @@ dispatch(get_ALL_orders(payload))
                     </label>
                   </div>
                 </div>
+                <p className="filt-one"> PAYMENT</p>
 
                 <div className="d-flex dropdown-item gap-1 m-0 px-2">
                   <div className="form-check">
@@ -492,13 +525,15 @@ dispatch(get_ALL_orders(payload))
               <div className="dropdown-menu drope-menu">
                 <div className="d-flex dropdown-item gap-1 m-0 px-2">
                   <div className="form-check">
-                  <input className="form-check-input" type="radio" 
-                   value={"asc"}
-                   // defaultValue={"Ordered"}
-                   onClick={(e) =>
-                     handleSort("asc", "order_amount")
-                   }
-                  name="flexRadioDefault" id="flexRadioDefault1" />
+                    <input
+                      className="form-check-input"
+                      type="radio"
+                      value={"asc"}
+                      // defaultValue={"Ordered"}
+                      onClick={(e) => handleSort("asc", "order_amount")}
+                      name="flexRadioDefault"
+                      id="flexRadioDefault1"
+                    />
                     <label
                       className="form-check-label"
                       htmlFor="flexCheckDefault"
@@ -510,13 +545,15 @@ dispatch(get_ALL_orders(payload))
 
                 <div className="d-flex dropdown-item gap-1 m-0 px-2">
                   <div className="form-check">
-                  <input className="form-check-input" type="radio" 
-                   value={"desc"}
-                   // defaultValue={"Ordered"}
-                   onClick={(e) =>
-                     handleSort("desc", "order_amount")
-                   }
-                  name="flexRadioDefault" id="flexRadioDefault1" />
+                    <input
+                      className="form-check-input"
+                      type="radio"
+                      value={"desc"}
+                      // defaultValue={"Ordered"}
+                      onClick={(e) => handleSort("desc", "order_amount")}
+                      name="flexRadioDefault"
+                      id="flexRadioDefault1"
+                    />
                     <label
                       className="form-check-label"
                       htmlFor="flexCheckDefault"
@@ -528,13 +565,15 @@ dispatch(get_ALL_orders(payload))
 
                 <div className="d-flex dropdown-item gap-1 m-0 px-2">
                   <div className="form-check">
-                  <input className="form-check-input" type="radio" 
-                   value={""}
-                   // defaultValue={"Ordered"}
-                   onClick={(e) =>
-                     handleSort("", "order_amount")
-                   }
-                  name="flexRadioDefault" id="flexRadioDefault1" />
+                    <input
+                      className="form-check-input"
+                      type="radio"
+                      value={""}
+                      // defaultValue={"Ordered"}
+                      onClick={(e) => handleSort("", "order_amount")}
+                      name="flexRadioDefault"
+                      id="flexRadioDefault1"
+                    />
                     <label
                       className="form-check-label"
                       htmlFor="flexCheckDefault"
@@ -799,15 +838,19 @@ dispatch(get_ALL_orders(payload))
                       {/* <span><button className="btn orderitem-del">icon</button></span> */}
 
                       <div className="orderitem-p1">
-                        <span className="orderlist-title1">CUSTOMER MODE</span>:
+                        <span className="orderlist-title1">ADMIN MODE</span>:
                         <span className="orderlist-title">
                           <select
-                          // value={el.order_status}
-                          // onChange={(e) =>
-                          //   handleOrderCancel(e.target.value, el)
-                          // }
+                            value={el.order_status}
+                            onChange={(e) =>
+                              handleChangeStatus(e.target.value, el)
+                            }
                           >
-                            <option value={el.order_status}>Proceed</option>
+                            {/* <option value={el.order_status}>Proceed</option> */}
+                            <option value="Ordered">Ordered</option>
+                            <option value="Delivered">Delivered</option>
+                            <option value="Return">Return</option>
+                            <option value="Cancelled">Cancelled</option>
                           </select>
                         </span>
                       </div>
@@ -816,20 +859,26 @@ dispatch(get_ALL_orders(payload))
                         <span className={`orderlist-title1`}>ORDER STATUS</span>
                         :
                         <span className="orderlist-title">
-                          <select
-                            value={el.order_status}
-                            onChange={(e) =>
-                              handleChangeStatus(e.target.value, el)
-                            }
+                          <span
                             className={`${getClass(el.order_status)}`}
-                            name=""
-                            id=""
+                            style={{ padding: "4px 10px" }}
                           >
-                            <option value="Ordered">Ordered</option>
+                            {el.order_status}
+                          </span>
+                          {/* <select
+                            value={el.order_status} */}
+                          {/* // onChange={(e) => */}
+                          {/* //   handleChangeStatus(e.target.value, el)
+                            // } */}
+                          {/* //   className={`${getClass(el.order_status)}`}
+                          //   name=""
+                          //   id="" */}
+                          {/* // > */}
+                          {/* <option value="Ordered">Ordered</option>
                             <option value="Delivered">Delivered</option>
                             <option value="Return">Return</option>
-                            <option value="Cancelled">Cancelled</option>
-                          </select>
+                            <option value="Cancelled">Cancelled</option> */}
+                          {/* </select> */}
                         </span>
                       </div>
                       <hr />

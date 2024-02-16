@@ -123,7 +123,7 @@ export const cancelOrder_Byuser = createAsyncThunk(
     async (payload, options) => {
       console.log(payload);
   
-      try {
+      try { 
         const token = JSON.parse(localStorage.getItem("token"));
         
         let auth = {
@@ -156,7 +156,7 @@ export const editOrder = createAsyncThunk(
       const user = JSON.parse(localStorage.getItem("user"));
       const role = user.role;
       let auth = {
-        headers: { Authorization: token },
+        headers: { Authorization: token }, 
       };
       // if we pass destructured value then pass like {order_status} ist payload.order_status
       const res = await axios.patch(

@@ -9,6 +9,10 @@ import {
   get_ALL_orders,
 } from "../../Redux/orderAction";
 import UserFilter from "../UserFilterBar/UserFilter";
+import {
+  UpdateQuantity_ByAdmin_Cancel,
+  UpdateQuantity_ByUser_Cancel,
+} from "../../Redux/action";
 
 function UserPage() {
   const navigate = useNavigate();
@@ -30,7 +34,7 @@ function UserPage() {
     return state.order;
   });
 
-  let userName =JSON.parse(localStorage.getItem("user")).name
+  let userName = JSON.parse(localStorage.getItem("user")).name;
 
   useEffect(() => {
     dispatch(get_ALL_orders());
@@ -54,7 +58,7 @@ function UserPage() {
         return "";
     }
   };
-  
+
   const getTrans = (el) => {
     switch (el) {
       case "Ordinary":
@@ -92,37 +96,48 @@ function UserPage() {
     }
 
     let _id = el._id;
+
     let payload = {
       id: _id,
       order_status: status,
     };
 
+    if (
+      el.order_status === "Cancelled" ||
+      el.order_status === "Return"
+     
+    ) {
+      return "";
+    } else {
+      let payload2 = {
+        id: el.productId,
+        quantity: el.order_quantity,
+        order_status: status,
+        order_id: el.order_id,
+      };
+      dispatch(UpdateQuantity_ByUser_Cancel(payload2));
+    }
+
+    console.log(payload);
     dispatch(cancelOrder_Byuser(payload));
   };
 
   // console.log(singleUser)
-  let ar = []
-const handleCheck = (e)=>{
+  let ar = [];
+  const handleCheck = (e) => {
+    const { value, checked } = e.target;
+    if (checked) {
+      ar.push(value);
+    } else {
+      let ind = ar.indexOf(value);
+      if (ind !== -1) {
+        ar.splice(ind, 1);
+      }
+    }
+    console.log(ar);
 
-  const {value, checked} = e.target
-if(checked){
- 
-  ar.push(value)
- 
-}else{
-
-  let ind = ar.indexOf(value)
-  if(ind !== -1){
-    ar.splice(ind,1)
-  }
-
-}
-console.log(ar)
-
-dispatch(Only_User_orderFilter(ar))
-
-}
-
+    dispatch(Only_User_orderFilter(ar));
+  };
 
   const refreshToast = () => {
     setBool(false);
@@ -156,18 +171,28 @@ dispatch(Only_User_orderFilter(ar))
     );
   }
 
-  if(isLoading){
-
-    return(
-      <div className="spinner-border  text-success lod" style={{width: "5rem", height: "5rem"}} role="status">
-      <span className="visually-hidden">Loading...</span>
-    </div>
-    )
+  if (isLoading) {
+    return (
+      <div
+        className="spinner-border  text-success lod"
+        style={{ width: "5rem", height: "5rem" }}
+        role="status"
+      >
+        <span className="visually-hidden">Loading...</span>
+      </div>
+    );
   }
   return (
     <div className="userpage-cont">
       <div className="userpage-top">
-        <h4 style={{ textAlign: "left", color:"darkmagenta" }}>USER ORDER <span style={{padding:"0px 5px", fontSize:"15px", color:"magenta"}}>{userName}</span></h4>
+        <h4 style={{ textAlign: "left", color: "darkmagenta" }}>
+          USER ORDER{" "}
+          <span
+            style={{ padding: "0px 5px", fontSize: "15px", color: "magenta" }}
+          >
+            {userName}
+          </span>
+        </h4>
         <div className="userpage-top-all">
           <div className="userpage-top-filter">
             <div className="dropdown ">
@@ -191,8 +216,8 @@ dispatch(Only_User_orderFilter(ar))
                 </span>{" "}
                 FILTER
               </a>
-    {/*  .................................................start */}
-    
+              {/*  .................................................start */}
+
               <div className="dropdown-menu drope-menu">
                 <div className="d-flex dropdown-item gap-1 m-0 px-2">
                   <div className="form-check">
@@ -309,11 +334,9 @@ dispatch(Only_User_orderFilter(ar))
                     </label>
                   </div>
                 </div> */}
-            
-              </div>  
+              </div>
 
-{/* ...............................................................end */}
-
+              {/* ...............................................................end */}
             </div>
           </div>
 
@@ -367,7 +390,7 @@ dispatch(Only_User_orderFilter(ar))
                     <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2z" />
                   </svg>
                 </span>
-                { <UserFilter handleCheck={handleCheck} />}
+                {<UserFilter handleCheck={handleCheck} />}
               </span>
               <hr />
               <div className="d-flex dropdown-item gap-1 m-0 px-2">
@@ -377,7 +400,7 @@ dispatch(Only_User_orderFilter(ar))
                   ><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-down-up" viewBox="0 0 16 16">
                   <path fillRule="evenodd" d="M11.5 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L11 2.707V14.5a.5.5 0 0 0 .5.5m-7-14a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L4 13.293V1.5a.5.5 0 0 1 .5-.5"/>
                 </svg></span> */}
-                  {/* <SideSort /> */}
+                {/* <SideSort /> */}
 
                 {/* </span> */}
               </div>
@@ -421,35 +444,38 @@ dispatch(Only_User_orderFilter(ar))
                       <div className={`userpage-p1`}>
                         <span className={`userpage-title1`}>ORDER STATUS</span>:
                         <span className="userpage-title">
-                          <select
+                          <span
                             value={el.order_status}
                             // onChange={(e) =>
                             //   handleChangeStatus(e.target.value, el)
                             // }
                             className={`${getClass(el.order_status)}`}
+                            style={{ padding: "5px 10px" }}
+                          >
+                            {el.order_status}
+                          </span>
+                          {/* <select
+                        
                             name=""
                             id=""
-                          >
-                            <option value="Ordered">Ordered</option>
+                          > */}
+                          {/* <option value="Ordered">Ordered</option>
                             <option value="Delivered">Delivered</option>
                             <option value="Return">Return</option>
-                            <option value="Cancelled">Cancelled</option>
-                          </select>
+                            <option value="Cancelled">Cancelled</option> */}
+                          {/* </select> */}
                         </span>
                       </div>
                       <hr />
 
                       <div className="userpage-p1">
+                        <span className="userpage-title1">TRANSPORT</span>:
                         <span
-                          
-                          className="userpage-title1"
+                          className={`${getTrans(el.order_mode)}`}
+                          id="userpage-title"
                         >
-                          TRANSPORT
+                          {el.order_mode}
                         </span>
-                        :<span 
-                        className={`${getTrans(el.order_mode)}`}
-                        id="userpage-title"
-                        >{el.order_mode}</span>
                       </div>
                       <hr />
 
