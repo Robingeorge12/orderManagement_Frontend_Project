@@ -13,6 +13,7 @@ import UserPageHome from "../component/UserPage/UserPageHome";
 import Production from "../component/ProductionList/Production";
 import SellPage from "../component/SellPage/SellPage";
 import SellList from "../component/SellPage/SellList";
+import Tra from "../component/Arial/Tra";
 
 function AllRoute() {
   const navigate = useNavigate();
@@ -23,6 +24,7 @@ function AllRoute() {
   // console.log(tokenVal)
   return (
     <Routes>
+      <Route path="t" element={<Tra />} />
       <Route path="/signup" element={<Signup />} />
       <Route
         path="/login"

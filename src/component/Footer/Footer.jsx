@@ -15,19 +15,19 @@ function Footer() {
         <h3>Contact Us!</h3>
         <div className="footer-box">
           <TbBrandTelegram
-            style={{ marginTop: "-10px", color: "#0425ed", fontSize: "22px" }}
+            style={{ marginTop: "-10px", color: "#212529", fontSize: "22px" }}
           />
-          <p className="fp1">512 Warren Ave Portland, Maine 04103</p>
+          <p className="fp1">512 Warren Ave Portland</p>
         </div>
         <div className="footer-box">
           <BsTelephone
-            style={{ marginTop: "-10px", color: "#0425ed", fontSize: "22px" }}
+            style={{ marginTop: "-10px", color: "#212529", fontSize: "22px" }}
           />
           <p className="fp1">207-797-5700</p>
         </div>
         <div className="footer-box">
           <AiOutlineMail
-            style={{ marginTop: "-10px", color: "#0425ed", fontSize: "22px" }}
+            style={{ marginTop: "-10px", color: "#212529", fontSize: "22px" }}
           />
           <p className="fp1">info@sugofactory.com</p>
         </div>
@@ -37,21 +37,21 @@ function Footer() {
         <h3>Connect with us!</h3>
         <div className="footer-box">
           <RiFacebookCircleLine
-            style={{ marginTop: "-10px", color: "#0425ed", fontSize: "22px" }}
+            style={{ marginTop: "-10px", color: "#212529", fontSize: "22px" }}
           />
           <p className="fp1">Facebook</p>
         </div>
 
         <div className="footer-box">
           <FaWhatsapp
-            style={{ marginTop: "-10px", color: "#0425ed", fontSize: "22px" }}
+            style={{ marginTop: "-10px", color: "#212529", fontSize: "22px" }}
           />
           <p className="fp1">WhatsApp</p>
         </div>
 
         <div className="footer-box">
           <AiOutlineInstagram
-            style={{ marginTop: "-10px", color: "#0425ed", fontSize: "22px" }}
+            style={{ marginTop: "-10px", color: "#212529", fontSize: "22px" }}
           />
           <p className="fp1">LinkedIn</p>
         </div>
@@ -63,7 +63,7 @@ function Footer() {
           <MdOutlineConnectedTv
             style={{
               marginTop: "-10px",
-              color: "#0425ed"
+              color: "#212529"
               ,fontSize:"22px",
               fontWeight: "bold",
             }}

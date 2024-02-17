@@ -45,6 +45,22 @@ const handleDelete = (id)=>{
  }
 }
 
+  
+  const quantColor = (quantity) => {
+    // console.log(quantity);
+    if (+quantity === 0) {
+      return "bg-danger";
+    } else if (+quantity >= 1 && +quantity <= 15) {
+      return "bg-warning";
+    } else if (+quantity >= 16 && +quantity <= 25) {
+      return "bg-info";
+    } else if (+quantity > 40) {
+      return "bg-success";
+    } else {
+      return ""; // Default case
+    }
+  };
+  
 const refreshToast = ()=>{
   setBool(false)
   // window.location.reload()
@@ -83,7 +99,7 @@ if(isLoading){
     <div className="d-flex flex-column mt-2 pro-cont">
       <p className="text-center fw-bold mt-2 pro-head">Product List</p>
       <div className="table-responsive table-cont">
-        <table className="table table-info table-striped table-hover">
+        <table className="table table-hover">
           <thead>
             <tr>
               <th scope="col">#</th>
@@ -102,9 +118,12 @@ if(isLoading){
           {product?.map((el, i) => {
             return (
               <tbody key={i}>
-                <tr>
+                <tr className={`${quantColor(el.product_quantity)}`}>
+                  {/* id={`${quantColor(el.product_quantity)}`} */}
                   <th scope="row">{i + 1}</th>
-                  <td>{el.product_name}</td>
+                  <td className={`${quantColor(el.product_quantity)}`}>
+                    {el.product_name}
+                  </td>
                   <td>{el.product_brand}</td>
                   <td>@{el.product_category}</td>
                   <td>{el.productId}</td>
@@ -131,7 +150,11 @@ if(isLoading){
                       </svg>
                     </button>
                   </td>
-                  <td onClick={()=>handleDelete(el._id)} style={{ color: "maroon" }} className="color-danger">
+                  <td
+                    onClick={() => handleDelete(el._id)}
+                    style={{ color: "maroon" }}
+                    className="color-danger"
+                  >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="16"

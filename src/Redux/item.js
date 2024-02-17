@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { UpdateQuantity, UpdateQuantity_ByAdmin_Cancel, del_single_Item, get_All_Item, get_user_item_data, post_New_Item } from "./action";
+import { UpdateQuantity, UpdateQuantity_ByAdmin_Cancel, del_single_Item, get_All_Item, get_user_item_data, post_New_Item, production_Quantity_Update } from "./action";
 
 const initialState = {
     product: [],
@@ -156,6 +156,29 @@ export const itemSlice = createSlice({
 
     } )
 
+
+
+
+      builder
+        .addCase(production_Quantity_Update.pending, (state, action) => {
+          state.isLoading = true;
+          state.isError = false;
+          // console.log(action.payload)
+        })
+        .addCase(production_Quantity_Update.fulfilled, (state, action) => {
+          state.isLoading = false;
+          state.isError = false;
+          console.log(action.payload);
+          // state.isAddProduct = action.payload;
+        })
+        .addCase(production_Quantity_Update.rejected, (state, action) => {
+          state.isLoading = false;
+          state.isError = true;
+          console.log(action.payload);
+          state.failedReq = action.payload.message;
+        });
+
+   
 
   }
 

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import "./ProductionList.css"
 import { useDispatch, useSelector } from 'react-redux';
 import { delete_production, get_production } from '../../Redux/productionAction';
+import AdditionalOrder from '../AdditionalOrder/AdditionalOrder';
 
 function ProductionList() {
 const dispatch = useDispatch();
@@ -74,7 +75,7 @@ if(isLoading){
               <th scope="col">AMOUNT</th>
 
               <th scope="col">**</th>
-              {/* <th scope="col">*</th> */}
+              <th scope="col">*</th>
             </tr>
           </thead>
           {product?.map((el, i) => {
@@ -86,31 +87,17 @@ if(isLoading){
                   <td>{el.production__item_id}</td>
                   <td>@{el.production_item}</td>
                   <td>{el.production_price}</td>
-                
+
                   <td>{el.production_quantity}</td>
                   <td>{el.production_order_date}</td>
 
                   <td>{el.production_amount}</td>
-                  {/* <td style={{ color: "green" }}> 
-                    {" "}
-                    <button
-                      className="btn btn-success"
-                      onClick={() => handleUpdate(el._id)}
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="16"
-                        height="16"
-                        fill="currentColor"
-                        className="bi bi-fast-forward-fill"
-                        viewBox="0 0 16 16"
-                      >
-                        <path d="M7.596 7.304a.802.802 0 0 1 0 1.392l-6.363 3.692C.713 12.69 0 12.345 0 11.692V4.308c0-.653.713-.998 1.233-.696z" />
-                        <path d="M15.596 7.304a.802.802 0 0 1 0 1.392l-6.363 3.692C8.713 12.69 8 12.345 8 11.692V4.308c0-.653.713-.998 1.233-.696z" />
-                      </svg>
-                    </button>
-                  </td> */}
-                  <td onClick={()=>handleDelete(el._id)} style={{ color: "maroon" }} className="color-danger">
+                  <td style={{ color: "green" }}> <AdditionalOrder data={el}/></td>
+                  <td
+                    onClick={() => handleDelete(el._id)}
+                    style={{ color: "maroon" }}
+                    className="color-danger"
+                  >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="16"

@@ -35,7 +35,7 @@ function OrderList() {
     dispatch(get_ALL_orders(page));
   }, [page]);
 
-  //lazy loading 
+  //lazy loading
   const handlePrevPage = () => {
     if (page > 1) {
       setPage(page - 1);
@@ -174,32 +174,119 @@ function OrderList() {
     dispatch(get_ALL_orders(payload));
   };
 
-  const [arr1, setArr1] = useState([]);
-  const [newD, setNewD] = useState({
-    "order_status": [],
-    "order_mode": [],
-    "order_paymentMode": [],
-    "date-from": "",
-    "date-till": "",
-   
-  })
+  // "date-from": "",
+  // "date-till": "",
+  // const [arr1, setArr1] = useState([]);
+  // const [arr1, setArr1] = useState({
+  //   order_status: [],
+  //   order_mode: [],
+  //   order_paymentMode: [],
+  // });
 
-  const handleCheck = async (e) => {
-    e.stopPropagation();
 
-    const { value, checked } = e.target;
-    if (checked) {
-      arr1.push(value);
-    } else {
-      const index = arr1.indexOf(value);
-      if (index !== -1) {
-        arr1.splice(index, 1);
-      }
-    }
+// const handleCheckSt = (e) => {
+//   e.stopPropagation();
+//   const { value, checked } = e.target;
+//   const updatedOrderStatus = checked
+//     ? [...arr1.order_status, value]
+//     : arr1.order_status.filter((item) => item !== value);
 
-    console.log(arr1);
-    // dispatch(filter_Order(arr1));
-  };
+//   setArr1((prevArr1) => ({
+//     ...prevArr1,
+//     order_status: updatedOrderStatus,
+//   }));
+//  console.log(arr1);
+//   dispatch(filter_Order({ ...arr1, order_status: updatedOrderStatus }));
+// };
+
+// const handleCheckTr = (e) => {
+//   e.stopPropagation();
+//   const { value, checked } = e.target;
+//   const updatedOrderMode = checked
+//     ? [...arr1.order_mode, value]
+//     : arr1.order_mode.filter((item) => item !== value);
+
+//   setArr1((prevArr1) => ({
+//     ...prevArr1,
+//     order_mode: updatedOrderMode,
+//   }));
+
+//   console.log(arr1)
+//   dispatch(filter_Order({ ...arr1, order_mode: updatedOrderMode }));
+// };
+
+// const handleCheckBn = (e) => {
+//   e.stopPropagation();
+//   const { value, checked } = e.target;
+//   const updatedPaymentMode = checked
+//     ? [...arr1.order_paymentMode, value]
+//     : arr1.order_paymentMode.filter((item) => item !== value);
+
+//   setArr1((prevArr1) => ({
+//     ...prevArr1,
+//     order_paymentMode: updatedPaymentMode,
+//   }));
+//  console.log(arr1);
+//   dispatch(filter_Order({ ...arr1, order_paymentMode: updatedPaymentMode }));
+// };
+
+
+  // const [arr1, setArr1] = useState({
+  //   order_status: [],
+  //   order_mode: [],
+  //   order_paymentMode: [],
+  // });
+  
+  // const handleCheckSt = async (e) => {
+  //   e.stopPropagation();
+
+  //   const { value, checked } = e.target;
+  //   if (checked) {
+  //     arr1.order_status.push(value);
+  //   } else {
+  //     const index = arr1.order_status.indexOf(value);
+  //     if (index !== -1) {
+  //       arr1.order_status.splice(index, 1);
+  //     }
+  //   }
+
+  //   console.log(arr1);
+  //   dispatch(filter_Order(arr1));
+  // };
+
+  // const handleCheckTr = async (e) => {
+  //   e.stopPropagation();
+
+  //   const { value, checked } = e.target;
+  //   if (checked) {
+  //     arr1.order_mode.push(value);
+  //   } else {
+  //     const index = arr1.order_mode.indexOf(value);
+  //     if (index !== -1) {
+  //       arr1.order_mode.splice(index, 1);
+  //     }
+  //   }
+
+  //   console.log(arr1);
+  //   dispatch(filter_Order(arr1));
+  // };
+
+  // const handleCheckBn = async (e) => {
+  //   e.stopPropagation();
+
+  //   const { value, checked } = e.target;
+  //   if (checked) {
+  //     arr1.order_paymentMode.push(value);
+  //   } else {
+  //     const index = arr1.order_paymentMode.indexOf(value);
+  //     if (index !== -1) {
+  //       arr1.order_paymentMode.splice(index, 1);
+  //     }
+  //   }
+
+  //   console.log(arr1);
+  //   dispatch(filter_Order(arr1));
+  // };
 
   const handleDel = (id, el) => {
     console.log(id, el);
@@ -240,7 +327,7 @@ function OrderList() {
 
   const refreshToast2 = () => {
     setBool2(!false);
-    window.location.reload();
+    // window.location.reload();
   };
 
   if (Object.keys(failedReq).length) {
@@ -286,6 +373,63 @@ function OrderList() {
     return <h4 style={{ color: "red.400" }}> Error ...</h4>;
   }
 
+ let om = {
+   order_mode: "null",
+ };
+ let os = {
+   order_status: "null",
+ };
+ let op = {
+   order_paymentMode: "null",
+ };
+ let ob = { ...om, ...os, ...op };
+
+  const handleCheckBn = (e) => {
+    let { value, checked } = e.target
+    if(checked){
+      ob.order_paymentMode = value;
+      // dispatch(filter_Order(ob));
+    } else {
+      
+      ob.order_paymentMode = "null";
+      // dispatch(filter_Order(ob));
+    }
+    console.log(ob);
+    
+  }
+
+  const handleCheckTr = (e) => {
+    
+    let { value, checked } = e.target
+    if(checked){
+      ob.order_mode = value;
+      // dispatch(filter_Order(ob));
+    }else{
+      ob.order_mode = "null";
+      // dispatch(filter_Order(ob));
+    }
+    console.log(ob);
+  }
+
+  const handleCheckSt = (e) => {
+    // const { value, checked } = e.target;
+
+  const { value } = e.target;
+
+  os.order_status = value;
+
+  // console.log(os);
+
+    // document.getElementsByName("orderStatus").forEach((el) => {
+    //   if (el.value !== value) {
+    //     el.checked = false;
+    //   }
+    // })
+
+console.log(ob);
+  }
+ 
+
   // order_sta =3 input
   // order_mode  check oedr ()= 4
   // paymode = 3
@@ -319,81 +463,109 @@ function OrderList() {
               </a>
               <div className="dropdown-menu drope-menu">
                 <p className="filt-one"> ORDER</p>
-                <div className="d-flex dropdown-item gap-1 m-0 px-2">
-                  <div className="form-check">
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      // value={"Ordered"}
-                      defaultValue={"Ordered"}
-                      onClick={handleCheck}
-                      id="flexCheckDefault"
-                    />
-                    <label
-                      className="form-check-label"
-                      htmlFor="flexCheckDefault"
-                    >
-                      Ordered
-                    </label>
-                  </div>
-                </div>
 
-                <div className="d-flex dropdown-item gap-1 m-0 px-2">
-                  <div className="form-check">
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      // value={"Delivered"}
-                      defaultValue={"Delivered"}
-                      onClick={handleCheck}
-                      id="flexCheckDefault"
-                    />
-                    <label
-                      className="form-check-label"
-                      htmlFor="flexCheckDefault"
-                    >
-                      Delivered
-                    </label>
+                <form onChange={handleCheckSt}>
+                  <div className="d-flex dropdown-item gap-1 m-0 px-2">
+                    <div className="form-check">
+                      <input
+                        className="form-check-input"
+                        type="radio"
+                        value={"Ordered"}
+                        // name="orderStatus1"
+                        // defaultValue={"Ordered"}
+                        // checked={arr1.order_status.includes("Ordered")}
+                        // onClick={handleCheckSt}
+                        id="flexCheckDefault"
+                      />
+                      <label
+                        className="form-check-label"
+                        htmlFor="flexCheckDefault"
+                      >
+                        Ordered
+                      </label>
+                    </div>
                   </div>
-                </div>
 
-                <div className="d-flex dropdown-item gap-1 m-0 px-2">
-                  <div className="form-check">
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      // value={"Return"}
-                      defaultValue={"Return"}
-                      onClick={handleCheck}
-                      id="flexCheckDefault"
-                    />
-                    <label
-                      className="form-check-label"
-                      htmlFor="flexCheckDefault"
-                    >
-                      Return
-                    </label>
+                  <div className="d-flex dropdown-item gap-1 m-0 px-2">
+                    <div className="form-check">
+                      <input
+                        className="form-check-input"
+                        type="radio"
+                        value={"Delivered"}
+                        // name="orderStatus"
+                        // defaultValue={"Delivered"}
+                        // onClick={handleCheckSt}
+                        id="flexCheckDefault"
+                      />
+                      <label
+                        className="form-check-label"
+                        htmlFor="flexCheckDefault"
+                      >
+                        Delivered
+                      </label>
+                    </div>
                   </div>
-                </div>
 
-                <div className="d-flex dropdown-item gap-1 m-0 px-2">
-                  <div className="form-check">
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      // value={"Cancelled"}
-                      defaultValue={"Cancelled"}
-                      onClick={handleCheck}
-                      id="flexCheckDefault"
-                    />
-                    <label
-                      className="form-check-label"
-                      htmlFor="flexCheckDefault"
-                    >
-                      Cancelled
-                    </label>
+                  <div className="d-flex dropdown-item gap-1 m-0 px-2">
+                    <div className="form-check">
+                      <input
+                        className="form-check-input"
+                        type="radio"
+                        value={"Return"}
+                        // name="orderStatus"
+                        // defaultValue={"Return"}
+                        // onClick={handleCheckSt}
+                        id="flexCheckDefault"
+                      />
+                      <label
+                        className="form-check-label"
+                        htmlFor="flexCheckDefault"
+                      >
+                        Return
+                      </label>
+                    </div>
                   </div>
-                </div>
+
+                  <div className="d-flex dropdown-item gap-1 m-0 px-2">
+                    <div className="form-check">
+                      <input
+                        className="form-check-input"
+                        type="radio"
+                        value={"Cancelled"}
+                        // name="orderStatus"
+                        // defaultValue={"Cancelled"}
+                        // onClick={handleCheckSt}
+                        id="flexCheckDefault"
+                      />
+                      <label
+                        className="form-check-label"
+                        htmlFor="flexCheckDefault"
+                      >
+                        Cancelled
+                      </label>
+                    </div>
+                  </div>
+                  <div className="d-flex dropdown-item gap-1 m-0 px-2">
+                    <div className="form-check">
+                      <input
+                        className="form-check-input"
+                        type="radio"
+                        // name="orderStatus"
+                        value={""}
+                        // defaultValue={"Cancelled"}
+                        // onClick={handleCheckSt}
+                        id="flexCheckDefault"
+                      />
+                      <label
+                        className="form-check-label"
+                        htmlFor="flexCheckDefault"
+                      >
+                        None
+                      </label>
+                    </div>
+                  </div>
+                </form>
+                {/* sd////////////////////////////////////////////////////////////// */}
 
                 <p className="filt-one"> TRANSPORT</p>
 
@@ -404,7 +576,7 @@ function OrderList() {
                       type="checkbox"
                       // value={"Cancelled"}
                       defaultValue={"FastTrack"}
-                      onClick={handleCheck}
+                      onClick={handleCheckTr}
                       id="flexCheckDefault"
                     />
                     <label
@@ -424,7 +596,7 @@ function OrderList() {
                       type="checkbox"
                       // value={"Cancelled"}
                       defaultValue={"Express"}
-                      onClick={handleCheck}
+                      onClick={handleCheckTr}
                       id="flexCheckDefault"
                     />
                     <label
@@ -436,6 +608,9 @@ function OrderList() {
                     </label>
                   </div>
                 </div>
+
+                {/* asd//////////////////////////////////////////////////////////////////////////////////// */}
+
                 <p className="filt-one"> PAYMENT</p>
 
                 <div className="d-flex dropdown-item gap-1 m-0 px-2">
@@ -445,7 +620,7 @@ function OrderList() {
                       type="checkbox"
                       // value={"Cancelled"}
                       defaultValue={"COD"}
-                      onClick={handleCheck}
+                      onClick={handleCheckBn}
                       id="flexCheckDefault"
                     />
                     <label
@@ -464,7 +639,7 @@ function OrderList() {
                       type="checkbox"
                       // value={"Cancelled"}
                       defaultValue={"UPI"}
-                      onClick={handleCheck}
+                      onClick={handleCheckBn}
                       id="flexCheckDefault"
                     />
                     <label
@@ -483,8 +658,8 @@ function OrderList() {
                       className="form-check-input"
                       type="checkbox"
                       // value={"Cancelled"}
-                      defaultValue={""}
-                      onClick={handleCheck}
+                      defaultValue={"Bank"}
+                      onClick={handleCheckBn}
                       id="flexCheckDefault"
                     />
                     <label
@@ -492,7 +667,7 @@ function OrderList() {
                       htmlFor="flexCheckDefault"
                     >
                       {/* order_mode */}
-                      ALL
+                      Bank
                     </label>
                   </div>
                 </div>
@@ -622,7 +797,7 @@ function OrderList() {
             <button style={{ border: "none" }}>{page}</button>
             <button
               onClick={handleNextPage}
-              disabled={orders.length === 0}
+              disabled={orders?.length === 0}
               style={{
                 marginLeft: "10px",
                 border: "none",
@@ -701,7 +876,7 @@ function OrderList() {
             <button style={{ border: "none" }}>{page}</button>
             <button
               onClick={handleNextPage}
-              disabled={orders.length === 0}
+              disabled={orders?.length === 0}
               style={{
                 marginLeft: "10px",
                 border: "none",
@@ -776,7 +951,13 @@ function OrderList() {
                     <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2z" />
                   </svg>
                 </span>
-                {<SideBar1 handleCheck={handleCheck} />}
+                {
+                  <SideBar1
+                    handleCheckSt={handleCheckSt}
+                    handleCheckTr={handleCheckTr}
+                    handleCheckBn={handleCheckBn}
+                  />
+                }
               </span>
               <hr />
               <div className="d-flex dropdown-item gap-1 m-0 px-2">
@@ -796,7 +977,7 @@ function OrderList() {
                       />
                     </svg>
                   </span>
-                  <SideSort />
+                  <SideSort handleSort={handleSort} />
                 </span>
               </div>
             </div>

@@ -213,6 +213,7 @@ border-radius: 4px;
 .toast-item{
     /* border: 1px solid saddlebrown; */
     margin: auto;
+      background-color: aqua;
 }
 
 .tranf-ord{

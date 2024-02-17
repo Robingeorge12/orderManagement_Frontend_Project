@@ -117,7 +117,7 @@ builder.addCase(filter_Order.pending,(state,action)=>{
   state.isLoading = false;
   state.isError = false;
   console.log(action.payload)
-  state.orders = action.payload
+  // state.orders = action.payload
   // state.filterData = action.payload;
 
   // can i store it in order (actual array) or like this in different page

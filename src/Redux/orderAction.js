@@ -34,21 +34,19 @@ let auth = {
 
 
 export const filter_Order = createAsyncThunk("order/filter_Order",async(payload,options)=>{
- 
- 
-  try{
+  try {
+    console.log(payload );
 console.log({payload})
-
 const token = JSON.parse(localStorage.getItem("token"));
         
 let auth = {
   headers: { Authorization: token },
 };
 
-let res = await axios.post(`http://localhost:7800/order/filter`,{payload},auth,{headers:{"Content-Type":"application/json"}})
+let res = await axios.post(`http://localhost:7800/order/filter`,payload,auth,{headers:{"Content-Type":"application/json"}})
 
 console.log(res.data.message)
-return res.data.message
+// return res.data.message
 
   }catch(er){
 
@@ -178,7 +176,7 @@ export const get_ALL_orders = createAsyncThunk(
   "order/get_ALL_orders",
   async (payload, options) => {
     try {
-      console.log(payload)
+      // console.log(payload)
       let {page,sortVal,sortOrder} = payload
       console.log(page,sortVal,sortOrder)
       const token = JSON.parse(localStorage.getItem("token"));

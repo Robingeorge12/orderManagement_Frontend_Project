@@ -58,6 +58,39 @@ export const get_user_item_data = createAsyncThunk(
 );
 
 
+export const production_Quantity_Update = createAsyncThunk(
+  "item/production_Quantity_Update",
+  async (payload, options) => {
+    try {
+      console.log(payload);
+    const token = JSON.parse(localStorage.getItem("token"));
+    const user = JSON.parse(localStorage.getItem("user"));
+    const role = user.role;
+    let auth = { 
+      headers: {
+        Authorization: token,
+      },
+    };
+
+      const res = await axios.patch(
+        `http://localhost:7800/item/production_Quantity/${payload.product_id}`,
+        payload,
+        { ...auth, role }
+      );
+      
+      console.log(res.data.message);
+      return res.data.message;
+    } catch (er) {
+      const { rejectWithValue } = options;
+      console.log(er);
+      return rejectWithValue({ message: er.response.data });
+    }
+  }
+);
+
+
+
+
 export const UpdateQuantity_ByUser_Cancel = createAsyncThunk(
   "item/UpdateQuantity_ByUser_Cancel",
   async (payload, options) => {
@@ -84,8 +117,6 @@ export const UpdateQuantity_ByUser_Cancel = createAsyncThunk(
     }
   }
 );
-
-
 
 
 
