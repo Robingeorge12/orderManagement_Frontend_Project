@@ -3,8 +3,68 @@ import axios from "axios";
 
 
 
+export const get_ALL_orders = createAsyncThunk(
+  "order/get_ALL_orders",
+  async (payload, options) => {
+    try {
+      console.log(payload)
+      let { page, sortVal, sortOrder } = payload;
+      console.log(page, sortVal, sortOrder);
+      const token = JSON.parse(localStorage.getItem("token"));
+      let auth = {
+        headers: {
+          Authorization: token,
+        },
+      };
+
+      const res = await axios.get(
+        `http://localhost:7800/order?sortOrder=${sortOrder}&sortVal=${sortVal}&page=${page}`,
+        auth,
+        { headers: { "Content-Type": "application/json" } }
+      );
+      console.log(res.data)
+      return res.data;
+    } catch (er) {
+      const { rejectWithValue } = options;
+      console.log(er);
+      return rejectWithValue({ message: er });
+    }
+  }
+);
  
 // fiter
+export const filter_Order = createAsyncThunk(
+  "order/filter_Order",
+  async (payload, options) => {
+    try {
+      console.log(payload);
+       let { page, sortValfilt, sortOrderfilt } = payload;
+
+      const token = JSON.parse(localStorage.getItem("token"));
+
+      let auth = {
+        headers: { Authorization: token },
+      }; 
+
+      let res = await axios.post(
+        `http://localhost:7800/order/filter?sortOrderfilt=${sortOrderfilt}&sortValfilt=${sortValfilt}&page=${page}`,
+        payload,
+        auth,
+        { headers: { "Content-Type": "application/json" } }
+      );
+
+      console.log(res.data);
+      return res.data;
+    } catch (er) {
+      const { rejectWithValue } = options;
+
+      console.log(er);
+      return rejectWithValue({ message: er });
+    }
+  }
+);
+
+
 
 
 export const Only_User_orderFilter = createAsyncThunk("order/Only_User_orderFilter",async(payload,options)=>{
@@ -33,32 +93,7 @@ let auth = {
 
 
 
-export const filter_Order = createAsyncThunk("order/filter_Order",async(payload,options)=>{
-  try {
-    console.log(payload );
-console.log({payload})
-const token = JSON.parse(localStorage.getItem("token"));
-        
-let auth = {
-  headers: { Authorization: token },
-};
 
-let res = await axios.post(`http://localhost:7800/order/filter`,payload,auth,{headers:{"Content-Type":"application/json"}})
-
-console.log(res.data.message)
-// return res.data.message
-
-  }catch(er){
-
-    const {rejectWithValue} = options
-
-    console.log(er)
-    return rejectWithValue({message:er})
-
-  }
-
-
-})
 
 
 // fil.........................................................................................................
@@ -172,30 +207,7 @@ export const editOrder = createAsyncThunk(
   }
 );
 
-export const get_ALL_orders = createAsyncThunk(
-  "order/get_ALL_orders",
-  async (payload, options) => {
-    try {
-      // console.log(payload)
-      let {page,sortVal,sortOrder} = payload
-      console.log(page,sortVal,sortOrder)
-      const token = JSON.parse(localStorage.getItem("token"));
-      let auth = {
-        headers: {
-          Authorization: token,
-        },
-      };
 
-      const res = await axios.get(`http://localhost:7800/order?sortOrder=${sortOrder}&sortVal=${sortVal}&page=${payload}`, auth,{headers:{"Content-Type":"application/json"}});
-      console.log(res.data.message)
-      return res.data.message;
-    } catch (er) {
-      const { rejectWithValue } = options;
-      console.log(er);
-      return rejectWithValue({ message: er });
-    }
-  }
-);
 
 export const delete_Orders = createAsyncThunk("order/delete_Orders",async(payload,options)=>{
 
@@ -228,3 +240,37 @@ return rejectWithValue({message:er.response.data.message})
 
 
 })
+
+
+
+export const delete_OrdersByUser = createAsyncThunk(
+  "order/delete_Orders",
+  async (payload, options) => {
+    try { 
+      console.log(payload)
+      let id = payload;
+      console.log(id)
+      let token = JSON.parse(localStorage.getItem("token"));
+      let auth = {
+        headers: {
+          Authorization: token,
+        },
+      };
+     
+      // console.log(x)
+
+      let res = await axios.delete(
+        `http://localhost:7800/order/removeByUSer/${id}`,
+        auth,
+        { headers: { "Content-Type": "application/json" } }
+      );
+
+      console.log(res.data.message);
+      return res.data.message;
+    } catch (er) {
+      const { rejectWithValue } = options;
+      console.log(er.response.data.message);
+      return rejectWithValue({ message: er.response.data.message });
+    }
+  }
+);

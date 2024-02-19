@@ -164,9 +164,10 @@ right: 0%;
     position: absolute;
     top: 0px;
     right: 0px;
-    border-top-right-radius:30% ;
-    background-color: darkblue;
+     border-top-right-radius: 20%;
+    background-color: #00728b;
     color: red;
+    padding: 5px 5px
 
 }
 .orderitem-p1{

@@ -12,6 +12,8 @@ function OrderItem() {
   const [data, setData] = useState([]);
   const [quant, setQuant] = useState({});
   const navigate = useNavigate();
+  const [bool, setBool] = useState(false);
+  const [bool2, setBool2] = useState(false);
 
   const { order_buyer, order_product, isLoading, isError } = useSelector(
     (state) => {
@@ -57,8 +59,10 @@ function OrderItem() {
       });
 
       setQuant({
-        ...quant,quantity:qty, id: pro._id
-      })
+        ...quant,
+        quantity: qty,
+        id: pro._id,
+      });
 
       if (pro.product_quantity == +qty) {
         setData({
@@ -72,10 +76,10 @@ function OrderItem() {
         });
 
         setQuant({
-          ...quant,quantity:qty, id: pro._id
-        })
-
-
+          ...quant,
+          quantity: qty,
+          id: pro._id,
+        });
       } else {
         setData({
           buyer_id: null,
@@ -109,32 +113,79 @@ function OrderItem() {
     }
   };
 
-  
-
+  let role = JSON.parse(localStorage.getItem("user")).role;
   // console.log(data);
 
   const handleOrder = (val) => {
     console.log(val);
 
-if(order.buyer_id && order.order_quantity && order.order_amount&&order.order_status&&
-  order.order_Item&&order.productId&&order.order_paymentMode&&order.order_mode&&order.buyer_address&&
-  order.buyer_mob&&order.buyer_email&&order.buyer_name&&order.buyer_pin&&order.buyer_state&&order.buyer_dist&&order.product_price){
-
-  dispatch(post_Order(val));
-  dispatch(UpdateQuantity(quant))
-     navigate("/user-order");
-}else{
-
-  alert("Should fill All Filed")
-}
-
-
+    if (
+      order.buyer_id &&
+      order.order_quantity &&
+      order.order_amount &&
+      order.order_status &&
+      order.order_Item &&
+      order.productId &&
+      order.order_paymentMode &&
+      order.order_mode &&
+      order.buyer_address &&
+      order.buyer_mob &&
+      order.buyer_email &&
+      order.buyer_name &&
+      order.buyer_pin &&
+      order.buyer_state &&
+      order.buyer_dist &&
+      order.product_price
+    ) {
+      if (role.role !== "buyer") {
+        setBool(!bool);
+        return;
+      }
+      dispatch(post_Order(val));
+      dispatch(UpdateQuantity(quant));
+      navigate("/user-order");
+    } else {
+      alert("Should fill All Filed");
+    }
   };
 
-  console.log(quant)
+  console.log(quant);
   // const handleProductionReq = ()=>{
   //   console.log("hello")
   // }
+
+  const refreshToast2 = () => {
+    setBool(!false);
+    // window.location.reload();
+  };
+
+  if (bool) {
+    return (
+      <div className="toast-item">
+        <div
+          className="toast fade show toast-item-div"
+          role="alert"
+          aria-live="assertive"
+          aria-atomic="true"
+        >
+          <div className="toast-body bg-danger bg-opacity-10">
+            {"ONLY BUYER CAN PLACE ORDER"}
+            <div className="mt-2 pt-2 border-top">
+              <button
+                type="button"
+                className="btn btn-secondary btn-sm"
+                onClick={()=>setBool(!bool)}
+                data-bs-dismiss="toast"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   if (isLoading) {
     return (
       <div

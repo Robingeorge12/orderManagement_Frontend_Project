@@ -136,7 +136,23 @@
     flex-direction: column;
     padding: 10px 0px ;
     height: auto;
+    position: relative;
 }
+.userDelete{
+    /* border: 2px solid blue; */
+   position: absolute;
+    background-color: #07ffce;
+    top: 0px;
+    right: 0px;
+    padding: 5px 5px;
+    border-top-right-radius: 5px;
+}
+.userDelete-icon{
+    color:#dc3545;
+    font-size: 24px;
+
+}
+
 .userpage-p1{
     /* border: 1px solid blue; */
     width: 100%;

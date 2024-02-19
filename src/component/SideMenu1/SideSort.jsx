@@ -1,7 +1,7 @@
-import React from 'react'
-import "./SideSort.css"
+import React from "react";
+import "./SideSort.css";
 
-function SideSort({ handleSort }) {
+function SideSort({ handleSort, setSortValfilt, setSortOrderfilt ,sortOrder}) {
   return (
     <div className="side-sort">
       <div
@@ -14,10 +14,19 @@ function SideSort({ handleSort }) {
       >
         <input
           className="form-check-input"
+          style={{ fontSize: "14px" }}
           type="radio"
           value={"asc"}
           // defaultValue={"Ordered"}
-          onClick={(e) => handleSort("asc", "order_amount")}
+          defaultChecked={sortOrder === "asc"}
+          onChange={(e) =>
+            handleSort(
+              e.target.value,
+              "order_amount",
+              setSortOrderfilt(e.target.value),
+              setSortValfilt("order_amount")
+            )
+          }
           name="flexRadioDefault"
           id="flexRadioDefault1"
         />
@@ -36,7 +45,15 @@ function SideSort({ handleSort }) {
           type="radio"
           value={"desc"}
           // defaultValue={"Ordered"}
-          onClick={(e) => handleSort("desc", "order_amount")}
+          defaultChecked={sortOrder === "desc"}
+          onChange={(e) =>
+            handleSort(
+              e.target.value,
+              "order_amount",
+              setSortOrderfilt(e.target.value),
+              setSortValfilt("order_amount")
+            )
+          }
           name="flexRadioDefault"
           id="flexRadioDefault1"
           style={{ fontSize: "14px" }}
@@ -57,7 +74,15 @@ function SideSort({ handleSort }) {
           type="radio"
           value={""}
           // defaultValue={"Ordered"}
-          onClick={(e) => handleSort("", "order_amount")}
+          defaultChecked={!sortOrder}
+          onChange={(e) =>
+            handleSort(
+              e.target.value,
+              "order_amount",
+              setSortOrderfilt(e.target.value),
+              setSortValfilt("order_amount")
+            )
+          }
           name="flexRadioDefault"
           id="flexRadioDefault1"
         />
@@ -73,4 +98,4 @@ function SideSort({ handleSort }) {
   );
 }
 
-export default SideSort
+export default SideSort;

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./OrderList.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   delete_Orders,
@@ -23,26 +23,71 @@ function OrderList() {
   const [stateFilt, setStateFilt] = useState();
   const [page, setPage] = useState(1);
   const [sortOrder, setSortOrder] = useState("");
-
+  const [sortVal, setSortVal] = useState("");
+  const [sortOrderfilt, setSortOrderfilt] = useState("");
+  const [sortValfilt, setSortValfilt] = useState("");
+  const [formData, setFormData] = useState({
+    order_status: "",
+    order_mode: "",
+    order_paymentMode: "",
+  });
+ 
+  // const [searchparam, setSearchParam] = useSearchParams()
   let role = JSON.parse(localStorage.getItem("user")).role;
   // console.log(role);
-  const { orders, filterData, failedReq, isError, isLoading, isAddProduct } =
-    useSelector((state) => {
-      return state.order;
-    });
+  const {
+    orders,
+    totalLength,
+    totalLen,
+    filterData,
+    failedReq,
+    isError,
+    isLoading,
+    isAddProduct,
+  } = useSelector((state) => {
+    return state.order;
+  });
+
+  // const [order,setOrder] = useState(...orders)
+
+  const getREq = () => {
+    dispatch(get_ALL_orders({ page, sortVal, sortOrder }));
+  };
 
   useEffect(() => {
-    dispatch(get_ALL_orders(page));
-  }, [page]);
+    // getREq()
+    if (
+      formData.order_status ||
+      formData.order_mode ||
+      formData.order_paymentMode ||
+      formData.sortValfilt ||
+      formData.sortOrderfilt
+    ) {
+      dispatch(filter_Order({ ...formData, page, sortValfilt, sortOrderfilt }));
+    } else {
+      dispatch(get_ALL_orders({ page, sortVal, sortOrder }));
+    }
+  }, [page, sortVal, sortOrder, sortValfilt, sortOrderfilt, formData, dispatch]);
+
+  //  useEffect(() => {
+  //    dispatch(filter_Order(formData));
+  //  }, [formData, dispatch]);
 
   //lazy loading
   const handlePrevPage = () => {
     if (page > 1) {
       setPage(page - 1);
+
+      // dispatch( filter_Order({ page, sortVal, sortOrder }));
     }
   };
   const handleNextPage = () => {
+    // if (totalLength > page) {
+    //   setPage(page + 1);
+    // }
     setPage(page + 1);
+
+    // dispatch( filter_Order({ page, sortVal, sortOrder }));
   };
 
   const getClass = (stat) => {
@@ -108,185 +153,39 @@ function OrderList() {
     //
   };
 
-  //UpdateQuantity_ByAdmin_Cancel
-  console.log(orders);
-  // const handleOrderCancel = (status, el) => {
-  //   console.log(status);
-  //   console.log(el);
-  //   if (role !== "buyer") {
-  //     alert("Only buyer can change order status");
-  //     return;
-  //   }
-
-  //   let _id = el._id;
-  //   let payload = {
-  //     id: _id,
-  //     order_status: status,
-  //   };
-
-  // dispatch(cancelOrder_Byuser(payload));
-  // };
-
-  // console.log(stateFilt)
-
-  // const handleCheck = async (e) => {
-  //   e.stopPropagation();
-  //   let ar2 = [];
-  //   const { value, checked } = e.target;
-
-  //   if (checked) {
-  //     ar2.push(value);
-  //   } else {
-  //     const index = ar2.indexOf(value);
-  //     if (index !== -1) {
-  //       ar2.splice(index, 1);
-  //     }
-  //   }
-
-  //   const payload = {
-  //     order_status: ar2.filter((status) =>
-  //       ["Ordered", "Delivered", "Return", "Cancelled"].includes(status)
-  //     ),
-  //     order_mode: ar2.filter((mode) =>
-  //       ["Ordinary", "FastTrack", "Express"].includes(mode)
-  //     ),
-  //     order_paymentMode: ar2.filter((paymentMode) =>
-  //       ["COD", "Bank", "UPI"].includes(paymentMode)
-  //     ),
-  //   };
-
-  //   // const filteredPayload = payload.filter((item) => ar2.includes(item.values));
-
-  //   console.log(payload);
-  //   // dispatch(filter_Order(filteredPayload));
-  // };
+  // console.log(orders, totalLength);
 
   const handleSort = (sortOrder, sortVal) => {
     // let sortOrder = el === 'asc' ? 'desc' : 'asc'
-
-    let payload = {
-      sortOrder: sortOrder,
-      sortVal: sortVal,
-      page: page,
-    };
+    setSortOrder(sortOrder);
+    setSortVal(sortVal);
+    setPage(1);
+    // let payload = {
+    //   sortOrder: sortOrder,
+    //   sortVal: sortVal,
+    //   page: page,
+    // };
     // console.log(e, el);
-    console.log(payload.page);
-    dispatch(get_ALL_orders(payload));
+    // console.log({page:1, sortVal, sortOrder});
+
+
+        if (
+          formData.order_status ||
+          formData.order_mode ||
+          formData.order_paymentMode ||
+          formData.sortValfilt ||
+          formData.sortOrderfilt
+        ) {
+          dispatch(
+            filter_Order({ ...formData, page:1, sortValfilt, sortOrderfilt })
+          );
+        } else {
+          dispatch(get_ALL_orders({ page:1, sortVal, sortOrder }));
+        }
+
+
+    // dispatch(get_ALL_orders({ page: 1, sortVal, sortOrder }));
   };
-
-  // "date-from": "",
-  // "date-till": "",
-  // const [arr1, setArr1] = useState([]);
-  // const [arr1, setArr1] = useState({
-  //   order_status: [],
-  //   order_mode: [],
-  //   order_paymentMode: [],
-  // });
-
-
-// const handleCheckSt = (e) => {
-//   e.stopPropagation();
-//   const { value, checked } = e.target;
-//   const updatedOrderStatus = checked
-//     ? [...arr1.order_status, value]
-//     : arr1.order_status.filter((item) => item !== value);
-
-//   setArr1((prevArr1) => ({
-//     ...prevArr1,
-//     order_status: updatedOrderStatus,
-//   }));
-//  console.log(arr1);
-//   dispatch(filter_Order({ ...arr1, order_status: updatedOrderStatus }));
-// };
-
-// const handleCheckTr = (e) => {
-//   e.stopPropagation();
-//   const { value, checked } = e.target;
-//   const updatedOrderMode = checked
-//     ? [...arr1.order_mode, value]
-//     : arr1.order_mode.filter((item) => item !== value);
-
-//   setArr1((prevArr1) => ({
-//     ...prevArr1,
-//     order_mode: updatedOrderMode,
-//   }));
-
-//   console.log(arr1)
-//   dispatch(filter_Order({ ...arr1, order_mode: updatedOrderMode }));
-// };
-
-// const handleCheckBn = (e) => {
-//   e.stopPropagation();
-//   const { value, checked } = e.target;
-//   const updatedPaymentMode = checked
-//     ? [...arr1.order_paymentMode, value]
-//     : arr1.order_paymentMode.filter((item) => item !== value);
-
-//   setArr1((prevArr1) => ({
-//     ...prevArr1,
-//     order_paymentMode: updatedPaymentMode,
-//   }));
-//  console.log(arr1);
-//   dispatch(filter_Order({ ...arr1, order_paymentMode: updatedPaymentMode }));
-// };
-
-
-  // const [arr1, setArr1] = useState({
-  //   order_status: [],
-  //   order_mode: [],
-  //   order_paymentMode: [],
-  // });
-  
-  // const handleCheckSt = async (e) => {
-  //   e.stopPropagation();
-
-  //   const { value, checked } = e.target;
-  //   if (checked) {
-  //     arr1.order_status.push(value);
-  //   } else {
-  //     const index = arr1.order_status.indexOf(value);
-  //     if (index !== -1) {
-  //       arr1.order_status.splice(index, 1);
-  //     }
-  //   }
-
-  //   console.log(arr1);
-  //   dispatch(filter_Order(arr1));
-  // };
-
-  // const handleCheckTr = async (e) => {
-  //   e.stopPropagation();
-
-  //   const { value, checked } = e.target;
-  //   if (checked) {
-  //     arr1.order_mode.push(value);
-  //   } else {
-  //     const index = arr1.order_mode.indexOf(value);
-  //     if (index !== -1) {
-  //       arr1.order_mode.splice(index, 1);
-  //     }
-  //   }
-
-  //   console.log(arr1);
-  //   dispatch(filter_Order(arr1));
-  // };
-
-  // const handleCheckBn = async (e) => {
-  //   e.stopPropagation();
-
-  //   const { value, checked } = e.target;
-  //   if (checked) {
-  //     arr1.order_paymentMode.push(value);
-  //   } else {
-  //     const index = arr1.order_paymentMode.indexOf(value);
-  //     if (index !== -1) {
-  //       arr1.order_paymentMode.splice(index, 1);
-  //     }
-  //   }
-
-  //   console.log(arr1);
-  //   dispatch(filter_Order(arr1));
-  // };
 
   const handleDel = (id, el) => {
     console.log(id, el);
@@ -373,71 +272,83 @@ function OrderList() {
     return <h4 style={{ color: "red.400" }}> Error ...</h4>;
   }
 
- let om = {
-   order_mode: "null",
- };
- let os = {
-   order_status: "null",
- };
- let op = {
-   order_paymentMode: "null",
- };
- let ob = { ...om, ...os, ...op };
+  const handleChange = (e) => {
+    // const { name, value } = e.target;
+    // setFormData((prevFormData) => {
+    //   const updatedFormData = { ...prevFormData, [name]: value };
+    //   // dispatch(filter_Order(updatedFormData)); // Dispatch with updatedFormData
+    //   return updatedFormData; // Return the updated state
+    // });
+    setPage(1);
+    // setSortOrderfilt();
+    // setSortValfilt();
+    const { name, value } = e.target;
+    console.log(name);
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
 
-  const handleCheckBn = (e) => {
-    let { value, checked } = e.target
-    if(checked){
-      ob.order_paymentMode = value;
-      // dispatch(filter_Order(ob));
-    } else {
-      
-      ob.order_paymentMode = "null";
-      // dispatch(filter_Order(ob));
-    }
-    console.log(ob);
-    
-  }
+    // dispatch(filter_Order({ ...formData, [name]: value ,page,}))
+    dispatch(
+      filter_Order({ ...formData, [name]: value, page, sortValfilt, sortOrderfilt })
+    );
+  };
 
-  const handleCheckTr = (e) => {
-    
-    let { value, checked } = e.target
-    if(checked){
-      ob.order_mode = value;
-      // dispatch(filter_Order(ob));
-    }else{
-      ob.order_mode = "null";
-      // dispatch(filter_Order(ob));
-    }
-    console.log(ob);
-  }
+  // console.log(formData)
 
-  const handleCheckSt = (e) => {
-    // const { value, checked } = e.target;
+  // let obj = {
+  //   order_mode: null,
+  //   order_status: null,
+  //   order_paymentMode: null,
+  // };
+  // const handleCheckTr = (e) => {
+  //   let { value, checked } = e.target;
 
-  const { value } = e.target;
+  //   obj.order_paymentMode = value;
 
-  os.order_status = value;
+  //   document.getElementsByName("transfer").forEach((el) => {
+  //     if (el.value !== value) {
+  //       el.checked = false;
+  //     }
+  //   });
+  //   console.log(obj);
+  //   dispatch(filter_Order(obj));
+  // };
 
-  // console.log(os);
+  // const handleCheckBn = (e) => {
+  //   let { value, checked } = e.target;
+  //   obj.order_mode = value;
 
-    // document.getElementsByName("orderStatus").forEach((el) => {
-    //   if (el.value !== value) {
-    //     el.checked = false;
-    //   }
-    // })
+  //   document.getElementsByName("bank").forEach((el) => {
+  //     if (el.value !== value) {
+  //       el.checked = false;
+  //     }
+  //   });
 
-console.log(ob);
-  }
- 
+  //   console.log(obj);
+  //   dispatch(filter_Order(obj));
+  // };
 
-  // order_sta =3 input
-  // order_mode  check oedr ()= 4
-  // paymode = 3
+  // const handleCheckSt = (e) => {
+  //   const { value, checked } = e.target;
+
+  //   obj.order_status = value;
+
+  //   document.getElementsByName("orderStatus").forEach((el) => {
+  //     if (el.value !== value) {
+  //       el.checked = false;
+  //     }
+  //   });
+
+  //   console.log(obj);
+  //   dispatch(filter_Order(obj));
+  // };
 
   return (
     <div className="orderlist-cont">
       <div className="orderlist-top">
-        <h4 style={{ textAlign: "left" }}>Order List</h4>
+        <h4 style={{ textAlign: "left", color: "darkblue" }}>ORDER LIST</h4>
         <div className="orderlist-top-all">
           <div className="orderlist-top-filter">
             <div className="dropdown ">
@@ -464,18 +375,17 @@ console.log(ob);
               <div className="dropdown-menu drope-menu">
                 <p className="filt-one"> ORDER</p>
 
-                <form onChange={handleCheckSt}>
+                <div>
                   <div className="d-flex dropdown-item gap-1 m-0 px-2">
                     <div className="form-check">
                       <input
                         className="form-check-input"
                         type="radio"
                         value={"Ordered"}
-                        // name="orderStatus1"
-                        // defaultValue={"Ordered"}
-                        // checked={arr1.order_status.includes("Ordered")}
-                        // onClick={handleCheckSt}
-                        id="flexCheckDefault"
+                        name="order_status"
+                        defaultChecked={formData.order_status === "Ordered"}
+                        onChange={handleChange}
+                        id="flexCheckDefaults1"
                       />
                       <label
                         className="form-check-label"
@@ -492,10 +402,10 @@ console.log(ob);
                         className="form-check-input"
                         type="radio"
                         value={"Delivered"}
-                        // name="orderStatus"
-                        // defaultValue={"Delivered"}
-                        // onClick={handleCheckSt}
-                        id="flexCheckDefault"
+                        name="order_status"
+                        defaultChecked={formData.order_status === "Delivered"}
+                        onChange={handleChange}
+                        id="flexCheckDefaults2"
                       />
                       <label
                         className="form-check-label"
@@ -512,10 +422,10 @@ console.log(ob);
                         className="form-check-input"
                         type="radio"
                         value={"Return"}
-                        // name="orderStatus"
-                        // defaultValue={"Return"}
-                        // onClick={handleCheckSt}
-                        id="flexCheckDefault"
+                        name="order_status"
+                        defaultChecked={formData.order_status === "Return"}
+                        onChange={handleChange}
+                        id="flexCheckDefaults3"
                       />
                       <label
                         className="form-check-label"
@@ -532,10 +442,10 @@ console.log(ob);
                         className="form-check-input"
                         type="radio"
                         value={"Cancelled"}
-                        // name="orderStatus"
-                        // defaultValue={"Cancelled"}
-                        // onClick={handleCheckSt}
-                        id="flexCheckDefault"
+                        name="order_status"
+                        defaultChecked={formData.order_status === "Cancelled"}
+                        onChange={handleChange}
+                        id="flexCheckDefaults4"
                       />
                       <label
                         className="form-check-label"
@@ -550,11 +460,11 @@ console.log(ob);
                       <input
                         className="form-check-input"
                         type="radio"
-                        // name="orderStatus"
-                        value={""}
-                        // defaultValue={"Cancelled"}
-                        // onClick={handleCheckSt}
-                        id="flexCheckDefault"
+                        name="order_status"
+                        value=""
+                        defaultChecked={!formData.order_status}
+                        onChange={handleChange}
+                        id="flexCheckDefaults5"
                       />
                       <label
                         className="form-check-label"
@@ -564,111 +474,174 @@ console.log(ob);
                       </label>
                     </div>
                   </div>
-                </form>
+                </div>
                 {/* sd////////////////////////////////////////////////////////////// */}
 
                 <p className="filt-one"> TRANSPORT</p>
+                <div>
+                  <div className="d-flex dropdown-item gap-1 m-0 px-2">
+                    <div className="form-check">
+                      <input
+                        className="form-check-input"
+                        type="radio"
+                        value={"Ordinary"}
+                        name="order_mode"
+                        defaultChecked={formData.order_mode === "Ordinary"}
+                        onChange={handleChange}
+                        id="flexCheckDefaultt1"
+                      />
+                      <label
+                        className="form-check-label"
+                        htmlFor="flexCheckDefault"
+                      >
+                        Ordinary
+                      </label>
+                    </div>
+                  </div>
 
-                <div className="d-flex dropdown-item gap-1 m-0 px-2">
-                  <div className="form-check">
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      // value={"Cancelled"}
-                      defaultValue={"FastTrack"}
-                      onClick={handleCheckTr}
-                      id="flexCheckDefault"
-                    />
-                    <label
-                      className="form-check-label"
-                      htmlFor="flexCheckDefault"
-                    >
-                      {/* order_mode */}
-                      FastTrack
-                    </label>
+                  <div className="d-flex dropdown-item gap-1 m-0 px-2">
+                    <div className="form-check">
+                      <input
+                        className="form-check-input"
+                        type="radio"
+                        value={"FastTrack"}
+                        name="order_mode"
+                        defaultChecked={formData.order_mode === "FastTrack"}
+                        onChange={handleChange}
+                        id="flexCheckDefaultt2"
+                      />
+                      <label
+                        className="form-check-label"
+                        htmlFor="flexCheckDefault"
+                      >
+                        {/* order_mode */}
+                        FastTrack
+                      </label>
+                    </div>
+                  </div>
+
+                  <div className="d-flex dropdown-item gap-1 m-0 px-2">
+                    <div className="form-check">
+                      <input
+                        className="form-check-input"
+                        type="radio"
+                        value={"Express"}
+                        name="order_mode"
+                        defaultChecked={formData.order_mode === "Express"}
+                        onChange={handleChange}
+                        id="flexCheckDefaultt3"
+                      />
+                      <label
+                        className="form-check-label"
+                        htmlFor="flexCheckDefault"
+                      >
+                        Express
+                      </label>
+                    </div>
+                  </div>
+
+                  <div className="d-flex dropdown-item gap-1 m-0 px-2">
+                    <div className="form-check">
+                      <input
+                        className="form-check-input"
+                        type="radio"
+                        name="order_mode"
+                        value=""
+                        defaultChecked={!formData.order_mode}
+                        onChange={handleChange}
+                        id="flexCheckDefaultt4"
+                      />
+                      <label
+                        className="form-check-label"
+                        htmlFor="flexCheckDefault"
+                      >
+                        None
+                      </label>
+                    </div>
                   </div>
                 </div>
-
-                <div className="d-flex dropdown-item gap-1 m-0 px-2">
-                  <div className="form-check">
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      // value={"Cancelled"}
-                      defaultValue={"Express"}
-                      onClick={handleCheckTr}
-                      id="flexCheckDefault"
-                    />
-                    <label
-                      className="form-check-label"
-                      htmlFor="flexCheckDefault"
-                    >
-                      {/* order_mode */}
-                      Express
-                    </label>
-                  </div>
-                </div>
-
                 {/* asd//////////////////////////////////////////////////////////////////////////////////// */}
 
                 <p className="filt-one"> PAYMENT</p>
-
-                <div className="d-flex dropdown-item gap-1 m-0 px-2">
-                  <div className="form-check">
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      // value={"Cancelled"}
-                      defaultValue={"COD"}
-                      onClick={handleCheckBn}
-                      id="flexCheckDefault"
-                    />
-                    <label
-                      className="form-check-label"
-                      htmlFor="flexCheckDefault"
-                    >
-                      {/* order_mode */}
-                      COD
-                    </label>
+                <div>
+                  <div className="d-flex dropdown-item gap-1 m-0 px-2">
+                    <div className="form-check">
+                      <input
+                        className="form-check-input"
+                        type="radio"
+                        value={"COD"}
+                        name="order_paymentMode"
+                        defaultChecked={formData.order_paymentMode === "COD"}
+                        onChange={handleChange}
+                        id="flexCheckDefaultp1"
+                      />
+                      <label
+                        className="form-check-label"
+                        htmlFor="flexCheckDefault"
+                      >
+                        COD
+                      </label>
+                    </div>
                   </div>
-                </div>
-                <div className="d-flex dropdown-item gap-1 m-0 px-2">
-                  <div className="form-check">
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      // value={"Cancelled"}
-                      defaultValue={"UPI"}
-                      onClick={handleCheckBn}
-                      id="flexCheckDefault"
-                    />
-                    <label
-                      className="form-check-label"
-                      htmlFor="flexCheckDefault"
-                    >
-                      {/* order_mode */}
-                      UPI
-                    </label>
+                  <div className="d-flex dropdown-item gap-1 m-0 px-2">
+                    <div className="form-check">
+                      <input
+                        className="form-check-input"
+                        type="radio"
+                        value={"UPI"}
+                        name="order_paymentMode"
+                        defaultChecked={formData.order_paymentMode === "UPI"}
+                        onChange={handleChange}
+                        id="flexCheckDefaulp2"
+                      />
+                      <label
+                        className="form-check-label"
+                        htmlFor="flexCheckDefault"
+                      >
+                        UPI
+                      </label>
+                    </div>
                   </div>
-                </div>
 
-                <div className="d-flex dropdown-item gap-1 m-0 px-2">
-                  <div className="form-check">
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      // value={"Cancelled"}
-                      defaultValue={"Bank"}
-                      onClick={handleCheckBn}
-                      id="flexCheckDefault"
-                    />
-                    <label
-                      className="form-check-label"
-                      htmlFor="flexCheckDefault"
-                    >
-                      {/* order_mode */}
-                      Bank
-                    </label>
+                  <div className="d-flex dropdown-item gap-1 m-0 px-2">
+                    <div className="form-check">
+                      <input
+                        className="form-check-input"
+                        type="radio"
+                        value={"Bank"}
+                        name="order_paymentMode"
+                        defaultChecked={formData.order_paymentMode === "Bank"}
+                        onChange={handleChange}
+                        id="flexCheckDefaultp3"
+                      />
+                      <label
+                        className="form-check-label"
+                        htmlFor="flexCheckDefault"
+                      >
+                        {/* order_mode */}
+                        Bank
+                      </label>
+                    </div>
+                  </div>
+
+                  <div className="d-flex dropdown-item gap-1 m-0 px-2">
+                    <div className="form-check">
+                      <input
+                        className="form-check-input"
+                        type="radio"
+                        name="order_paymentMode"
+                        value=""
+                        defaultChecked={!formData.order_paymentMode}
+                        onChange={handleChange}
+                        id="flexCheckDefaultp4"
+                      />
+                      <label
+                        className="form-check-label"
+                        htmlFor="flexCheckDefault"
+                      >
+                        None
+                      </label>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -705,7 +678,16 @@ console.log(ob);
                       type="radio"
                       value={"asc"}
                       // defaultValue={"Ordered"}
-                      onClick={(e) => handleSort("asc", "order_amount")}
+                      defaultChecked={sortOrder === "asc"}
+                      onChange={(e) =>
+                        handleSort(
+                          e.target.value,
+                          "order_amount",
+                          setSortOrderfilt(e.target.value),
+                          setSortValfilt("order_amount")
+                        )
+                      }
+                      //setSortOrderfilt setSortValfilt
                       name="flexRadioDefault"
                       id="flexRadioDefault1"
                     />
@@ -725,7 +707,15 @@ console.log(ob);
                       type="radio"
                       value={"desc"}
                       // defaultValue={"Ordered"}
-                      onClick={(e) => handleSort("desc", "order_amount")}
+                      defaultChecked={sortOrder === "desc"}
+                      onChange={(e) =>
+                        handleSort(
+                          e.target.value,
+                          "order_amount",
+                          setSortOrderfilt(e.target.value),
+                          setSortValfilt("order_amount")
+                        )
+                      }
                       name="flexRadioDefault"
                       id="flexRadioDefault1"
                     />
@@ -745,7 +735,15 @@ console.log(ob);
                       type="radio"
                       value={""}
                       // defaultValue={"Ordered"}
-                      onClick={(e) => handleSort("", "order_amount")}
+                      defaultChecked={!sortOrder}
+                      onChange={(e) =>
+                        handleSort(
+                          e.target.value,
+                          "order_amount",
+                          setSortOrderfilt(e.target.value),
+                          setSortValfilt("order_amount")
+                        )
+                      }
                       name="flexRadioDefault"
                       id="flexRadioDefault1"
                     />
@@ -953,9 +951,10 @@ console.log(ob);
                 </span>
                 {
                   <SideBar1
-                    handleCheckSt={handleCheckSt}
-                    handleCheckTr={handleCheckTr}
-                    handleCheckBn={handleCheckBn}
+                    formData={formData}
+                    setFormData={setFormData}
+                    handleChange={handleChange}
+                    // onChange={onChange}
                   />
                 }
               </span>
@@ -977,7 +976,12 @@ console.log(ob);
                       />
                     </svg>
                   </span>
-                  <SideSort handleSort={handleSort} />
+                  <SideSort
+                    handleSort={handleSort}
+                    sortOrder={sortOrder}
+                    setSortValfilt={setSortValfilt}
+                    setSortOrderfilt={setSortOrderfilt}
+                  />
                 </span>
               </div>
             </div>
@@ -1001,8 +1005,8 @@ console.log(ob);
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
-                          width="16"
-                          height="16"
+                          width="20"
+                          height="20"
                           fill="currentColor"
                           className="bi bi-x"
                           viewBox="0 0 16 16"

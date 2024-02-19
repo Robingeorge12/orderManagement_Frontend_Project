@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import "./UserPage.css";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { AiOutlineDeleteRow } from "react-icons/ai";
 import {
   Only_User_orderFilter,
   UserOnly_order,
   cancelOrder_Byuser,
+  delete_OrdersByUser,
   get_ALL_orders,
 } from "../../Redux/orderAction";
 import UserFilter from "../UserFilterBar/UserFilter";
@@ -182,6 +184,12 @@ function UserPage() {
       </div>
     );
   }
+
+  const handleRemoveByUser = (el) => {
+    console.log(el._id);
+    dispatch(delete_OrdersByUser(el._id));
+  }
+
   return (
     <div className="userpage-cont">
       <div className="userpage-top">
@@ -409,6 +417,7 @@ function UserPage() {
         </div>
       </div>
       {singleUser?.map((el, i) => {
+        
         return (
           <div key={i}>
             {" "}
@@ -419,6 +428,11 @@ function UserPage() {
                     <div className="d-flex align-items-center justify-content-center userpage-body-img"></div>
 
                     <div className="userpage-div">
+                      <span onClick={()=>handleRemoveByUser(el)} className="userDelete">
+                        <AiOutlineDeleteRow className="userDelete-icon"
+                          // style={{ color: "red" }}
+                        />
+                      </span>
                       <div className="userpage-p1">
                         <span className="userpage-title1">CUSTOMER NAME</span>:
                         <span className="userpage-title">{el.buyer_name}</span>

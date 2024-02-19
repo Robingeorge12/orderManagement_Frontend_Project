@@ -3,7 +3,9 @@ import {  get_user_item_data,post_Order } from "./action";
 import { Only_User_orderFilter, UserOnly_order, cancelOrder_Byuser, delete_Orders, editOrder, filter_Order, get_ALL_orders, get_home } from "./orderAction";
 
 const initialState = {
-    orders: [],
+  orders: [],
+  totalLength: 0,
+  // page: 1;
     homeData:[],
     filterData:[],
   isLoading: false,
@@ -54,8 +56,9 @@ builder.addCase(get_ALL_orders.pending,(state,action)=>{
 
   state.isLoading = false;
   state.isError = false;
-  // console.log(action.payload)
-  state.orders = action.payload
+  console.log(action.payload)
+  state.totalLength = action.payload.totalLength
+  state.orders = action.payload.message
   
 }).addCase(get_ALL_orders.rejected,(state,action)=>{
   state.isLoading = false;
@@ -63,6 +66,35 @@ builder.addCase(get_ALL_orders.pending,(state,action)=>{
     // state.failedReq = {...state.failedReq,...action.payload.message.message}
 })
 
+      
+      
+      
+      
+builder
+  .addCase(filter_Order.pending, (state, action) => {
+    state.isLoading = true;
+    state.isError = false;
+  })
+  .addCase(filter_Order.fulfilled, (state, action) => {
+    state.isLoading = false;
+    state.isError = false;
+    console.log(action.payload);
+    state.totalLength = action.payload.totalLen;
+    state.orders = action.payload.message;
+    state.filterData = action.payload.message;
+    // state.filterData = action.payload;
+
+    // can i store it in order (actual array) or like this in different page
+    // window.location.reload()
+  })
+  .addCase(filter_Order.rejected, (state, action) => {
+    state.isLoading = false;
+    state.isError = true;
+    // state.failedReq = {...state.failedReq,...action.payload.message.message}
+  });
+      
+      
+      
 
 builder.addCase(get_home.pending,(state,action)=>{
 
@@ -107,27 +139,6 @@ builder.addCase(editOrder.pending,(state,action)=>{
 
 
 
-builder.addCase(filter_Order.pending,(state,action)=>{
-
-  state.isLoading = true;
-  state.isError = false;
-
-}).addCase(filter_Order.fulfilled,(state,action)=>{
-
-  state.isLoading = false;
-  state.isError = false;
-  console.log(action.payload)
-  // state.orders = action.payload
-  // state.filterData = action.payload;
-
-  // can i store it in order (actual array) or like this in different page
-  // window.location.reload()
-  
-}).addCase(filter_Order.rejected,(state,action)=>{
-  state.isLoading = false;
-  state.isError = true;
-    // state.failedReq = {...state.failedReq,...action.payload.message.message}
-})
 
 
 builder.addCase(UserOnly_order.pending,(state,action)=>{
