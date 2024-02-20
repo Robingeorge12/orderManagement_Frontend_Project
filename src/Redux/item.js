@@ -169,7 +169,8 @@ export const itemSlice = createSlice({
           state.isLoading = false;
           state.isError = false;
           console.log(action.payload);
-          // state.isAddProduct = action.payload;
+
+          state.isAddProduct = action.payload;
         })
         .addCase(production_Quantity_Update.rejected, (state, action) => {
           state.isLoading = false;

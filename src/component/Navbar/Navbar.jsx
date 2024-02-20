@@ -13,6 +13,7 @@ function Navbar() {
      localStorage.removeItem("token");
     window.location.reload();
   }
+  console.log(userData)
 
   return (
     <div className="p-3 m-0 border-0 bd-example m-0 border">

@@ -22,6 +22,7 @@ function OrderItem() {
   );
   const [buy, setBuy] = useState(order_buyer[0] || {});
   const [pro, setPro] = useState(order_product[0] || {});
+  console.log(pro)
 
   const [order, setOrder] = useState({
     buyer_id: buy?._id,
@@ -47,8 +48,7 @@ function OrderItem() {
   // console.log(pro.product_price)
 
   const handleCal = (qty, product, buyer) => {
-    console.log(qty);
-    console.log(qty);
+
     if (pro.product_quantity >= +qty) {
       const sum = pro.product_price * +qty;
       setAmount(sum);
@@ -113,8 +113,9 @@ function OrderItem() {
     }
   };
 
+  console.log(data.product_id);
   let role = JSON.parse(localStorage.getItem("user")).role;
-  console.log(role);
+  
 
   const handleOrder = (val) => {
     console.log(val);
@@ -149,10 +150,8 @@ function OrderItem() {
     }
   };
 
-  console.log(quant);
-  // const handleProductionReq = ()=>{
-  //   console.log("hello")
-  // }
+ 
+  
 
   const refreshToast2 = () => {
     setBool(!false);

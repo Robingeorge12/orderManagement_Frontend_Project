@@ -212,18 +212,12 @@ function OrderList() {
     // dispatch(get_ALL_orders({ page: 1, sortVal, sortOrder }));
   };
 
-  const [val, setVal] = useState({
-    order_status: "",
-    order_mode: "",
-    order_paymentMode: "",
-  });
+
   const handleChange = (e) => {
     setPage(1);
 
     const { name, value } = e.target;
-    // console.log(name);
-
-    // e.target.checked = true;
+  
     setFormData((prevFormData) => ({
       ...prevFormData,
       [name]: value,

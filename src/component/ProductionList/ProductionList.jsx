@@ -6,12 +6,14 @@ import AdditionalOrder from '../AdditionalOrder/AdditionalOrder';
 
 function ProductionList() {
 const dispatch = useDispatch();
-const [bool,setBool] = useState(false)
+  const [bool, setBool] = useState(false)
+   const [bool2, setBool2] = useState(false);
+  const [data,setData] = useState()
 const {product,isError,isLoading,isfail} = useSelector((state)=>state.production)
 useEffect(()=>{
 
 dispatch(get_production())
-
+ 
 },[])
 
 const handleDelete = (id)=>{
@@ -24,8 +26,17 @@ const refreshToast = ()=>{
     // setBool(false)
     window.location.reload()
   }
+
   
-  
+  const handleAdditional = (val)=>{
+    console.log(val)
+    setBool2(!bool2)
+    setData(val)
+  }
+  console.log(data)
+
+
+
   if(isfail){
   
     return <div className='toast-item'>
@@ -56,21 +67,22 @@ if(isLoading){
   
   console.log(product)
   return (
-    <div className='productionlist-cont'>
-        <h5 style={{marginTop:"10px", color:"darkorange"}}>PRODUCTION REQUEST LIST</h5>
-        
-        <div className="table-responsive table-cont">
+    <div className="productionlist-cont">
+      <h5 style={{ marginTop: "10px", color: "darkorange" }}>
+        PRODUCTION REQUEST LIST
+      </h5>
+      {bool2 && <AdditionalOrder setBool2={setBool2} bool2={bool2} data={data} />}
+      <div className="table-responsive table-cont">
         <table className="table table-striped table-hover">
           <thead>
-            <tr style={{backgroundColor:"lightcoral", color:"red"}}>
+            <tr style={{ backgroundColor: "lightcoral", color: "red" }}>
               <th scope="col">#</th>
               <th scope="col">NAME</th>
               <th scope="col">REF-ID</th>
               <th scope="col">PRODUCT</th>
-             
-           
+
               <th scope="col">PRICE/UNIT</th>
-              <th scope="col">QUANTITY</th> 
+              <th scope="col">QUANTITY</th>
               <th scope="col">ORDER DATE</th>
               <th scope="col">AMOUNT</th>
 
@@ -92,7 +104,25 @@ if(isLoading){
                   <td>{el.production_order_date}</td>
 
                   <td>{el.production_amount}</td>
-                  <td style={{ color: "green" }}> <AdditionalOrder data={el}/></td>
+
+                  <td
+                    onClick={() => handleAdditional(el)}
+                    style={{ color: "green" }}
+                  >
+                    {" "}
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      fill="currentColor"
+                      className="bi bi-fast-forward-fill"
+                      viewBox="0 0 16 16"
+                    >
+                      <path d="M7.596 7.304a.802.802 0 0 1 0 1.392l-6.363 3.692C.713 12.69 0 12.345 0 11.692V4.308c0-.653.713-.998 1.233-.696z" />
+                      <path d="M15.596 7.304a.802.802 0 0 1 0 1.392l-6.363 3.692C8.713 12.69 8 12.345 8 11.692V4.308c0-.653.713-.998 1.233-.696z" />
+                    </svg>{" "}
+                  </td>
+
                   <td
                     onClick={() => handleDelete(el._id)}
                     style={{ color: "maroon" }}
@@ -115,9 +145,8 @@ if(isLoading){
           })}
         </table>
       </div>
-
-        </div>
-  )
+    </div>
+  );
 }
 
 export default ProductionList
