@@ -2,7 +2,6 @@ import React from 'react'
 import "bootstrap/dist/js/bootstrap.bundle.min";
 import { GiFeatheredWing } from "react-icons/gi";
 import "./Navbar.css"
-import im from "../../image/icon.png"
 import { Link } from 'react-router-dom';
 
 function Navbar() {
