@@ -3,8 +3,10 @@ import "./SideBar1.css"
  
 function SideBar1({ formData ,setFormData ,handleChange }) {
 
-  console.log(formData)
-
+  // console.log(formData)
+   
+  
+   
   return (
     <div className="sidebar1">
       <p className="filt-one"> ORDER</p>
@@ -96,7 +98,7 @@ function SideBar1({ formData ,setFormData ,handleChange }) {
       </div>
       <p className="filt-one"> TRANSPORT</p>
 
-      {/* <div> */}
+      <div>
       <div className="d-flex dropdown-item gap-1 m-0 px-2">
         <div className="form-check">
           <input
@@ -126,7 +128,7 @@ function SideBar1({ formData ,setFormData ,handleChange }) {
             id="flexCheckDefault"
           />
           <label className="form-check-label" htmlFor="flexCheckDefault">
-            {/* order_mode */}
+           
             FastTrack
           </label>
         </div>
@@ -165,11 +167,11 @@ function SideBar1({ formData ,setFormData ,handleChange }) {
           </label>
         </div>
       </div>
-      {/* </div> */}
+      </div>
 
       <p className="filt-one"> PAYMENT</p>
 
-      {/* <div> */}
+      <div>
       <div className="d-flex dropdown-item gap-1 m-0 px-2">
         <div className="form-check">
           <input
@@ -215,7 +217,7 @@ function SideBar1({ formData ,setFormData ,handleChange }) {
             id="flexCheckDefault"
           />
           <label className="form-check-label" htmlFor="flexCheckDefault">
-            {/* order_mode */}
+      
             Bank
           </label>
         </div>
@@ -237,7 +239,7 @@ function SideBar1({ formData ,setFormData ,handleChange }) {
           </label>
         </div>
       </div>
-      {/* </div> */}
+      </div>
     </div>
   );
 }

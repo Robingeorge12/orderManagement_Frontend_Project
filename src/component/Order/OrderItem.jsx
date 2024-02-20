@@ -114,7 +114,7 @@ function OrderItem() {
   };
 
   let role = JSON.parse(localStorage.getItem("user")).role;
-  // console.log(data);
+  console.log(role);
 
   const handleOrder = (val) => {
     console.log(val);
@@ -137,7 +137,7 @@ function OrderItem() {
       order.buyer_dist &&
       order.product_price
     ) {
-      if (role.role !== "buyer") {
+      if (role !== "buyer") {
         setBool(!bool);
         return;
       }

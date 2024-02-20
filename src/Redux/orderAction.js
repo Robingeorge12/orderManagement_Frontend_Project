@@ -7,26 +7,26 @@ export const get_ALL_orders = createAsyncThunk(
   "order/get_ALL_orders",
   async (payload, options) => {
     try {
-      console.log(payload)
+      // console.log(payload)
       let { page, sortVal, sortOrder } = payload;
-      console.log(page, sortVal, sortOrder);
+      // console.log(page, sortVal, sortOrder);
       const token = JSON.parse(localStorage.getItem("token"));
       let auth = {
         headers: {
           Authorization: token,
         },
-      };
+      }; 
 
       const res = await axios.get(
-        `http://localhost:7800/order?sortOrder=${sortOrder}&sortVal=${sortVal}&page=${page}`,
+        `https://steph-ordermanagement.onrender.com/order?sortOrder=${sortOrder}&sortVal=${sortVal}&page=${page}`,
         auth,
         { headers: { "Content-Type": "application/json" } }
       );
-      console.log(res.data)
+      // console.log(res.data)
       return res.data;
     } catch (er) {
       const { rejectWithValue } = options;
-      console.log(er);
+      // console.log(er);
       return rejectWithValue({ message: er });
     }
   }
@@ -37,7 +37,7 @@ export const filter_Order = createAsyncThunk(
   "order/filter_Order",
   async (payload, options) => {
     try {
-      console.log(payload);
+      // console.log(payload);
        let { page, sortValfilt, sortOrderfilt } = payload;
 
       const token = JSON.parse(localStorage.getItem("token"));
@@ -47,18 +47,18 @@ export const filter_Order = createAsyncThunk(
       }; 
 
       let res = await axios.post(
-        `http://localhost:7800/order/filter?sortOrderfilt=${sortOrderfilt}&sortValfilt=${sortValfilt}&page=${page}`,
+        `https://steph-ordermanagement.onrender.com/order/filter?sortOrderfilt=${sortOrderfilt}&sortValfilt=${sortValfilt}&page=${page}`,
         payload,
         auth,
         { headers: { "Content-Type": "application/json" } }
       );
 
-      console.log(res.data);
+      // console.log(res.data);
       return res.data;
     } catch (er) {
       const { rejectWithValue } = options;
 
-      console.log(er);
+      // console.log(er);
       return rejectWithValue({ message: er });
     }
   }
@@ -70,21 +70,25 @@ export const filter_Order = createAsyncThunk(
 export const Only_User_orderFilter = createAsyncThunk("order/Only_User_orderFilter",async(payload,options)=>{
 
   try{
-console.log(payload)
+// console.log(payload)
 const token = JSON.parse(localStorage.getItem("token"));
         
 let auth = {
   headers: { Authorization: token },
 };
-    let res = await axios.post(`http://localhost:7800/order/filter_user`,{payload:payload},auth)
+    let res = await axios.post(
+      `https://steph-ordermanagement.onrender.com/order/filter_user`,
+      payload,
+      auth
+    );
 
-    console.log(res.data.message)
+    // console.log(res.data.message)
     return res.data.message
 
   }catch(er){
     const {rejectWithValue} = options
 
-    console.log(er)
+    // console.log(er)
     return rejectWithValue({message:er})
 
   }
@@ -114,7 +118,11 @@ export const UserOnly_order = createAsyncThunk("order/UserOnly_order",async(payl
     };    
 
     // console.log(token)
-let res = await axios.get(`http://localhost:7800/order/user_order_data`,auth,{headers:{"Content-Type":"application/json"}})
+let res = await axios.get(
+  `https://steph-ordermanagement.onrender.com/order/user_order_data`,
+  auth,
+  { headers: { "Content-Type": "application/json" } }
+);
 // console.log(res.data)
   return res.data.message
   }catch(er){
@@ -135,7 +143,9 @@ export const get_home = createAsyncThunk("order/get_home",async(payload,options)
  
 
     // console.log(token)
-let res = await axios.get(`http://localhost:7800/order/home`)
+let res = await axios.get(
+  `https://steph-ordermanagement.onrender.com/order/home`
+);
 // console.log(res.data)
   return res.data.message
   }catch(er){
@@ -154,7 +164,7 @@ let res = await axios.get(`http://localhost:7800/order/home`)
 export const cancelOrder_Byuser = createAsyncThunk(
     "order/cancelOrder_Byuser",
     async (payload, options) => {
-      console.log(payload);
+      // console.log(payload);
   
       try { 
         const token = JSON.parse(localStorage.getItem("token"));
@@ -164,14 +174,15 @@ export const cancelOrder_Byuser = createAsyncThunk(
         };
         // if we pass destructured value then pass like {order_status} ist payload.order_status
         const res = await axios.patch(
-          `http://localhost:7800/order/cancel/${payload.id}`,
-          payload,auth
+          `https://steph-ordermanagement.onrender.com/order/cancel/${payload.id}`,
+          payload,
+          auth
         );
-        console.log(res.data.message);
+        // console.log(res.data.message);
         return res.data; 
       } catch (er) {
         const { rejectWithValue } = options;
-        console.log(er);
+        // console.log(er);
         return rejectWithValue({ message: er });
       }
     }
@@ -182,7 +193,7 @@ export const cancelOrder_Byuser = createAsyncThunk(
 export const editOrder = createAsyncThunk(
   "order/editOrdere",
   async (payload, options) => {
-    console.log(payload);
+    // console.log(payload);
 
     try {
       const token = JSON.parse(localStorage.getItem("token"));
@@ -193,15 +204,15 @@ export const editOrder = createAsyncThunk(
       };
       // if we pass destructured value then pass like {order_status} ist payload.order_status
       const res = await axios.patch(
-        `http://localhost:7800/order/edit/${payload.id}`,
+        `https://steph-ordermanagement.onrender.com/order/edit/${payload.id}`,
         payload,
         { ...auth, role }
       );
-      console.log(res.data.message);
+      // console.log(res.data.message);
       return res.data;
     } catch (er) {
       const { rejectWithValue } = options;
-      console.log(er);
+      // console.log(er);
       return rejectWithValue({ message: er });
     }
   }
@@ -224,7 +235,11 @@ let role = JSON.parse(localStorage.getItem("user")).role
 let x = {...auth,role}
 // console.log(x)
 
-let res = await axios.delete(`http://localhost:7800/order/remove/${id}`,{...auth,role},{headers:{"Content-Type":"application/json"}})
+let res = await axios.delete(
+  `https://steph-ordermanagement.onrender.com/order/remove/${id}`,
+  { ...auth, role },
+  { headers: { "Content-Type": "application/json" } }
+);
 
 console.log(res.data.message)
 return res.data.message
@@ -232,7 +247,7 @@ return res.data.message
 
   }catch(er){
 const {rejectWithValue} = options
-console.log(er.response.data.message)
+// console.log(er.response.data.message)
 return rejectWithValue({message:er.response.data.message})
 
 
@@ -260,7 +275,7 @@ export const delete_OrdersByUser = createAsyncThunk(
       // console.log(x)
 
       let res = await axios.delete(
-        `http://localhost:7800/order/removeByUSer/${id}`,
+        `https://steph-ordermanagement.onrender.com/order/removeByUSer/${id}`,
         auth,
         { headers: { "Content-Type": "application/json" } }
       );

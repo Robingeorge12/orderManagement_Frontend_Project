@@ -16,13 +16,17 @@ export const post_production = createAsyncThunk("production/post_production",asy
         } 
         // console.log(auth.headers)
     
-            const res = await axios.post(`http://localhost:7800/production/receive`,payload,auth)
+            const res = await axios.post(
+              `https://steph-ordermanagement.onrender.com/production/receive`,
+              payload,
+              auth
+            );
             console.log(res.data.message)
         
             return res.data.message
         
     
-      }catch(er){
+      }catch(er){ 
     
     const {rejectWithValue} = options
     console.log(er)
@@ -40,7 +44,9 @@ export const get_production = createAsyncThunk("production/get_production",async
        
       
           // console.log(token)
-      let res = await axios.get(`http://localhost:7800/production`)
+      let res = await axios.get(
+        `https://steph-ordermanagement.onrender.com/production`
+      );
       console.log(res.data.message)
         return res.data.message
         }catch(er){
@@ -70,7 +76,10 @@ let auth = {
 };
       
         // console.log(token)
-    let res = await axios.delete(`http://localhost:7800/production/delete/${payload}`,{...auth,role})
+    let res = await axios.delete(
+      `https://steph-ordermanagement.onrender.com/production/delete/${payload}`,
+      { ...auth, role }
+    );
     console.log(res.data.message)
       return res.data.message
       }catch(er){

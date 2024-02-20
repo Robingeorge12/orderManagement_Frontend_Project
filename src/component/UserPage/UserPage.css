@@ -184,12 +184,14 @@ font-weight: 500;
 }
 
 .lod{
-    display: flex;
+   width: 5rem !important;
+   height: 5rem !important;
+     display: flex !important;
     align-items: center;
     justify-content: center;
     position: relative;
-    top: 45%;
-    left:50%;
+    top: 39% !important;
+    left: 38% !important;
   }
 
 @media all and (min-width: 1440px) and (max-width: 1640px) {

@@ -13,6 +13,7 @@ import axios from "axios";
 import SideBar1 from "../SideMenu1/SideBar1";
 import SideSort from "../SideMenu1/SideSort";
 import { UpdateQuantity_ByAdmin_Cancel } from "../../Redux/action";
+import { toBeChecked } from "@testing-library/jest-dom/matchers";
 
 function OrderList() {
   const navigate = useNavigate();
@@ -31,7 +32,7 @@ function OrderList() {
     order_mode: "",
     order_paymentMode: "",
   });
- 
+
   // const [searchparam, setSearchParam] = useSearchParams()
   let role = JSON.parse(localStorage.getItem("user")).role;
   // console.log(role);
@@ -50,12 +51,17 @@ function OrderList() {
 
   // const [order,setOrder] = useState(...orders)
 
-  const getREq = () => {
+  const getAll = () => {
     dispatch(get_ALL_orders({ page, sortVal, sortOrder }));
   };
+  const getFilt = () => {
+    dispatch(filter_Order({ ...formData, page, sortValfilt, sortOrderfilt }));
+  };
+
+
+ 
 
   useEffect(() => {
-    // getREq()
     if (
       formData.order_status ||
       formData.order_mode ||
@@ -63,11 +69,31 @@ function OrderList() {
       formData.sortValfilt ||
       formData.sortOrderfilt
     ) {
-      dispatch(filter_Order({ ...formData, page, sortValfilt, sortOrderfilt }));
+      getFilt();
     } else {
-      dispatch(get_ALL_orders({ page, sortVal, sortOrder }));
+      getAll();
     }
-  }, [page, sortVal, sortOrder, sortValfilt, sortOrderfilt, formData, dispatch]);
+
+    // if (
+    //   formData.order_status ||
+    //   formData.order_mode ||
+    //   formData.order_paymentMode ||
+    //   formData.sortValfilt ||
+    //   formData.sortOrderfilt
+    // ) {
+    //   dispatch(filter_Order({ ...formData, page, sortValfilt, sortOrderfilt }));
+    // } else {
+    //   dispatch(get_ALL_orders({ page, sortVal, sortOrder }));
+    // }
+  }, [
+    page,
+    sortVal,
+    sortOrder,
+    sortValfilt,
+    sortOrderfilt,
+    formData,
+    // dispatch,
+  ]);
 
   //  useEffect(() => {
   //    dispatch(filter_Order(formData));
@@ -168,24 +194,54 @@ function OrderList() {
     // console.log(e, el);
     // console.log({page:1, sortVal, sortOrder});
 
+    if (
+      formData.order_status ||
+      formData.order_mode ||
+      formData.order_paymentMode ||
+      formData.sortValfilt ||
+      formData.sortOrderfilt
+    ) {
+      // console.log(sortOrderfilt);
 
-        if (
-          formData.order_status ||
-          formData.order_mode ||
-          formData.order_paymentMode ||
-          formData.sortValfilt ||
-          formData.sortOrderfilt
-        ) {
-          dispatch(
-            filter_Order({ ...formData, page:1, sortValfilt, sortOrderfilt })
-          );
-        } else {
-          dispatch(get_ALL_orders({ page:1, sortVal, sortOrder }));
-        }
-
+      dispatch(
+        filter_Order({ ...formData, page: 1, sortValfilt, sortOrderfilt })
+      );
+    } else {
+      dispatch(get_ALL_orders({ page: 1, sortVal, sortOrder }));
+    }
 
     // dispatch(get_ALL_orders({ page: 1, sortVal, sortOrder }));
   };
+
+  const [val, setVal] = useState({
+    order_status: "",
+    order_mode: "",
+    order_paymentMode: "",
+  });
+  const handleChange = (e) => {
+    setPage(1);
+
+    const { name, value } = e.target;
+    // console.log(name);
+
+    // e.target.checked = true;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
+
+    dispatch(
+      filter_Order({
+        ...formData,
+        [name]: value,
+        page,
+        sortValfilt,
+        sortOrderfilt,
+      })
+    );
+  };
+
+  console.log(formData);
 
   const handleDel = (id, el) => {
     console.log(id, el);
@@ -226,7 +282,7 @@ function OrderList() {
 
   const refreshToast2 = () => {
     setBool2(!false);
-    // window.location.reload();
+    window.location.reload();
   };
 
   if (Object.keys(failedReq).length) {
@@ -272,30 +328,8 @@ function OrderList() {
     return <h4 style={{ color: "red.400" }}> Error ...</h4>;
   }
 
-  const handleChange = (e) => {
-    // const { name, value } = e.target;
-    // setFormData((prevFormData) => {
-    //   const updatedFormData = { ...prevFormData, [name]: value };
-    //   // dispatch(filter_Order(updatedFormData)); // Dispatch with updatedFormData
-    //   return updatedFormData; // Return the updated state
-    // });
-    setPage(1);
-    // setSortOrderfilt();
-    // setSortValfilt();
-    const { name, value } = e.target;
-    console.log(name);
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [name]: value,
-    }));
-
-    // dispatch(filter_Order({ ...formData, [name]: value ,page,}))
-    dispatch(
-      filter_Order({ ...formData, [name]: value, page, sortValfilt, sortOrderfilt })
-    );
-  };
-
-  // console.log(formData)
+  // const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  
 
   // let obj = {
   //   order_mode: null,
@@ -307,7 +341,7 @@ function OrderList() {
 
   //   obj.order_paymentMode = value;
 
-  //   document.getElementsByName("transfer").forEach((el) => {
+  //   document.getElementsByName("order_mode").forEach((el) => {
   //     if (el.value !== value) {
   //       el.checked = false;
   //     }
@@ -320,7 +354,7 @@ function OrderList() {
   //   let { value, checked } = e.target;
   //   obj.order_mode = value;
 
-  //   document.getElementsByName("bank").forEach((el) => {
+  //   document.getElementsByName("order_paymentMode").forEach((el) => {
   //     if (el.value !== value) {
   //       el.checked = false;
   //     }
@@ -335,7 +369,7 @@ function OrderList() {
 
   //   obj.order_status = value;
 
-  //   document.getElementsByName("orderStatus").forEach((el) => {
+  //   document.getElementsByName("order_status").forEach((el) => {
   //     if (el.value !== value) {
   //       el.checked = false;
   //     }
@@ -349,484 +383,6 @@ function OrderList() {
     <div className="orderlist-cont">
       <div className="orderlist-top">
         <h4 style={{ textAlign: "left", color: "darkblue" }}>ORDER LIST</h4>
-        <div className="orderlist-top-all">
-          <div className="orderlist-top-filter">
-            <div className="dropdown ">
-              <a
-                className="nav-link dropdown-toggle"
-                data-bs-toggle="dropdown"
-                role="button"
-                aria-expanded="false"
-              >
-                <span style={{ padding: "0px 5px" }}>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
-                    fill="currentColor"
-                    className="bi bi-funnel"
-                    viewBox="0 0 16 16"
-                  >
-                    <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2z" />
-                  </svg>{" "}
-                </span>{" "}
-                FILTER
-              </a>
-              <div className="dropdown-menu drope-menu">
-                <p className="filt-one"> ORDER</p>
-
-                <div>
-                  <div className="d-flex dropdown-item gap-1 m-0 px-2">
-                    <div className="form-check">
-                      <input
-                        className="form-check-input"
-                        type="radio"
-                        value={"Ordered"}
-                        name="order_status"
-                        defaultChecked={formData.order_status === "Ordered"}
-                        onChange={handleChange}
-                        id="flexCheckDefaults1"
-                      />
-                      <label
-                        className="form-check-label"
-                        htmlFor="flexCheckDefault"
-                      >
-                        Ordered
-                      </label>
-                    </div>
-                  </div>
-
-                  <div className="d-flex dropdown-item gap-1 m-0 px-2">
-                    <div className="form-check">
-                      <input
-                        className="form-check-input"
-                        type="radio"
-                        value={"Delivered"}
-                        name="order_status"
-                        defaultChecked={formData.order_status === "Delivered"}
-                        onChange={handleChange}
-                        id="flexCheckDefaults2"
-                      />
-                      <label
-                        className="form-check-label"
-                        htmlFor="flexCheckDefault"
-                      >
-                        Delivered
-                      </label>
-                    </div>
-                  </div>
-
-                  <div className="d-flex dropdown-item gap-1 m-0 px-2">
-                    <div className="form-check">
-                      <input
-                        className="form-check-input"
-                        type="radio"
-                        value={"Return"}
-                        name="order_status"
-                        defaultChecked={formData.order_status === "Return"}
-                        onChange={handleChange}
-                        id="flexCheckDefaults3"
-                      />
-                      <label
-                        className="form-check-label"
-                        htmlFor="flexCheckDefault"
-                      >
-                        Return
-                      </label>
-                    </div>
-                  </div>
-
-                  <div className="d-flex dropdown-item gap-1 m-0 px-2">
-                    <div className="form-check">
-                      <input
-                        className="form-check-input"
-                        type="radio"
-                        value={"Cancelled"}
-                        name="order_status"
-                        defaultChecked={formData.order_status === "Cancelled"}
-                        onChange={handleChange}
-                        id="flexCheckDefaults4"
-                      />
-                      <label
-                        className="form-check-label"
-                        htmlFor="flexCheckDefault"
-                      >
-                        Cancelled
-                      </label>
-                    </div>
-                  </div>
-                  <div className="d-flex dropdown-item gap-1 m-0 px-2">
-                    <div className="form-check">
-                      <input
-                        className="form-check-input"
-                        type="radio"
-                        name="order_status"
-                        value=""
-                        defaultChecked={!formData.order_status}
-                        onChange={handleChange}
-                        id="flexCheckDefaults5"
-                      />
-                      <label
-                        className="form-check-label"
-                        htmlFor="flexCheckDefault"
-                      >
-                        None
-                      </label>
-                    </div>
-                  </div>
-                </div>
-                {/* sd////////////////////////////////////////////////////////////// */}
-
-                <p className="filt-one"> TRANSPORT</p>
-                <div>
-                  <div className="d-flex dropdown-item gap-1 m-0 px-2">
-                    <div className="form-check">
-                      <input
-                        className="form-check-input"
-                        type="radio"
-                        value={"Ordinary"}
-                        name="order_mode"
-                        defaultChecked={formData.order_mode === "Ordinary"}
-                        onChange={handleChange}
-                        id="flexCheckDefaultt1"
-                      />
-                      <label
-                        className="form-check-label"
-                        htmlFor="flexCheckDefault"
-                      >
-                        Ordinary
-                      </label>
-                    </div>
-                  </div>
-
-                  <div className="d-flex dropdown-item gap-1 m-0 px-2">
-                    <div className="form-check">
-                      <input
-                        className="form-check-input"
-                        type="radio"
-                        value={"FastTrack"}
-                        name="order_mode"
-                        defaultChecked={formData.order_mode === "FastTrack"}
-                        onChange={handleChange}
-                        id="flexCheckDefaultt2"
-                      />
-                      <label
-                        className="form-check-label"
-                        htmlFor="flexCheckDefault"
-                      >
-                        {/* order_mode */}
-                        FastTrack
-                      </label>
-                    </div>
-                  </div>
-
-                  <div className="d-flex dropdown-item gap-1 m-0 px-2">
-                    <div className="form-check">
-                      <input
-                        className="form-check-input"
-                        type="radio"
-                        value={"Express"}
-                        name="order_mode"
-                        defaultChecked={formData.order_mode === "Express"}
-                        onChange={handleChange}
-                        id="flexCheckDefaultt3"
-                      />
-                      <label
-                        className="form-check-label"
-                        htmlFor="flexCheckDefault"
-                      >
-                        Express
-                      </label>
-                    </div>
-                  </div>
-
-                  <div className="d-flex dropdown-item gap-1 m-0 px-2">
-                    <div className="form-check">
-                      <input
-                        className="form-check-input"
-                        type="radio"
-                        name="order_mode"
-                        value=""
-                        defaultChecked={!formData.order_mode}
-                        onChange={handleChange}
-                        id="flexCheckDefaultt4"
-                      />
-                      <label
-                        className="form-check-label"
-                        htmlFor="flexCheckDefault"
-                      >
-                        None
-                      </label>
-                    </div>
-                  </div>
-                </div>
-                {/* asd//////////////////////////////////////////////////////////////////////////////////// */}
-
-                <p className="filt-one"> PAYMENT</p>
-                <div>
-                  <div className="d-flex dropdown-item gap-1 m-0 px-2">
-                    <div className="form-check">
-                      <input
-                        className="form-check-input"
-                        type="radio"
-                        value={"COD"}
-                        name="order_paymentMode"
-                        defaultChecked={formData.order_paymentMode === "COD"}
-                        onChange={handleChange}
-                        id="flexCheckDefaultp1"
-                      />
-                      <label
-                        className="form-check-label"
-                        htmlFor="flexCheckDefault"
-                      >
-                        COD
-                      </label>
-                    </div>
-                  </div>
-                  <div className="d-flex dropdown-item gap-1 m-0 px-2">
-                    <div className="form-check">
-                      <input
-                        className="form-check-input"
-                        type="radio"
-                        value={"UPI"}
-                        name="order_paymentMode"
-                        defaultChecked={formData.order_paymentMode === "UPI"}
-                        onChange={handleChange}
-                        id="flexCheckDefaulp2"
-                      />
-                      <label
-                        className="form-check-label"
-                        htmlFor="flexCheckDefault"
-                      >
-                        UPI
-                      </label>
-                    </div>
-                  </div>
-
-                  <div className="d-flex dropdown-item gap-1 m-0 px-2">
-                    <div className="form-check">
-                      <input
-                        className="form-check-input"
-                        type="radio"
-                        value={"Bank"}
-                        name="order_paymentMode"
-                        defaultChecked={formData.order_paymentMode === "Bank"}
-                        onChange={handleChange}
-                        id="flexCheckDefaultp3"
-                      />
-                      <label
-                        className="form-check-label"
-                        htmlFor="flexCheckDefault"
-                      >
-                        {/* order_mode */}
-                        Bank
-                      </label>
-                    </div>
-                  </div>
-
-                  <div className="d-flex dropdown-item gap-1 m-0 px-2">
-                    <div className="form-check">
-                      <input
-                        className="form-check-input"
-                        type="radio"
-                        name="order_paymentMode"
-                        value=""
-                        defaultChecked={!formData.order_paymentMode}
-                        onChange={handleChange}
-                        id="flexCheckDefaultp4"
-                      />
-                      <label
-                        className="form-check-label"
-                        htmlFor="flexCheckDefault"
-                      >
-                        None
-                      </label>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="orderlist-top-sort">
-            <div className="dropdown ">
-              <a
-                className="nav-link dropdown-toggle"
-                data-bs-toggle="dropdown"
-                role="button"
-                aria-expanded="false"
-              >
-                <span style={{ padding: "0px 5px" }}>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
-                    fill="currentColor"
-                    className="bi bi-funnel"
-                    viewBox="0 0 16 16"
-                  >
-                    <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2z" />
-                  </svg>{" "}
-                </span>{" "}
-                SORT
-              </a>
-              <div className="dropdown-menu drope-menu">
-                <div className="d-flex dropdown-item gap-1 m-0 px-2">
-                  <div className="form-check">
-                    <input
-                      className="form-check-input"
-                      type="radio"
-                      value={"asc"}
-                      // defaultValue={"Ordered"}
-                      defaultChecked={sortOrder === "asc"}
-                      onChange={(e) =>
-                        handleSort(
-                          e.target.value,
-                          "order_amount",
-                          setSortOrderfilt(e.target.value),
-                          setSortValfilt("order_amount")
-                        )
-                      }
-                      //setSortOrderfilt setSortValfilt
-                      name="flexRadioDefault"
-                      id="flexRadioDefault1"
-                    />
-                    <label
-                      className="form-check-label"
-                      htmlFor="flexCheckDefault"
-                    >
-                      INCRE AMOUNT
-                    </label>
-                  </div>
-                </div>
-
-                <div className="d-flex dropdown-item gap-1 m-0 px-2">
-                  <div className="form-check">
-                    <input
-                      className="form-check-input"
-                      type="radio"
-                      value={"desc"}
-                      // defaultValue={"Ordered"}
-                      defaultChecked={sortOrder === "desc"}
-                      onChange={(e) =>
-                        handleSort(
-                          e.target.value,
-                          "order_amount",
-                          setSortOrderfilt(e.target.value),
-                          setSortValfilt("order_amount")
-                        )
-                      }
-                      name="flexRadioDefault"
-                      id="flexRadioDefault1"
-                    />
-                    <label
-                      className="form-check-label"
-                      htmlFor="flexCheckDefault"
-                    >
-                      DESC AMOUNT
-                    </label>
-                  </div>
-                </div>
-
-                <div className="d-flex dropdown-item gap-1 m-0 px-2">
-                  <div className="form-check">
-                    <input
-                      className="form-check-input"
-                      type="radio"
-                      value={""}
-                      // defaultValue={"Ordered"}
-                      defaultChecked={!sortOrder}
-                      onChange={(e) =>
-                        handleSort(
-                          e.target.value,
-                          "order_amount",
-                          setSortOrderfilt(e.target.value),
-                          setSortValfilt("order_amount")
-                        )
-                      }
-                      name="flexRadioDefault"
-                      id="flexRadioDefault1"
-                    />
-                    <label
-                      className="form-check-label"
-                      htmlFor="flexCheckDefault"
-                    >
-                      ALL
-                    </label>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="orderlist-top-pagination">
-            <button
-              onClick={handlePrevPage}
-              disabled={page === 1}
-              style={{
-                marginRight: "10px",
-                border: "none",
-                color: "goldenrod",
-                // display: "flex",
-                // alignItems: "center",
-                // justifyContent: "center",
-              }}
-            >
-              <span
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  padding: "5px 2px",
-                }}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  fill="currentColor"
-                  className="bi bi-caret-left-fill"
-                  viewBox="0 0 16 16"
-                >
-                  <path d="m3.86 8.753 5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.753l-5.48 4.796a1 1 0 0 0 0 1.506z" />
-                </svg>
-              </span>
-            </button>
-            <button style={{ border: "none" }}>{page}</button>
-            <button
-              onClick={handleNextPage}
-              disabled={orders?.length === 0}
-              style={{
-                marginLeft: "10px",
-                border: "none",
-                color: "goldenrod",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <span
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  padding: "5px 2px",
-                }}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  fill="currentColor"
-                  className="bi bi-caret-right-fill"
-                  viewBox="0 0 16 16"
-                >
-                  <path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z" />
-                </svg>
-              </span>
-            </button>
-          </div>
-        </div>
 
         <div className="orderlist-top-display">
           <div
@@ -874,7 +430,8 @@ function OrderList() {
             <button style={{ border: "none" }}>{page}</button>
             <button
               onClick={handleNextPage}
-              disabled={orders?.length === 0}
+              disabled={totalLength ? page >= totalLength : totalLen >= page}
+              // disabled={orders?.length === 0}
               style={{
                 marginLeft: "10px",
                 border: "none",
@@ -905,6 +462,48 @@ function OrderList() {
               </span>
             </button>
           </div>
+
+
+          
+          <div className="newSort">
+            <div className="dropdown">
+              <a
+                className="nav-link dropdown-toggle"
+                data-bs-toggle="dropdown"
+                style={{ color: "goldenrod" }}
+                role="button"
+                aria-expanded="false"
+              >
+                <span style={{ padding: "0px 5px", color: "goldenrod" }}>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="25"
+                    height="25"
+                    fill="currentColor"
+                    style={{ color: "goldenrod" }}
+                    className="bi bi-filter-circle-fill"
+                    viewBox="0 0 16 16"
+                  >
+                    <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16M3.5 5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1 0-1M5 8.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m2 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5" />
+                  </svg>{" "}
+                </span>
+              </a>
+
+              <div className="dropdown-menu drope-menu1" id="top-filter-drope">
+                {
+                  <SideSort
+                    handleSort={handleSort}
+                    sortOrder={sortOrder}
+                    setSortValfilt={setSortValfilt}
+                    setSortOrderfilt={setSortOrderfilt}
+                  />
+                }
+              </div>
+            </div>
+          </div>
+
+          
+          
           <div className="dropdown">
             <a
               className="nav-link dropdown-toggle"
@@ -916,15 +515,14 @@ function OrderList() {
               <span style={{ padding: "0px 5px", color: "goldenrod" }}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width="25"
-                  height="25"
+                  width="16"
+                  height="16"
                   fill="currentColor"
-                  style={{ color: "goldenrod" }}
-                  className="bi bi-filter-circle-fill"
+                  className="bi bi-funnel-fill"
                   viewBox="0 0 16 16"
                 >
-                  <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16M3.5 5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1 0-1M5 8.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m2 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5" />
-                </svg>{" "}
+                  <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5z" />
+                </svg>
               </span>
             </a>
             <div className="dropdown-menu drope-menu2">
@@ -959,35 +557,41 @@ function OrderList() {
                 }
               </span>
               <hr />
-              <div className="d-flex dropdown-item gap-1 m-0 px-2">
-                <span className="">
-                  <span style={{ color: "goldenrod", padding: "0px 8px" }}>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
-                      fill="currentColor"
-                      className="bi bi-arrow-down-up"
-                      viewBox="0 0 16 16"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M11.5 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L11 2.707V14.5a.5.5 0 0 0 .5.5m-7-14a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L4 13.293V1.5a.5.5 0 0 1 .5-.5"
+              <div className="sort-div">
+                {/* <div className="sort-btn">ji</div> */}
+                <div className=" sort-two">
+                  <div className="d-flex dropdown-item gap-1 m-0 px-2">
+                    <span className="">
+                      <span style={{ color: "goldenrod", padding: "0px 8px" }}>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="16"
+                          height="16"
+                          fill="currentColor"
+                          className="bi bi-arrow-down-up"
+                          viewBox="0 0 16 16"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M11.5 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L11 2.707V14.5a.5.5 0 0 0 .5.5m-7-14a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L4 13.293V1.5a.5.5 0 0 1 .5-.5"
+                          />
+                        </svg>
+                      </span>
+                      <SideSort
+                        handleSort={handleSort}
+                        sortOrder={sortOrder}
+                        setSortValfilt={setSortValfilt}
+                        setSortOrderfilt={setSortOrderfilt}
                       />
-                    </svg>
-                  </span>
-                  <SideSort
-                    handleSort={handleSort}
-                    sortOrder={sortOrder}
-                    setSortValfilt={setSortValfilt}
-                    setSortOrderfilt={setSortOrderfilt}
-                  />
-                </span>
+                    </span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+
       {orders?.map((el, i) => {
         return (
           <div key={i}>

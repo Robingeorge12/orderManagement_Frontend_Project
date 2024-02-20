@@ -62,12 +62,8 @@
     font-weight: 700;
 } 
 .lodHome{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    top: 0px;
-    left:0px;
+      position: absolute;
+    left: 50%;
   }
 
 @media all and (min-width:1440px) and (max-width:1640px){
@@ -119,5 +115,10 @@
 }
 @media all and (min-width:320px) and (max-width:425px){
 
+    .bottom-bar{
+/* border: 1px solid red; */
+width: 100%;
+height: auto;
+    }
  
 }

@@ -15,6 +15,8 @@ function Home() {
   const { homeData, isLoading } = useSelector((state) => state.order);
   const { product } = useSelector((state) => state.production);
 
+  ///https://steph-ordermanagement.onrender.com
+
   useEffect(() => {
     dispatch(get_home());
   }, []);

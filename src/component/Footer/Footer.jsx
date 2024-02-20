@@ -29,7 +29,7 @@ function Footer() {
           <AiOutlineMail
             style={{ marginTop: "-10px", color: "#212529", fontSize: "22px" }}
           />
-          <p className="fp1">info@sugofactory.com</p>
+          <p className="fp1">info@ODRMAT-factory.com</p>
         </div>
       </div>
 

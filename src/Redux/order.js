@@ -56,7 +56,7 @@ builder.addCase(get_ALL_orders.pending,(state,action)=>{
 
   state.isLoading = false;
   state.isError = false;
-  console.log(action.payload)
+  // console.log(action.payload)
   state.totalLength = action.payload.totalLength
   state.orders = action.payload.message
   
@@ -78,7 +78,7 @@ builder
   .addCase(filter_Order.fulfilled, (state, action) => {
     state.isLoading = false;
     state.isError = false;
-    console.log(action.payload);
+    // console.log(action.payload);
     state.totalLength = action.payload.totalLen;
     state.orders = action.payload.message;
     state.filterData = action.payload.message;

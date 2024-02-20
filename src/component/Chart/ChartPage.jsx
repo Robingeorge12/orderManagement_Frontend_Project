@@ -1,11 +1,8 @@
 import React from 'react'
 import { Chart as ChartJS } from "chart.js/auto";
 import { Line, Bar, Pie, Doughnut, PolarArea, Radar, Bubble, Scatter } from "react-chartjs-2";
-function ChartPage({data}) {
-
-// console.log(data)
-
-const orderStatusAmounts = data.reduce((acc, order) => {
+function ChartPage({ data }) {
+  const orderStatusAmounts = data.reduce((acc, order) => {
     if (!acc[order.order_status]) {
       acc[order.order_status] = 0;
     }
@@ -13,42 +10,52 @@ const orderStatusAmounts = data.reduce((acc, order) => {
     return acc;
   }, {});
 
-  // Step 2: Extract labels and data arrays
+  // Extract labels and data arrays
   const labels = Object.keys(orderStatusAmounts);
   const datas = Object.values(orderStatusAmounts);
 
-// console.log(labels, totals)
+  // Function to get color based on order status
+  const getColor = (status) => {
+    switch (status) {
+      case "Ordered":
+        return "rgba(255, 99, 132, 0.2)";
+      case "Delivered":
+        return "rgba(75, 192, 192, 0.2)";
+      case "Return":
+        return "rgba(255, 206, 86, 0.2)";
+      case "Cancelled":
+        return "rgba(54, 162, 235, 0.2)";
+      default:
+        return "rgba(255, 99, 132, 0.2)"; 
+    }
+  };
 
   return (
-    <div>
-            <h2 style={{textAlign:"center",fontFamily:"system-ui",color:"darkblue"}} > Total Order Amount per Order Status</h2>
+    <div className="">
+      <h2
+        style={{
+          textAlign: "center",
+          fontFamily: "system-ui",
+          color: "darkblue",
+        }}
+      >
+        Total Order Amount per Order Status
+      </h2>
       <Bar
         data={{
           labels: labels,
           datasets: [
             {
-              label: 'Total Order Amount',
+              label: "",
               data: datas,
-              backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                // Add more colors if needed
-              ],
-              borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                // Add more colors if needed
-              ],
+              backgroundColor: labels.map((label) => getColor(label)), 
+              borderColor: labels.map((label) => getColor(label)),
               borderWidth: 1,
             },
           ],
         }}
         options={{
-          indexAxis: 'y',
+          indexAxis: "y",
           scales: {
             y: {
               beginAtZero: true,
@@ -57,7 +64,7 @@ const orderStatusAmounts = data.reduce((acc, order) => {
         }}
       />
     </div>
-  )
+  );
 }
 
-export default ChartPage
+export default ChartPage;

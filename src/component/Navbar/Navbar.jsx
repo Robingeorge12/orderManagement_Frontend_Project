@@ -29,7 +29,7 @@ function Navbar() {
                 style={{ color: "cyan", width: "50px", height: "50px" }}
               />
             </span>
-            <span className=" nav-h1">STEPH</span>
+            <span className=" nav-h1">ODRMAT</span>
           </a>
           <button
             className="navbar-toggler"

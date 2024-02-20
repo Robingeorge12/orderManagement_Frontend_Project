@@ -16,7 +16,7 @@ export const post_Order = createAsyncThunk(
       console.log(auth.headers);
 
       const res = await axios.post(
-        `http://localhost:7800/order/add/`,
+        `https://steph-ordermanagement.onrender.com/order/add/`,
         payload,
         auth
       );
@@ -43,7 +43,7 @@ export const get_user_item_data = createAsyncThunk(
       };
 
       const res = await axios.get(
-        `http://localhost:7800/order/${payload}`,
+        `https://steph-ordermanagement.onrender.com/order/${payload}`,
         auth
       );
       // console.log(res.data.message)
@@ -71,9 +71,9 @@ export const production_Quantity_Update = createAsyncThunk(
         Authorization: token,
       },
     };
-
+ 
       const res = await axios.patch(
-        `http://localhost:7800/item/production_Quantity/${payload.product_id}`,
+        `https://steph-ordermanagement.onrender.com/item/production_Quantity/${payload.product_id}`,
         payload,
         { ...auth, role }
       );
@@ -104,8 +104,9 @@ export const UpdateQuantity_ByUser_Cancel = createAsyncThunk(
       };
       
       const res = await axios.patch(
-        `http://localhost:7800/item/editCancel_userQuant/${payload.id}`,
-        { payload },auth
+        `https://steph-ordermanagement.onrender.com/item/editCancel_userQuant/${payload.id}`,
+        { payload },
+        auth
       );
       console.log(res.data.message);
       return res.data.message;
@@ -135,7 +136,7 @@ export const UpdateQuantity_ByAdmin_Cancel = createAsyncThunk(
       };
 
       const res = await axios.patch(
-        `http://localhost:7800/item/editCancel_quant/${payload.id}`,
+        `https://steph-ordermanagement.onrender.com/item/editCancel_quant/${payload.id}`,
         { payload },
         { ...auth, role }
       );
@@ -163,7 +164,7 @@ export const UpdateQuantity = createAsyncThunk(
       };
 
       const res = await axios.patch(
-        `http://localhost:7800/item/updateQty/${payload.id}`,
+        `https://steph-ordermanagement.onrender.com/item/updateQty/${payload.id}`,
         { payload },
         auth
       );
@@ -189,7 +190,7 @@ export const del_single_Item = createAsyncThunk(
         },
       };
       const res = await axios.delete(
-        `http://localhost:7800/item/remove/${payload}`,
+        `https://steph-ordermanagement.onrender.com/item/remove/${payload}`,
         auth
       );
       console.log(res);
@@ -219,7 +220,7 @@ export const post_New_Item = createAsyncThunk(
       console.log(payload);
       console.log({ ...auth, role });
       let res = await axios.post(
-        `http://localhost:7800/item/add_item`,
+        `https://steph-ordermanagement.onrender.com/item/add_item`,
         payload,
         { ...auth, role }
       );
@@ -247,10 +248,13 @@ export const get_All_Item = createAsyncThunk(
         },
       };
       console.log({ ...auth, role });
-      let res = await axios.get(`http://localhost:7800/item`, {
-        ...auth,
-        role,
-      });
+      let res = await axios.get(
+        `https://steph-ordermanagement.onrender.com/item`,
+        {
+          ...auth,
+          role,
+        }
+      );
 
       // console.log(res.data.message)
       return res.data.message;
@@ -268,7 +272,7 @@ export const signup = createAsyncThunk(
     try {
       // console.log(payload);
       const data = await axios.post(
-        "http://localhost:7800/signup/add_user",
+        "https://steph-ordermanagement.onrender.com/signup/add_user",
         payload
       );
       // console.log(data);
@@ -290,7 +294,7 @@ export const login = createAsyncThunk(
     try {
       console.log(payload);
       const res = await axios.post(
-        `http://localhost:7800/signup/signin`,
+        `https://steph-ordermanagement.onrender.com/signup/signin`,
         payload
       );
       console.log(res.data);

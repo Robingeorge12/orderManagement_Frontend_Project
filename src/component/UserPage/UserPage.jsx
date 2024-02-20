@@ -60,7 +60,7 @@ function UserPage() {
         return "";
     }
   };
-
+ 
   const getTrans = (el) => {
     switch (el) {
       case "Ordinary":
@@ -125,20 +125,29 @@ function UserPage() {
   };
 
   // console.log(singleUser)
+  const [state, setState] = useState({
+    order_status:""
+  });
   let ar = [];
   const handleCheck = (e) => {
-    const { value, checked } = e.target;
-    if (checked) {
-      ar.push(value);
-    } else {
-      let ind = ar.indexOf(value);
-      if (ind !== -1) {
-        ar.splice(ind, 1);
-      }
-    }
-    console.log(ar);
+    const { value, name } = e.target;
 
-    dispatch(Only_User_orderFilter(ar));
+    setState((prev) => ({
+      ...prev,
+      [name]: value,
+    }) )
+
+    // if (checked) {
+    //   ar.push(value);
+    // } else {
+    //   let ind = ar.indexOf(value);
+    //   if (ind !== -1) {
+    //     ar.splice(ind, 1);
+    //   }
+    // }
+    // console.log(ar);
+console.log(state)
+    dispatch(Only_User_orderFilter({...state,[name]:value}));
   };
 
   const refreshToast = () => {
@@ -177,7 +186,7 @@ function UserPage() {
     return (
       <div
         className="spinner-border  text-success lod"
-        style={{ width: "5rem", height: "5rem" }}
+        // style={{ width: "5rem", height: "5rem" }}
         role="status"
       >
         <span className="visually-hidden">Loading...</span>
@@ -231,9 +240,10 @@ function UserPage() {
                   <div className="form-check">
                     <input
                       className="form-check-input"
-                      type="checkbox"
-                      // value={"Ordered"}
-                      defaultValue={"Ordered"}
+                      type="radio"
+                      name="order_status"
+                      value={"Ordered"}
+                      defaultChecked={state.order_status === "Ordered"}
                       onClick={handleCheck}
                       id="flexCheckDefault"
                     />
@@ -250,9 +260,10 @@ function UserPage() {
                   <div className="form-check">
                     <input
                       className="form-check-input"
-                      type="checkbox"
-                      // value={"Delivered"}
-                      defaultValue={"Delivered"}
+                      type="radio"
+                      name="order_status"
+                      value={"Delivered"}
+                      defaultChecked={state.order_status === "Delivered"}
                       onClick={handleCheck}
                       id="flexCheckDefault"
                     />
@@ -269,9 +280,10 @@ function UserPage() {
                   <div className="form-check">
                     <input
                       className="form-check-input"
-                      type="checkbox"
-                      // value={"Return"}
-                      defaultValue={"Return"}
+                      type="radio"
+                      value={"Return"}
+                      name="order_status"
+                      defaultChecked={state.order_status === "Return"}
                       onClick={handleCheck}
                       id="flexCheckDefault"
                     />
@@ -288,9 +300,10 @@ function UserPage() {
                   <div className="form-check">
                     <input
                       className="form-check-input"
-                      type="checkbox"
-                      // value={"Cancelled"}
-                      defaultValue={"Cancelled"}
+                      type="radio"
+                      value={"Cancelled"}
+                      name="order_status"
+                      defaultChecked={state.order_status === "Cancelled"}
                       onClick={handleCheck}
                       id="flexCheckDefault"
                     />
@@ -299,6 +312,26 @@ function UserPage() {
                       htmlFor="flexCheckDefault"
                     >
                       Cancelled
+                    </label>
+                  </div>
+                </div>
+
+                <div className="d-flex dropdown-item gap-1 m-0 px-2">
+                  <div className="form-check">
+                    <input
+                      className="form-check-input"
+                      type="radio"
+                      value={""}
+                      name="order_status"
+                      defaultChecked={!state.order_status}
+                      onClick={handleCheck}
+                      id="flexCheckDefault"
+                    />
+                    <label
+                      className="form-check-label"
+                      htmlFor="flexCheckDefault"
+                    >
+                      All
                     </label>
                   </div>
                 </div>
@@ -417,7 +450,6 @@ function UserPage() {
         </div>
       </div>
       {singleUser?.map((el, i) => {
-        
         return (
           <div key={i}>
             {" "}
@@ -428,8 +460,12 @@ function UserPage() {
                     <div className="d-flex align-items-center justify-content-center userpage-body-img"></div>
 
                     <div className="userpage-div">
-                      <span onClick={()=>handleRemoveByUser(el)} className="userDelete">
-                        <AiOutlineDeleteRow className="userDelete-icon"
+                      <span
+                        onClick={() => handleRemoveByUser(el)}
+                        className="userDelete"
+                      >
+                        <AiOutlineDeleteRow
+                          className="userDelete-icon"
                           // style={{ color: "red" }}
                         />
                       </span>

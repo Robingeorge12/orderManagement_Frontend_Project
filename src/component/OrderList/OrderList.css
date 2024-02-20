@@ -31,11 +31,9 @@
     gap: 5px;
 
 }
-.orderlist-top-display{
 
-    display: none;
-    width:  70%;
-}
+
+
 .orderlist-top-filter{
     border-radius: 4px;
     background-color: darkblue;
@@ -259,6 +257,39 @@ border-radius: 4px;
     padding-left: 4px;
 }
 
+.orderlist-top-display{
+/* border: 1px solid red; */
+    display: flex;
+    width: 44%;
+    background-color: darkblue;
+    color: gold;
+    align-items: center;
+    border-radius: 6px;
+    justify-content: space-around;
+    padding: 8px 0px;
+}
+.sort-div{
+     /* border: 1px solid green; */
+    display: flex;
+}
+.sort-two{
+    /* border: 1px solid rgb(128, 0, 109); */
+    display: none;
+}
+
+.sort-btn{
+
+ border: 1px solid red;
+}
+.newSort{
+    /* border: 1px solid yellow; */
+}
+.dropdown-menu.show {
+    display: block;
+    margin-top: 9px !important;
+    width: auto;
+    padding-left: 5px;
+}
 
 @media all and (min-width: 1440px) and (max-width: 1640px) {
 }
@@ -298,6 +329,10 @@ border-radius: 4px;
       
     
     }
+    .newSort{
+    /* border: 1px solid yellow; */
+    display: none;
+}
     .orderlist-top-display{
     
         border: 1px solid rgb(28, 28, 31);
@@ -327,7 +362,9 @@ border-radius: 4px;
     top: 9px !important;
     /* background-color: #ffffff8f !important; */
 }
-
+.sort-two{
+    display: flex;
+}
 
 .orderlist-topDisplay-sort{
 
@@ -349,6 +386,13 @@ border-radius: 4px;
       
     
     }
+        .newSort{
+    /* border: 1px solid yellow; */
+    display: none;
+}
+    .sort-two{
+    display: flex;
+}
     .orderlist-top-display{
     
         display: flex;
